@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-325417812951666598
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 1
+    m_Value: {x: 0.6156604, y: 1, z: 0.65600187, w: 0.038022958}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.15209125}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.20494473, z: 0.8586716, w: 0.13941716}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Global Volume Profile
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 1769890937382827937}
+  - {fileID: 4925536006574511151}
+  - {fileID: -325417812951666598}
+--- !u!114 &1769890937382827937
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
+  neutralHDRRangeReductionMode:
+    m_OverrideState: 0
+    m_Value: 2
+  acesPreset:
+    m_OverrideState: 0
+    m_Value: 3
+  hueShiftAmount:
+    m_OverrideState: 0
+    m_Value: 0
+  detectPaperWhite:
+    m_OverrideState: 0
+    m_Value: 0
+  paperWhite:
+    m_OverrideState: 0
+    m_Value: 300
+  detectBrightnessLimits:
+    m_OverrideState: 0
+    m_Value: 1
+  minNits:
+    m_OverrideState: 0
+    m_Value: 0.005
+  maxNits:
+    m_OverrideState: 0
+    m_Value: 1000
+--- !u!114 &4925536006574511151
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.3230112, z: 0.1188212, w: -0.860583}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 0.7640061, y: 0.859597, z: 1, w: 1}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0, z: 0.2727914, w: 1}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 1
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 1
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 1
+    m_Value: 1
