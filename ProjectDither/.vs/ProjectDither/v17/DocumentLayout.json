@@ -1,10 +1,18 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\gamer\\documents\\github\\clone\\496projectdither\\projectdither\\assets\\brendan\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+  "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> e8cea835ef9ab0dd79a50150572f97d8c0ff94a3
     }
   ],
   "DocumentGroupContainers": [
@@ -19,6 +27,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+<<<<<<< HEAD
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Brendan\\Scripts\\PlayerController.cs",
@@ -27,6 +36,16 @@
               "ViewState": "AgIAAA4AAAAAAAAAAAAAwBcAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-28T01:06:17.936Z",
+=======
+              "Title": "HandUI.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\HandUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\HandUI.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\HandUI.cs",
+              "RelativeToolTip": "Assets\\Nick\\HandUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-28T01:36:09.195Z",
+>>>>>>> e8cea835ef9ab0dd79a50150572f97d8c0ff94a3
               "EditorCaption": ""
             }
           ]
