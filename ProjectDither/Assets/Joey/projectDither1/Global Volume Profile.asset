@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2903311646405605576
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 0
+  temperature:
+    m_OverrideState: 1
+    m_Value: 100
+  tint:
+    m_OverrideState: 1
+    m_Value: 11
 --- !u!114 &-325417812951666598
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -15,13 +34,13 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 0.6156604, y: 1, z: 0.65600187, w: 0.038022958}
+    m_Value: {x: 0.94406444, y: 1, z: 0.55507684, w: -0.011406745}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.15209125}
+    m_Value: {x: 0.030323505, y: 1, z: 0, w: 0.48162246}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.20494473, z: 0.8586716, w: 0.13941716}
+    m_Value: {x: 1, y: 0.09593086, z: 0, w: -1}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,6 +57,8 @@ MonoBehaviour:
   - {fileID: 1769890937382827937}
   - {fileID: 4925536006574511151}
   - {fileID: -325417812951666598}
+  - {fileID: -2903311646405605576}
+  - {fileID: 1827816063196724720}
 --- !u!114 &1769890937382827937
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -50,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   mode:
     m_OverrideState: 1
     m_Value: 2
@@ -78,6 +99,28 @@ MonoBehaviour:
   maxNits:
     m_OverrideState: 0
     m_Value: 1000
+--- !u!114 &1827816063196724720
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
+  m_Name: SplitToning
+  m_EditorClassIdentifier: 
+  active: 0
+  shadows:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  highlights:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  balance:
+    m_OverrideState: 1
+    m_Value: -100
 --- !u!114 &4925536006574511151
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -90,25 +133,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.3230112, z: 0.1188212, w: -0.860583}
+    m_Value: {x: 0.8638091, y: 0.5857698, z: 1, w: 1}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.7640061, y: 0.859597, z: 1, w: 1}
+    m_Value: {x: 1, y: 0.64470494, z: 0.42534077, w: -0.69581753}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0, z: 0.2727914, w: 1}
+    m_Value: {x: 0, y: 1, z: 0.55212784, w: 1}
   shadowsStart:
     m_OverrideState: 1
     m_Value: 0
   shadowsEnd:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.33
   highlightsStart:
     m_OverrideState: 1
-    m_Value: 0.55
+    m_Value: 1
   highlightsEnd:
     m_OverrideState: 1
     m_Value: 1
