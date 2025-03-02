@@ -5,10 +5,15 @@ using UnityEngine.AI;
 public class MikesWeepingAngel : MonoBehaviour
 {
     public NavMeshAgent ai;
-    public Transform player;
+    public GameObject player;
     public Camera playerCam;
     private float aiSpeed = 1.5f;
     public LayerMask obstacleMask; // Assign this in the inspector to detect walls, objects, etc.
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     void Update()
     {
@@ -25,14 +30,14 @@ public class MikesWeepingAngel : MonoBehaviour
         {
             ai.isStopped = false;
             ai.speed = aiSpeed;
-            ai.SetDestination(player.position);
+            ai.SetDestination(player.transform.position);
         }
     }
 
     bool IsObstructed()
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         // Perform a raycast, ignoring the enemy itself
         if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, distanceToPlayer, obstacleMask))

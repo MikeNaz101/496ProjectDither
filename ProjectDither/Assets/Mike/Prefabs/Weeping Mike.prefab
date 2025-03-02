@@ -147,9 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ai: {fileID: 7681943509035324078}
-  player: {fileID: 4662468238871286360, guid: 58dfd14ddc24956408d097c1596805af, type: 3}
+  player: {fileID: 1979951793261548938, guid: c9896d980e056db49aa27219593a62cb, type: 3}
   playerCam: {fileID: 0}
-  aiSpeed: 0.1
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384

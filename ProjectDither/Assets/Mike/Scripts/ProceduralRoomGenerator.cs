@@ -14,6 +14,9 @@ public class ProceduralRoomGenerator : MonoBehaviour
     private Vector2 roomSizeMinMax = new Vector2(10, 25);
     private Vector2 bigRoomSize = new Vector2(200, 200);
     public GameObject wallPrefab, doorPrefab, WindowPrefab;
+    public GameObject angelPrefab, dogPrefab, foodBowlPrefab, playerPrefab;
+    private GameObject playerInstance;
+
     void Start()
     {
         GenerateBigRoom();
@@ -58,20 +61,47 @@ public class ProceduralRoomGenerator : MonoBehaviour
                     room.transform.position = new Vector3(posX, 0, posZ);
                     GenerateWalls(room, room.transform.position, roomWidth, roomHeight, 20);
                     // Assign the "Room" layer to the generated room
-                    room.layer = LayerMask.NameToLayer("Room");
+                    //room.layer = LayerMask.NameToLayer("Room");
                     Debug.Log("HEre");
                 }
             }
             if (i == 0)
             {
-                GameObject player = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                player.name = "Player";
-                player.transform.position = new Vector3(1, 0.5f, 1);
-                player.AddComponent<Rigidbody>().freezeRotation = true;
-                //player.AddComponent<PlayerController>();
-
+                playerInstance = Instantiate(playerPrefab, new Vector3(roomBounds[0].center.x, 0.5f, roomBounds[0].center.z), Quaternion.identity);
+                playerInstance.name = "Player";
+                NiPlayerMovement playerScript = playerInstance.GetComponent<NiPlayerMovement>();
+                roomPlaced = false;
             }
-            roomPlaced = false;
+            else if (i == numRooms / 2)
+            {
+                // get the 4 corner positions for the dog
+                Vector3[] corners = new Vector3[]
+                {
+                    new Vector3(roomBounds[numRooms / 2].min.x, 0, roomBounds[numRooms / 2].min.z), // Bottom-left
+                    new Vector3(roomBounds[numRooms / 2].max.x, 0, roomBounds[numRooms / 2].min.z), // Bottom-right
+                    new Vector3(roomBounds[numRooms / 2].min.x, 0, roomBounds[numRooms / 2].max.z), // Top-left
+                    new Vector3(roomBounds[numRooms / 2].max.x, 0, roomBounds[numRooms / 2].max.z)  // Top-right
+                };
+                GameObject dogInstance = Instantiate(dogPrefab, new Vector3(roomBounds[numRooms / 2].center.x, 0.5f, roomBounds[numRooms / 2].center.z), Quaternion.identity);
+                dogInstance.name = "Dog";
+                DogStateManager dogScript = dogInstance.GetComponent<DogStateManager>();
+                dogScript.corners = corners;
+                // Spawn the food bowl at a random point inside the room
+                float bowlX = Random.Range(roomBounds[numRooms / 2].min.x, roomBounds[numRooms / 2].max.x);
+                float bowlZ = Random.Range(roomBounds[numRooms / 2].min.z, roomBounds[numRooms / 2].max.z);
+                GameObject foodBowlInstance = Instantiate(foodBowlPrefab, new Vector3(bowlX, 0.5f, bowlZ), Quaternion.identity);
+                foodBowlInstance.name = "FoodBowl";
+                dogScript.foodBowl = foodBowlInstance;
+                dogScript.player = playerInstance;
+            }
+            else if (i == numRooms - 2)
+            {
+                GameObject angelInstance = Instantiate(angelPrefab, new Vector3(roomBounds[numRooms - 2].center.x, 0.5f, roomBounds[numRooms - 2].center.z), Quaternion.identity);
+                angelInstance.name = "Angel";
+                MikesWeepingAngel angelScript = angelInstance.GetComponent<MikesWeepingAngel>();
+                angelScript.playerCam = playerInstance.GetComponentInChildren<Camera>();
+                roomPlaced = false;
+            }
         }
         //GenerateCorridors();
     }

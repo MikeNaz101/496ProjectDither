@@ -1,16 +1,24 @@
 using UnityEngine;
 
-public class DogRunAwayState : MonoBehaviour
+/*public class DogRunAwayState : DogBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void EnterState(DogStateManager dog)
     {
-        
+        Debug.Log("im Moving!");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void UpdateState(DogStateManager dog)
     {
-        
+        // What are we doing in this state
+        dog.MovePlayer(dog.default_speed);
+
+        if (dog.movement.magnitude < 0.1)
+        {
+            dog.SwitchState(dog.idleState);
+        }
+        else if (dog.isSneaking)
+        {
+            dog.SwitchState(dog.sneakState);
+        }
     }
-}
+}*/
