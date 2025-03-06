@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class DogDeadState : MonoBehaviour
+public class DogDeadState : DogBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void EnterState(DogStateManager dog)
     {
-        
+        Debug.Log("Dog has died...");
+        //GameObject.Destroy(dog.gameObject, 2f); // Wait 2 seconds before destroying for dramatic effect
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public override void UpdateState(DogStateManager dog) { }
 }
