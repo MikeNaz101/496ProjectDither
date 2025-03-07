@@ -8,8 +8,12 @@ public class NiPlayerMovement : MonoBehaviour
     [SerializeField]
     float mouseSensitivity = 100;
     [SerializeField]
-    GameObject cam;
+    Camera playerCam;
+    [SerializeField]
+    float interactionRange = 3.0f;
 
+    public LayerMask interactableLayer;
+    
     Vector2 movement;
     Vector2 mouseMovement;
     CharacterController chara;
@@ -20,6 +24,7 @@ public class NiPlayerMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         chara = GetComponent<CharacterController>();
+        playerCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -30,7 +35,7 @@ public class NiPlayerMovement : MonoBehaviour
         float mouseY = mouseMovement.y * Time.deltaTime * mouseSensitivity;
         cameraUpRotation -= mouseY;
         cameraUpRotation = Mathf.Clamp(cameraUpRotation, -90, 90);
-        cam.transform.localRotation = Quaternion.Euler(cameraUpRotation, 0, 0);
+        playerCam.transform.localRotation = Quaternion.Euler(cameraUpRotation, 0, 0);
 
         //Movement
         transform.Rotate(Vector3.up * mouseX);
@@ -39,7 +44,11 @@ public class NiPlayerMovement : MonoBehaviour
         Vector3 m = (transform.right * moveX) + (transform.forward * moveZ);
         chara.SimpleMove(m * speed);
 
-
+        //Interact when clicked
+        if (Keyboard.current.eKey.isPressed)
+        {
+            OnInteract();
+        }
     }
 
     void OnMove(InputValue moveVal)
@@ -50,5 +59,18 @@ public class NiPlayerMovement : MonoBehaviour
     void OnLook(InputValue lookVal)
     {
         mouseMovement = lookVal.Get<Vector2>();
+    }
+
+    void OnInteract()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactionRange, interactableLayer))
+        {
+            Debug.Log("Interacted with: " + hit.collider.gameObject.name);
+        }
+
+        hit.collider.gameObject.SendMessage("Interact");
     }
 }
