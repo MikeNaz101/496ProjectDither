@@ -1,25 +1,35 @@
 using System.Collections.Generic;
-//using Unity.VisualScripting;
 using UnityEngine;
 using Unity.AI.Navigation;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class RoomGenerator2 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
     private int numRooms = 15;
-    private List<Vector3> doorPositions = new List<Vector3>();
-    private List<Vector3> doors = new List<Vector3>(); // Store doors
+    //private List<Vector3> doors = new List<Vector3>(); // Store doors
     private List<Bounds> roomBounds = new List<Bounds>();
-    //private List<> doors = new List<Vector3>();
-    private Vector2 roomSizeMinMax = new Vector2(10, 25);
+    private Vector2 roomSizeMinMax = new Vector2(12, 28);
     private Vector2 bigRoomSize = new Vector2(200, 200);
     public GameObject wallPrefab, doorPrefab, WindowPrefab;
     public GameObject angelPrefab, dogPrefab, foodBowlPrefab, playerPrefab;
     private GameObject playerInstance;
+    private Vector3 roomsSpacingBuff = new Vector3(15, 0, 15);
 
-    // Helper class to represent a connection between two doors (an edge in our graph)
-    private class DoorConnection
+    public struct DoorData
+    {
+        public Vector3 position;
+        public int facingDirection; // 1=North, 2=East, 3=South, 4=West
+        public bool isConnected;
+
+        public DoorData(Vector3 pos, int dir)
+        {
+            position = pos;
+            facingDirection = dir;
+            isConnected = false; // Initialize to not connected
+        }
+    }
+    private List<DoorData> doors = new List<DoorData>();
+    private class DoorConnection  // Helper class for connections
     {
         public int DoorIndexA;
         public int DoorIndexB;
@@ -35,24 +45,20 @@ public class RoomGenerator2 : MonoBehaviour
 
     void Start()
     {
-        GenerateBigRoom();
         GenerateRooms();
-        //ConnectRooms();
-        GenerateCorridors();  // Call the revised corridor generation
+        GenerateCorridors();
         BakeNavMesh();
     }
 
-    void Update()
-    {
-
-    }
     void GenerateBigRoom()
     {
         GameObject bigRoom = new GameObject("BigRoom");
         GenerateWalls(bigRoom, Vector3.zero, bigRoomSize.x, bigRoomSize.y, 10);
     }
+
     public void GenerateRooms()
     {
+        //(Same as before - no changes needed here)
         for (int i = 0; i < numRooms; i++)
         {
             bool roomPlaced = false;
@@ -60,34 +66,29 @@ public class RoomGenerator2 : MonoBehaviour
             int attempts = 0;
             while (!roomPlaced && attempts < maxAttempts)
             {
-                Debug.Log("Attemps = " + attempts);
                 attempts++;
                 float roomWidth = Random.Range(roomSizeMinMax.x, roomSizeMinMax.y);
                 float roomHeight = Random.Range(roomSizeMinMax.x, roomSizeMinMax.y);
 
-                float posX = Random.Range(-bigRoomSize.x / 2 + roomWidth / 2, bigRoomSize.x / 2 - roomWidth / 2);
+                float posX = Random.Range(-bigRoomSize.x / 2 + roomWidth / 2, bigRoomSize.x / 2 - roomWidth / 2); //Uses bigRoomSize for placement bounds, as in original.
                 float posZ = Random.Range(-bigRoomSize.y / 2 + roomWidth / 2, bigRoomSize.y / 2 - roomWidth / 2);
 
                 Bounds newRoomBounds = new Bounds(new Vector3(posX, 0, posZ), new Vector3(roomWidth, 1, roomHeight));
                 if (!IsOverlapping(newRoomBounds, roomBounds))
                 {
                     roomBounds.Add(newRoomBounds);
-                    //roomCenters.Add(newRoomBounds.center);
                     roomPlaced = true;
                     GameObject room = new GameObject("Room_" + i);
                     room.transform.position = new Vector3(posX, 0, posZ);
                     GenerateWalls(room, room.transform.position, roomWidth, roomHeight, 20);
-                    // Assign the "Room" layer to the generated room
-                    //room.layer = LayerMask.NameToLayer("Room");
-                    Debug.Log("HEre");
                 }
             }
+            //Object Spawns
             if (i == 0)
             {
                 playerInstance = Instantiate(playerPrefab, new Vector3(roomBounds[0].center.x, 0.5f, roomBounds[0].center.z), Quaternion.identity);
                 playerInstance.name = "Player";
-                NiPlayerMovement playerScript = playerInstance.GetComponent<NiPlayerMovement>();
-                roomPlaced = false;
+                NiPlayerMovement playerScript = playerInstance.GetComponent<NiPlayerMovement>(); //Gets the script, but doesn't do anything with it. Kept as in original code.
             }
             else if (i == numRooms / 2)
             {
@@ -117,37 +118,48 @@ public class RoomGenerator2 : MonoBehaviour
                 angelInstance.name = "Angel";
                 MikesWeepingAngel angelScript = angelInstance.GetComponent<MikesWeepingAngel>();
                 angelScript.playerCam = playerInstance.GetComponentInChildren<Camera>();
-                roomPlaced = false;
             }
         }
-        GenerateCorridors();
     }
+
     private bool IsOverlapping(Bounds newBounds, List<Bounds> existingBounds)
     {
+        float minSpacing = 10f; // The minimum distance between rooms.
+
         foreach (Bounds bounds in existingBounds)
         {
-            if (bounds.Intersects(newBounds))
+            // Create a copy of the existing bounds.  We MUST work with a copy,
+            // otherwise we'll permanently modify the original room bounds!
+            Bounds expandedBounds = bounds;
+
+            // Expand the bounds by half the minimum spacing in each direction.
+            // We use half because the expansion happens on *both* sides of the bounds.
+            expandedBounds.Expand(roomsSpacingBuff);
+
+            if (expandedBounds.Intersects(newBounds))
             {
-                return true;
+                return true; // Overlaps with expanded bounds, so it's too close.
             }
         }
-        return false;
+        return false; // No overlaps found.
     }
+
     private void GenerateWalls(GameObject parent, Vector3 position, float width, float height, float wallHeight)
     {
-        Vector3[] wallPosition =
-        {
-            new Vector3(position.x, wallHeight / 2, position.z + height / 2),
-            new Vector3(position.x, wallHeight / 2, position.z - height / 2),
-            new Vector3(position.x + width / 2, wallHeight / 2,  position.z),
-            new Vector3(position.x - width / 2, wallHeight / 2,  position.z)
+        //(Same as before)
+        Vector3[] wallPositions =
+         {
+            new Vector3(position.x, wallHeight / 2, position.z + height / 2),  // North
+            new Vector3(position.x, wallHeight / 2, position.z - height / 2),  // South
+            new Vector3(position.x + width / 2, wallHeight / 2,  position.z), // West
+            new Vector3(position.x - width / 2, wallHeight / 2,  position.z)  // East
         };
 
         Vector3[] wallScales = {
-            new Vector3(width, wallHeight, 0.1f),
-            new Vector3(width, wallHeight, 0.1f),
-            new Vector3(0.1f, wallHeight, height),
-            new Vector3(0.1f, wallHeight, height)
+            new Vector3(width, wallHeight, 0.1f), // North/South
+            new Vector3(width, wallHeight, 0.1f), // North/South
+            new Vector3(0.1f, wallHeight, height),// West/East
+            new Vector3(0.1f, wallHeight, height) // West/East
         };
         // Select two walls to have doors
         int doorWall1 = Random.Range(0, 4);
@@ -158,44 +170,38 @@ public class RoomGenerator2 : MonoBehaviour
         {
             if (i == doorWall1 || i == doorWall2)
             {
-                GenerateWallWithDoor(parent, wallPosition[i], wallScales[i]);
+                GenerateWallWithDoor(parent, wallPositions[i], wallScales[i]);
             }
             else
             {
                 GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 wall.layer = LayerMask.NameToLayer("NotWalkable");
-                wall.transform.position = wallPosition[i];
+                wall.transform.position = wallPositions[i];
                 wall.transform.localScale = wallScales[i];
                 wall.transform.parent = parent.transform;
             }
         }
-
-        //GenerateDoorAndWindows(parent, position, width, height, wallHeight);
-
     }
+
     private void GenerateWallWithDoor(GameObject parent, Vector3 position, Vector3 scale)
     {
-        //GameObject door[]
-        float doorWidth = 1.5f;
-        float doorHeight = scale.y / 4; // 1/4th of total wall height
+        float doorWidth = 3f;  // Increased door width
+        float doorHeight = scale.y / 4;
         float wallThickness = 0.1f;
-        float topWallHeight = scale.y - doorHeight; // The remaining 3/4 height
+        float topWallHeight = scale.y - doorHeight;
 
-        bool isHorizontal = scale.x > scale.z; // Check if the wall runs along the X-axis
+        bool isHorizontal = scale.x > scale.z;
 
-        Vector3 leftWallPos, rightWallPos, topWallPos;
+        Vector3 leftWallPos, rightWallPos, topWallPos, doorPos;
         Vector3 leftWallScale, rightWallScale, topWallScale;
-        Vector3 doorPos;
 
         if (isHorizontal)
         {
             float halfRemainingWidth = (scale.x - doorWidth) / 2;
-
             leftWallPos = position + new Vector3(-doorWidth / 2 - halfRemainingWidth / 2, 0, 0);
             rightWallPos = position + new Vector3(doorWidth / 2 + halfRemainingWidth / 2, 0, 0);
             topWallPos = position + new Vector3(0, position.y / 4, 0);
-            doorPos = new Vector3(position.x, 0, position.z); // Door is centered on the wall
-
+            doorPos = new Vector3(position.x, 0, position.z);
             leftWallScale = new Vector3(halfRemainingWidth, scale.y, wallThickness);
             rightWallScale = new Vector3(halfRemainingWidth, scale.y, wallThickness);
             topWallScale = new Vector3(doorWidth, topWallHeight, wallThickness);
@@ -203,39 +209,31 @@ public class RoomGenerator2 : MonoBehaviour
         else
         {
             float halfRemainingDepth = (scale.z - doorWidth) / 2;
-
             leftWallPos = position + new Vector3(0, 0, -doorWidth / 2 - halfRemainingDepth / 2);
             rightWallPos = position + new Vector3(0, 0, doorWidth / 2 + halfRemainingDepth / 2);
             topWallPos = position + new Vector3(0, position.y / 4, 0);
-            doorPos = new Vector3(position.x, 0, position.z); // Door is centered on the wall.
-
+            doorPos = new Vector3(position.x, 0, position.z);
             leftWallScale = new Vector3(wallThickness, scale.y, halfRemainingDepth);
             rightWallScale = new Vector3(wallThickness, scale.y, halfRemainingDepth);
             topWallScale = new Vector3(wallThickness, topWallHeight, doorWidth);
         }
-        doors.Add(doorPos);
-        // Create left part of the wall
-        if (leftWallScale.x > 0 && leftWallScale.z > 0)
-        {
-            GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            leftWall.layer = LayerMask.NameToLayer("NotWalkable");
-            leftWall.transform.position = leftWallPos;
-            leftWall.transform.localScale = leftWallScale;
-            leftWall.transform.parent = parent.transform;
-        }
 
-        // Create right part of the wall
-        if (rightWallScale.x > 0 && rightWallScale.z > 0)
-        {
-            GameObject rightWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            rightWall.layer = LayerMask.NameToLayer("NotWalkable");
-            rightWall.transform.position = rightWallPos;
-            rightWall.transform.localScale = rightWallScale;
-            rightWall.transform.parent = parent.transform;
-            //doors.Add(new Vector3(leftWallPos.x, 0, rightWallPos.z));
-        }
+        int facingDir = GetDoorDirection(doorPos); // doorPos is calculated *inside* GenerateWallWithDoor
+        doors.Add(new DoorData(doorPos, facingDir));
 
-        // Create the top connector wall (correctly placed)
+        // Create walls
+        GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        leftWall.layer = LayerMask.NameToLayer("NotWalkable");
+        leftWall.transform.position = leftWallPos;
+        leftWall.transform.localScale = leftWallScale;
+        leftWall.transform.parent = parent.transform;
+
+        GameObject rightWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        rightWall.layer = LayerMask.NameToLayer("NotWalkable");
+        rightWall.transform.position = rightWallPos;
+        rightWall.transform.localScale = rightWallScale;
+        rightWall.transform.parent = parent.transform;
+
         GameObject topWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         topWall.transform.position = topWallPos;
         topWall.transform.localScale = topWallScale;
@@ -247,165 +245,365 @@ public class RoomGenerator2 : MonoBehaviour
         navMeshSurface.BuildNavMesh();
     }
 
-    private void CreateOrthogonalCorridor(Vector3 door1Pos, Vector3 door2Pos)
+    // --- Corridor Generation ---
+
+    private int GetDoorDirection(Vector3 doorPosition)
+    {
+        int roomIndex = GetRoomIndex(doorPosition);
+        if (roomIndex == -1)
+        {
+            Debug.LogError("Door is not within any room!");
+            return 0; // Invalid direction
+        }
+
+        Bounds roomBound = roomBounds[roomIndex];
+        string relativeDirection = GetRelativeDirection(doorPosition, roomBound.center);
+
+        switch (relativeDirection)
+        {
+            case "North": return 1;
+            case "East": return 2;
+            case "South": return 3;
+            case "West": return 4;
+            default:
+                Debug.LogError("Invalid door direction: " + relativeDirection);
+                return 0; // Invalid direction
+        }
+    }
+
+
+    string GetRelativeDirection(Vector3 targetPosition, Vector3 referencePosition)
+    {
+        //(Same as before)
+        Vector3 directionVector = targetPosition - referencePosition;
+
+        float x = directionVector.x;
+        float z = directionVector.z;
+
+        if (Mathf.Abs(x) > Mathf.Abs(z)) // Prioritize horizontal direction
+        {
+            return x < 0 ? "East" : "West";
+        }
+        else  // Prioritize vertical direction
+        {
+            return z > 0 ? "North" : "South";
+        }
+    }
+
+    private void CreateDirectionalCorridor(Vector3 door1Pos, Vector3 door2Pos, int direction1, int direction2)
     {
         float corridorWidth = 3f;
         float corridorHeight = 7f;
         float wallThickness = 0.2f;
-        float halfWidth = corridorWidth / 2f;
 
-        // 1. Determine door directions.
-        Vector3 door1Direction = GetDoorDirection(door1Pos);
-        Vector3 door2Direction = GetDoorDirection(door2Pos);
-
-        // 2. Calculate start and end offset points.
-        Vector3 startPoint = door1Pos + door1Direction * halfWidth;
-        Vector3 endPoint = door2Pos + door2Direction * halfWidth;
-
-        // 3. Pathfinding with offsets and parallel wall handling.
-        List<Vector3> pathPoints = new List<Vector3>();
-        pathPoints.Add(startPoint);
-
-        // Check if the initial direction is parallel to the target door's wall.
-        if (Vector3.Dot(door1Direction, door2Direction) < -0.9f) // Opposite directions (parallel walls)
+        int directionDifference = Mathf.Abs(direction1 - direction2);
+        if (directionDifference > 2)
         {
-            // Special handling for parallel walls.
-
-            // First, move along the initial direction (away from door1's wall).
-            Vector3 intermediate1 = startPoint + door1Direction * halfWidth;
-            pathPoints.Add(intermediate1);
-
-            // Determine the direction to move towards the endPoint.
-            Vector3 towardsEndPoint = (endPoint - intermediate1).normalized;
-
-            // Move parallel to the target wall until aligned with endPoint on one axis.
-            Vector3 intermediate2;
-            if (Mathf.Abs(door2Direction.x) > 0.1f) // door2 faces along X
-            {
-                intermediate2 = intermediate1 + new Vector3(0, 0, endPoint.z - intermediate1.z); // Align Z
-                if (!IsValidSegment(intermediate1, intermediate2, corridorWidth)) //check for valid path
-                {
-                    intermediate2 = intermediate1 + new Vector3(endPoint.x - intermediate1.x, 0, 0); //if invalid use x
-                }
-            }
-            else // door2 faces along Z
-            {
-                intermediate2 = intermediate1 + new Vector3(endPoint.x - intermediate1.x, 0, 0); // Align X
-                if (!IsValidSegment(intermediate1, intermediate2, corridorWidth))//check for valid path
-                {
-                    intermediate2 = intermediate1 + new Vector3(0, 0, endPoint.z - intermediate1.z); //if invalid use z
-
-                }
-            }
-
-            pathPoints.Add(intermediate2);
-
-            // Final segment to endPoint (already offset).
-            // No need for intermediate3; connect directly.
-
+            directionDifference = 4 - directionDifference;  // Wrap around
         }
-        else
+
+        // Offset start and end points based on door direction
+        Vector3 startPoint = door1Pos + GetDirectionVector(direction1) * (corridorWidth / 2f);
+        Vector3 endPoint = door2Pos + GetDirectionVector(direction2) * (corridorWidth / 2f);
+
+        List<Vector3> pathPoints = new List<Vector3>() { startPoint };
+
+
+        if (direction1 == direction2)
         {
-            // Regular handling (non-parallel walls):  One or two turns.
-
-            Vector3 intermediate1 = new Vector3(endPoint.x, 0, startPoint.z);
-            Vector3 intermediate2 = endPoint;
-
-
-            if (intermediate1 != startPoint && intermediate1 != endPoint)
+            // Same direction: 2 or 4 turns.
+            if (direction1 == 1 || direction1 == 3) // North or South facing doors
             {
-                if (IsValidSegment(startPoint, intermediate1, corridorWidth))
+                //try using z
+                Vector3 intermediate1 = new Vector3(startPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                Vector3 intermediate2 = new Vector3(endPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
                 {
                     pathPoints.Add(intermediate1);
-
-                }
-
-
-            }
-
-            if (intermediate2 != startPoint && intermediate2 != intermediate1)
-            {
-                if (IsValidSegment(intermediate1, intermediate2, corridorWidth))
-                {
                     pathPoints.Add(intermediate2);
+                    pathPoints.Add(endPoint);
                 }
+                else // if that doesnt work, try using x.
+                {
+                    intermediate1 = new Vector3((startPoint.x + endPoint.x) / 2, 0, startPoint.z);
+                    intermediate2 = new Vector3((startPoint.x + endPoint.x) / 2, 0, endPoint.z);
+                    if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                    {
+                        pathPoints.Add(intermediate1);
+                        pathPoints.Add(intermediate2);
+                        pathPoints.Add(endPoint);
+                    }
+                    else //if that doesnt work try to add more points.
+                    {
+                        // Calculate midpoints for the extended path
+                        Vector3 midPoint1 = startPoint + GetDirectionVector(direction1) * corridorWidth;
+                        Vector3 midPoint2 = endPoint + GetDirectionVector(direction2) * corridorWidth;
 
+                        intermediate1 = new Vector3(midPoint1.x, 0, midPoint2.z);
+                        intermediate2 = new Vector3(endPoint.x, 0, midPoint2.z);
+
+                        //check if valid segments and add them
+                        if (IsValidSegment(startPoint, midPoint1, corridorWidth))
+                        {
+                            pathPoints.Add(midPoint1);
+                        }
+                        if (IsValidSegment(midPoint1, intermediate1, corridorWidth))
+                        {
+                            pathPoints.Add(intermediate1);
+                        }
+                        if (IsValidSegment(intermediate1, midPoint2, corridorWidth))
+                        {
+                            pathPoints.Add(midPoint2);
+                        }
+                        if (IsValidSegment(midPoint2, endPoint, corridorWidth))
+                        {
+                            pathPoints.Add(endPoint);
+                        }
+                    }
+                }
+            }
+            else // Doors are facing East or West
+            {
+                //try using x
+                Vector3 intermediate1 = new Vector3((startPoint.x + endPoint.x) / 2, 0, startPoint.z);
+                Vector3 intermediate2 = new Vector3((startPoint.x + endPoint.x) / 2, 0, endPoint.z);
+                if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                {
+                    pathPoints.Add(intermediate1);
+                    pathPoints.Add(intermediate2);
+                    pathPoints.Add(endPoint);
+                }
+                else // if that doesn't work, try using z.
+                {
+                    intermediate1 = new Vector3(startPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                    intermediate2 = new Vector3(endPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                    if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                    {
+                        pathPoints.Add(intermediate1);
+                        pathPoints.Add(intermediate2);
+                        pathPoints.Add(endPoint);
+                    }
+
+                    else  //if that doesnt work try to add more points.
+                    {
+                        // Calculate midpoints for the extended path
+                        Vector3 midPoint1 = startPoint + GetDirectionVector(direction1) * corridorWidth;
+                        Vector3 midPoint2 = endPoint + GetDirectionVector(direction2) * corridorWidth;
+
+                        intermediate1 = new Vector3(midPoint2.x, 0, midPoint1.z);
+                        intermediate2 = new Vector3(midPoint2.x, 0, endPoint.z);
+
+                        //check if valid segments and add them
+                        if (IsValidSegment(startPoint, midPoint1, corridorWidth))
+                        {
+                            pathPoints.Add(midPoint1);
+                        }
+                        if (IsValidSegment(midPoint1, intermediate1, corridorWidth))
+                        {
+                            pathPoints.Add(intermediate1);
+                        }
+                        if (IsValidSegment(intermediate1, midPoint2, corridorWidth))
+                        {
+                            pathPoints.Add(midPoint2);
+                        }
+                        if (IsValidSegment(midPoint2, endPoint, corridorWidth))
+                        {
+                            pathPoints.Add(endPoint);
+                        }
+
+                    }
+                }
+            }
+        }
+        else if (directionDifference == 1 || directionDifference == 3)
+        {
+            // Adjacent directions: 1 or 3 turns.
+
+            // One-turn solution (L-shape)
+            Vector3 intermediate1;
+            if (direction1 == 1 || direction1 == 3) // Start door is N/S
+            {
+                intermediate1 = new Vector3(startPoint.x, 0, endPoint.z);
+            }
+            else // Start door is E/W
+            {
+                intermediate1 = new Vector3(endPoint.x, 0, startPoint.z);
             }
 
+            if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, endPoint, corridorWidth))
+            {
+                pathPoints.Add(intermediate1);
+                pathPoints.Add(endPoint);
+            }
+            else
+            {
+                // Three-turn solution.  Extend both start and end points.
+
+                Vector3 midPoint1 = startPoint + GetDirectionVector(direction1) * corridorWidth;
+                Vector3 midPoint2 = endPoint + GetDirectionVector(direction2) * corridorWidth;
+
+                // Two intermediate points to connect the extended lines.
+                if (direction1 == 1 || direction1 == 3)
+                {
+                    intermediate1 = new Vector3(midPoint1.x, 0, midPoint2.z);
+                }
+                else
+                {
+                    intermediate1 = new Vector3(midPoint2.x, 0, midPoint1.z);
+                }
+
+
+                if (IsValidSegment(startPoint, midPoint1, corridorWidth))
+                {
+                    pathPoints.Add(midPoint1);
+                }
+                if (IsValidSegment(midPoint1, intermediate1, corridorWidth))
+                {
+                    pathPoints.Add(intermediate1);
+                }
+                if (IsValidSegment(intermediate1, midPoint2, corridorWidth))
+                {
+                    pathPoints.Add(midPoint2);
+                }
+                if (IsValidSegment(midPoint2, endPoint, corridorWidth))
+                {
+                    pathPoints.Add(endPoint);
+                }
+            }
+        }
+        else if (directionDifference == 2)
+        {
+            // Opposite directions: 0, 2, or 4 turns
+
+            // Zero-turn solution (straight line).
+            if (IsValidSegment(startPoint, endPoint, corridorWidth))
+            {
+                pathPoints.Add(endPoint);
+            }
+            else
+            {
+                // Two-turn solution.  Try both possible intermediate points.
+                Vector3 intermediate1;
+                if (direction1 == 1 || direction1 == 3) // Start door is N/S
+                {
+                    intermediate1 = new Vector3(startPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                    Vector3 intermediate2 = new Vector3(endPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                    if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                    {
+                        pathPoints.Add(intermediate1);
+                        pathPoints.Add(intermediate2);
+                        pathPoints.Add(endPoint);
+                    }
+                    else
+                    {
+                        intermediate1 = new Vector3((startPoint.x + endPoint.x) / 2, 0, startPoint.z);
+                        intermediate2 = new Vector3((startPoint.x + endPoint.x) / 2, 0, endPoint.z);
+                        if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                        {
+                            pathPoints.Add(intermediate1);
+                            pathPoints.Add(intermediate2);
+                            pathPoints.Add(endPoint);
+
+                        }
+                        else
+                        {
+                            //four turn solution
+                            Vector3 midPoint1 = startPoint + GetDirectionVector(direction1) * corridorWidth;
+                            Vector3 midPoint2 = endPoint + GetDirectionVector(direction2) * corridorWidth;
+                            intermediate1 = new Vector3(midPoint1.x, 0, midPoint2.z);
+
+                            if (IsValidSegment(startPoint, midPoint1, corridorWidth))
+                            {
+                                pathPoints.Add(midPoint1);
+                            }
+                            if (IsValidSegment(midPoint1, intermediate1, corridorWidth))
+                            {
+                                pathPoints.Add(intermediate1);
+                            }
+                            if (IsValidSegment(intermediate1, midPoint2, corridorWidth))
+                            {
+                                pathPoints.Add(midPoint2);
+                            }
+                            if (IsValidSegment(midPoint2, endPoint, corridorWidth))
+                            {
+                                pathPoints.Add(endPoint);
+                            }
+
+                        }
+                    }
+
+                }
+                else // Start door is E/W
+                {
+                    intermediate1 = new Vector3((startPoint.x + endPoint.x) / 2, 0, startPoint.z);
+                    Vector3 intermediate2 = new Vector3((startPoint.x + endPoint.x) / 2, 0, endPoint.z);
+                    if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                    {
+                        pathPoints.Add(intermediate1);
+                        pathPoints.Add(intermediate2);
+                        pathPoints.Add(endPoint);
+                    }
+                    else
+                    {
+                        intermediate1 = new Vector3(startPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                        intermediate2 = new Vector3(endPoint.x, 0, (startPoint.z + endPoint.z) / 2);
+                        if (IsValidSegment(startPoint, intermediate1, corridorWidth) && IsValidSegment(intermediate1, intermediate2, corridorWidth) && IsValidSegment(intermediate2, endPoint, corridorWidth))
+                        {
+                            pathPoints.Add(intermediate1);
+                            pathPoints.Add(intermediate2);
+                            pathPoints.Add(endPoint);
+                        }
+                        else
+                        {
+                            //four turn solution
+                            Vector3 midPoint1 = startPoint + GetDirectionVector(direction1) * corridorWidth;
+                            Vector3 midPoint2 = endPoint + GetDirectionVector(direction2) * corridorWidth;
+
+                            intermediate1 = new Vector3(midPoint2.x, 0, midPoint1.z);
+
+
+                            if (IsValidSegment(startPoint, midPoint1, corridorWidth))
+                            {
+                                pathPoints.Add(midPoint1);
+                            }
+                            if (IsValidSegment(midPoint1, intermediate1, corridorWidth))
+                            {
+                                pathPoints.Add(intermediate1);
+                            }
+                            if (IsValidSegment(intermediate1, midPoint2, corridorWidth))
+                            {
+                                pathPoints.Add(midPoint2);
+                            }
+                            if (IsValidSegment(midPoint2, endPoint, corridorWidth))
+                            {
+                                pathPoints.Add(endPoint);
+                            }
+
+                        }
+                    }
+                }
+            }
         }
 
-        pathPoints.Add(endPoint);
 
-        // 4. Build the corridor segments.
+        // Build the corridor segments based on pathPoints.
         for (int i = 0; i < pathPoints.Count - 1; i++)
         {
             CreateCorridorSegment(pathPoints[i], pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
         }
     }
-
-    private bool IsValidSegment(Vector3 start, Vector3 end, float corridorWidth)
+    private Vector3 GetDirectionVector(int direction)
     {
-        // Calculate the center and size of the segment.
-        Vector3 center = (start + end) / 2;
-        Vector3 direction = (end - start).normalized;
-        float length = Vector3.Distance(start, end);
-        Vector3 size;
-
-        // Determine size based on orientation.  Add extra width for overlap check.
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z)) // Horizontal
+        switch (direction)
         {
-            size = new Vector3(length, 1f, corridorWidth + 1f);  // +1f for tolerance
+            case 1: return Vector3.forward;  // North
+            case 2: return Vector3.right;    // East
+            case 3: return Vector3.back;     // South
+            case 4: return Vector3.left;     // West
+            default: return Vector3.zero;
         }
-        else // Vertical
-        {
-            size = new Vector3(corridorWidth + 1f, 1f, length);  // +1f for tolerance
-        }
-
-
-        Bounds segmentBounds = new Bounds(center, size);
-
-        // Check against ALL room bounds.
-        foreach (Bounds roomBound in roomBounds)
-        {
-            if (segmentBounds.Intersects(roomBound))
-            {
-                return false; // Overlaps a room, so it's invalid.
-            }
-        }
-
-        return true; // No overlaps found.
     }
 
-
-    // Helper function to get door direction based on surrounding walls.
-    private Vector3 GetDoorDirection(Vector3 doorPos)
-    {
-        // A small offset to check for walls.  Adjust as needed.
-        float checkDistance = 0.6f;
-
-
-        // Check for walls in each direction (+X, -X, +Z, -Z).
-        if (Physics.Raycast(doorPos, Vector3.right, checkDistance, LayerMask.GetMask("NotWalkable")))
-        {
-            return Vector3.left; // Wall to the right, so door faces left.
-        }
-        if (Physics.Raycast(doorPos, Vector3.left, checkDistance, LayerMask.GetMask("NotWalkable")))
-        {
-            return Vector3.right; // Wall to the left, so door faces right.
-        }
-        if (Physics.Raycast(doorPos, Vector3.forward, checkDistance, LayerMask.GetMask("NotWalkable")))
-        {
-            return Vector3.back; // Wall in front, so door faces back.
-        }
-        if (Physics.Raycast(doorPos, Vector3.back, checkDistance, LayerMask.GetMask("NotWalkable")))
-        {
-            return Vector3.forward; // Wall behind, so door faces forward.
-        }
-
-        // If no wall is detected, assume it faces forward (you might need a better default).
-        Debug.LogWarning("Could not determine door direction.  Assuming forward.");
-        return Vector3.forward;
-    }
 
     private void CreateCorridorSegment(Vector3 startPos, Vector3 endPos, float width, float height, float thickness)
     {
@@ -454,113 +652,107 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
+    private bool IsValidSegment(Vector3 start, Vector3 end, float corridorWidth)
+    {
+        // Calculate the center and size of the segment.
+        Vector3 center = (start + end) / 2;
+        Vector3 direction = (end - start).normalized;
+        float length = Vector3.Distance(start, end);
+        Vector3 size;
+
+        // Determine size based on orientation.  Add extra width for overlap check.
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z)) // Horizontal
+        {
+            size = new Vector3(length, 1f, corridorWidth + 1f);  // +1f for tolerance
+        }
+        else // Vertical
+        {
+            size = new Vector3(corridorWidth + 1f, 1f, length);  // +1f for tolerance
+        }
+
+        Bounds segmentBounds = new Bounds(center, size);
+
+        // Check against ALL room bounds.
+        foreach (Bounds roomBound in roomBounds)
+        {
+            if (segmentBounds.Intersects(roomBound))
+            {
+                return false; // Overlaps a room, so it's invalid.
+            }
+        }
+
+        return true; // No overlaps found.
+    }
     private void GenerateCorridors()
     {
         if (doors.Count == 0) return;
 
         List<DoorConnection> allConnections = new List<DoorConnection>();
 
-        // 1. Create all possible door-to-door connections between DIFFERENT rooms.
+        // Create all possible door-to-door connections between DIFFERENT rooms.
         for (int i = 0; i < doors.Count; i++)
         {
             for (int j = i + 1; j < doors.Count; j++)
             {
-                int roomA = GetRoomIndex(doors[i]);
-                int roomB = GetRoomIndex(doors[j]);
-                if (roomA != roomB && roomA != -1 && roomB != -1) // Different rooms and valid indices.
+                int roomA = GetRoomIndex(doors[i].position);
+                int roomB = GetRoomIndex(doors[j].position);
+                if (roomA != roomB && roomA != -1 && roomB != -1) // Different rooms
                 {
-                    float distance = Vector3.Distance(doors[i], doors[j]);
+                    float distance = Vector3.Distance(doors[i].position, doors[j].position);
                     allConnections.Add(new DoorConnection(i, j, distance));
                 }
             }
         }
 
-        // 2. Sort connections by distance (shortest first).
+        // Sort connections by distance (shortest first).
         allConnections.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 
-        // 3. Iteratively connect doors, respecting the one-connection-per-door rule.
+        // Iteratively connect doors.
         List<DoorConnection> selectedConnections = new List<DoorConnection>();
-        HashSet<int> connectedDoors = new HashSet<int>(); // Track connected *doors*.
+        HashSet<int> connectedDoors = new HashSet<int>();
 
         foreach (DoorConnection connection in allConnections)
         {
-            // Check if *neither* door in this connection has already been connected.
-            if (!connectedDoors.Contains(connection.DoorIndexA) && !connectedDoors.Contains(connection.DoorIndexB))
+            // Access facingDirection using .facingDirection
+            if (!doors[connection.DoorIndexA].isConnected && !doors[connection.DoorIndexB].isConnected)
             {
                 selectedConnections.Add(connection);
-                connectedDoors.Add(connection.DoorIndexA);
-                connectedDoors.Add(connection.DoorIndexB);
+
+                // Mark doors as connected using the struct!
+                DoorData doorA = doors[connection.DoorIndexA];
+                doorA.isConnected = true;
+                doors[connection.DoorIndexA] = doorA;  // Reassign the modified struct
+
+                DoorData doorB = doors[connection.DoorIndexB];
+                doorB.isConnected = true;
+                doors[connection.DoorIndexB] = doorB;
+
             }
         }
 
-        // 4. Create the corridors.
+        // Create the corridors.
         foreach (DoorConnection connection in selectedConnections)
         {
-            CreateOrthogonalCorridor(doors[connection.DoorIndexA], doors[connection.DoorIndexB]);
+            // Now you can directly access .facingDirection
+            CreateDirectionalCorridor(doors[connection.DoorIndexA].position, doors[connection.DoorIndexB].position,
+                                     doors[connection.DoorIndexA].facingDirection, doors[connection.DoorIndexB].facingDirection);
         }
     }
-
 
 
     private int GetRoomIndex(Vector3 doorPosition)
     {
         for (int i = 0; i < roomBounds.Count; i++)
         {
-            // Expand the bounds slightly to account for doors on the edges.  Adjust the value as needed.
+            // Expand the bounds slightly to account for doors on the edges.
             Bounds expandedBounds = roomBounds[i];
-            expandedBounds.Expand(new Vector3(0.6f, 0, 0.6f)); //Expand by the door width
+            expandedBounds.Expand(new Vector3(3f, 0, 3f)); //Expand by the door width + extra for connections
 
             if (expandedBounds.Contains(doorPosition))
             {
                 return i;
             }
         }
-        return -1; // Door is not within any room (shouldn't happen, but handle it)
+        return -1;
     }
 }
-    /*private void CreateCorridorTunnel(Vector3 door1Pos, Vector3 door2Pos)
-    {
-        //Debug.Log("create door");
-        Vector3 direction = (door2Pos - door1Pos).normalized;
-        float corridorLength = Vector3.Distance(door1Pos, door2Pos);
-
-        float corridorWidth = 3f;  // Keep a consistent width
-        float corridorHeight = 7f; // Keep a consistent height
-        float wallThickness = 0.2f;
-
-        Vector3 corridorCenter = (door1Pos + door2Pos) / 2;
-
-        // Create floor
-        GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        floor.transform.position = corridorCenter + new Vector3(0, -corridorHeight / 2, 0);
-        floor.transform.localScale = new Vector3(
-            Mathf.Abs(direction.x) > Mathf.Abs(direction.z) ? corridorLength : corridorWidth,
-            wallThickness,
-            Mathf.Abs(direction.z) > Mathf.Abs(direction.x) ? corridorLength : corridorWidth
-        );
-
-        // Create ceiling
-        GameObject ceiling = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        ceiling.transform.position = corridorCenter + new Vector3(0, corridorHeight / 2, 0);
-        ceiling.transform.localScale = floor.transform.localScale;
-
-        // Left Wall
-        GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        leftWall.layer = LayerMask.NameToLayer("NotWalkable");
-        leftWall.transform.position = corridorCenter + new Vector3(
-            direction.z * corridorWidth / 2, 0, -direction.x * corridorWidth / 2
-        );
-        leftWall.transform.localScale = new Vector3(
-            Mathf.Abs(direction.x) > Mathf.Abs(direction.z) ? corridorLength : wallThickness,
-            corridorHeight,
-            Mathf.Abs(direction.z) > Mathf.Abs(direction.x) ? corridorLength : wallThickness
-        );
-
-        // Right Wall
-        GameObject rightWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        rightWall.layer = LayerMask.NameToLayer("NotWalkable");
-        rightWall.transform.position = corridorCenter + new Vector3(
-            -direction.z * corridorWidth / 2, 0, direction.x * corridorWidth / 2
-        );
-        rightWall.transform.localScale = leftWall.transform.localScale;
-    }*/
