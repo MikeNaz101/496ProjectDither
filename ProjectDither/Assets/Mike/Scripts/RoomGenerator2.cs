@@ -56,6 +56,7 @@ public class RoomGenerator2 : MonoBehaviour
         GenerateWalls(bigRoom, Vector3.zero, bigRoomSize.x, bigRoomSize.y, 10);
     }
 
+    // Generates multiple rooms within the defined bounds, avoiding overlaps.
     public void GenerateRooms()
     {
         //(Same as before - no changes needed here)
@@ -122,6 +123,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
+    // Checks if a new room bounds overlaps with any existing room bounds, considering a minimum spacing.
     private bool IsOverlapping(Bounds newBounds, List<Bounds> existingBounds)
     {
         float minSpacing = 10f; // The minimum distance between rooms.
@@ -144,6 +146,7 @@ public class RoomGenerator2 : MonoBehaviour
         return false; // No overlaps found.
     }
 
+    // Generates walls for a room, including two walls with doors.
     private void GenerateWalls(GameObject parent, Vector3 position, float width, float height, float wallHeight)
     {
         //(Same as before)
@@ -183,6 +186,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
+    // Generates a wall section with a door opening and adds door data to the list.
     private void GenerateWallWithDoor(GameObject parent, Vector3 position, Vector3 scale)
     {
         float doorWidth = 3f;  // Increased door width
@@ -240,6 +244,7 @@ public class RoomGenerator2 : MonoBehaviour
         topWall.transform.parent = parent.transform;
     }
 
+    // Builds the navigation mesh after rooms and corridors are generated.
     void BakeNavMesh()
     {
         navMeshSurface.BuildNavMesh();
@@ -247,6 +252,7 @@ public class RoomGenerator2 : MonoBehaviour
 
     // --- Corridor Generation ---
 
+    // Determines the facing direction of a door (North, East, South, or West).
     private int GetDoorDirection(Vector3 doorPosition)
     {
         int roomIndex = GetRoomIndex(doorPosition);
@@ -271,7 +277,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
-
+    // Determines the relative direction (North, East, South, West) of a target position from a reference position.
     string GetRelativeDirection(Vector3 targetPosition, Vector3 referencePosition)
     {
         //(Same as before)
@@ -290,6 +296,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
+    // Creates a corridor between two doors, handling different orientations.
     private void CreateDirectionalCorridor(Vector3 door1Pos, Vector3 door2Pos, int direction1, int direction2)
     {
         float corridorWidth = 3f;
@@ -592,6 +599,8 @@ public class RoomGenerator2 : MonoBehaviour
             CreateCorridorSegment(pathPoints[i], pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
         }
     }
+
+    // Returns a unit vector representing a given direction (1=North, 2=East, 3=South, 4=West).
     private Vector3 GetDirectionVector(int direction)
     {
         switch (direction)
@@ -604,7 +613,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
-
+    // Creates a single segment of a corridor (floor, ceiling, and walls).
     private void CreateCorridorSegment(Vector3 startPos, Vector3 endPos, float width, float height, float thickness)
     {
         // Calculate the direction and length of this segment.
@@ -652,6 +661,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
+    // Checks if a corridor segment is valid (doesn't overlap with any rooms).
     private bool IsValidSegment(Vector3 start, Vector3 end, float corridorWidth)
     {
         // Calculate the center and size of the segment.
@@ -683,6 +693,8 @@ public class RoomGenerator2 : MonoBehaviour
 
         return true; // No overlaps found.
     }
+
+    // Generates corridors between rooms, connecting doors based on proximity and avoiding overlaps.
     private void GenerateCorridors()
     {
         if (doors.Count == 0) return;
@@ -739,7 +751,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
     }
 
-
+    // Gets the index of the room that contains a given door position.
     private int GetRoomIndex(Vector3 doorPosition)
     {
         for (int i = 0; i < roomBounds.Count; i++)
