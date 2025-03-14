@@ -6,8 +6,11 @@ public class RoomGenerator2 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
     private int numRooms = 15;
+    private bool[][] status;
+    public int[][] roomDoors;
     //private List<Vector3> doors = new List<Vector3>(); // Store doors
     private List<Bounds> roomBounds = new List<Bounds>();
+    private List<Bounds> CorridorSegmentBounds = new List<Bounds>();
     private Vector2 roomSizeMinMax = new Vector2(12, 28);
     private Vector2 bigRoomSize = new Vector2(200, 200);
     public GameObject wallPrefab, doorPrefab, WindowPrefab;
@@ -15,8 +18,27 @@ public class RoomGenerator2 : MonoBehaviour
     private GameObject playerInstance;
     private Vector3 roomsSpacingBuff = new Vector3(15, 0, 15);
 
+    void InitializeStatus(int numRooms)
+    {
+        status = new bool[numRooms][]; // Initialize outer array
+
+        for (int i = 0; i < numRooms; i++)
+        {
+            status[i] = new bool[4]; // Initialize inner arrays
+        }
+    }
+    void InitializeRoomDoors(int numRooms)
+    {
+        roomDoors = new int[numRooms][]; // Initialize outer array
+
+        for (int i = 0; i < numRooms; i++)
+        {
+            roomDoors[i] = new int[4]; // Initialize inner arrays
+        }
+    }
     public struct DoorData
     {
+        //public int[][] roomDoors;
         public Vector3 position;
         public int facingDirection; // 1=North, 2=East, 3=South, 4=West
         public bool isConnected;
@@ -165,13 +187,15 @@ public class RoomGenerator2 : MonoBehaviour
             new Vector3(0.1f, wallHeight, height) // West/East
         };
         // Select two walls to have doors
-        int doorWall1 = Random.Range(0, 4);
+        /*int doorWall1 = Random.Range(0, 4);
         int doorWall2;
         do { doorWall2 = Random.Range(0, 4); } while (doorWall2 == doorWall1);
-
+        */
         for (int i = 0; i < 4; i++)
         {
-            if (i == doorWall1 || i == doorWall2)
+            GenerateWallWithDoor(parent, wallPositions[i], wallScales[i]);
+            
+            /*if (i == doorWall1 || i == doorWall2)
             {
                 GenerateWallWithDoor(parent, wallPositions[i], wallScales[i]);
             }
@@ -182,7 +206,7 @@ public class RoomGenerator2 : MonoBehaviour
                 wall.transform.position = wallPositions[i];
                 wall.transform.localScale = wallScales[i];
                 wall.transform.parent = parent.transform;
-            }
+            }*/
         }
     }
 
@@ -304,10 +328,10 @@ public class RoomGenerator2 : MonoBehaviour
         float wallThickness = 0.2f;
 
         int directionDifference = Mathf.Abs(direction1 - direction2);
-        if (directionDifference > 2)
+        /*if (directionDifference > 2)
         {
             directionDifference = 4 - directionDifference;  // Wrap around
-        }
+        }*/
 
         // Offset start and end points based on door direction
         Vector3 startPoint = door1Pos + GetDirectionVector(direction1) * (corridorWidth / 2f);
@@ -596,7 +620,41 @@ public class RoomGenerator2 : MonoBehaviour
         // Build the corridor segments based on pathPoints.
         for (int i = 0; i < pathPoints.Count - 1; i++)
         {
-            CreateCorridorSegment(pathPoints[i], pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+            if(i == 0)
+            {
+                switch (direction1)
+                {
+                    case 1: CreateCorridorSegment(pathPoints[i]+ new Vector3(roomsSpacingBuff.x,0,0), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    case 2: CreateCorridorSegment(pathPoints[i]+ new Vector3(0,0,roomsSpacingBuff.z), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    case 3: CreateCorridorSegment(pathPoints[i] - new Vector3(roomsSpacingBuff.x,0,0), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    default: CreateCorridorSegment(pathPoints[i] - new Vector3(0,0,roomsSpacingBuff.z), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    
+                }
+            }
+            else if(i == pathPoints.Count - 2)
+            {
+                switch (direction2)
+                {
+                    case 1: CreateCorridorSegment(pathPoints[i]- new Vector3(roomsSpacingBuff.x,0,0), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    case 2: CreateCorridorSegment(pathPoints[i]- new Vector3(0,0,roomsSpacingBuff.z), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    case 3: CreateCorridorSegment(pathPoints[i]+ new Vector3(roomsSpacingBuff.x,0,0), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    default: CreateCorridorSegment(pathPoints[i]+ new Vector3(0,0,roomsSpacingBuff.z), pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+                    break;
+                    
+                }
+            }
+            else
+            {
+                CreateCorridorSegment(pathPoints[i], pathPoints[i + 1], corridorWidth, corridorHeight, wallThickness);
+            }
+            
         }
     }
 
@@ -659,6 +717,9 @@ public class RoomGenerator2 : MonoBehaviour
             wall1.transform.localScale = new Vector3(thickness, height, segmentLength);
             wall2.transform.localScale = new Vector3(thickness, height, segmentLength);
         }
+        // Store Corridor Bounds
+        Bounds segmentBounds = new Bounds(segmentCenter, isHorizontal ? new Vector3(segmentLength, height, width) : new Vector3(width, height, segmentLength));
+        CorridorSegmentBounds.Add(segmentBounds);
     }
 
     // Checks if a corridor segment is valid (doesn't overlap with any rooms).
@@ -688,6 +749,15 @@ public class RoomGenerator2 : MonoBehaviour
             if (segmentBounds.Intersects(roomBound))
             {
                 return false; // Overlaps a room, so it's invalid.
+            }
+        }
+
+        // Check against other corridor segments ---
+        foreach (Bounds otherSegmentBounds in CorridorSegmentBounds)
+        {
+            if (segmentBounds.Intersects(otherSegmentBounds))
+            {
+                return false; // Overlaps another corridor segment.
             }
         }
 
