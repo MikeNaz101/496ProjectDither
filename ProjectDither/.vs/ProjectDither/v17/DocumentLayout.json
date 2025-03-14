@@ -1,10 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\496projectdither\\projectdither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\projects\\496projectdither\\projectdither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\projects\\496projectdither\\projectdither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,13 +24,26 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ComputerMiniGame.cs",
-              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
+              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
               "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
+              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
               "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAA1wCIAAAAAAAAA",
+              "ViewState": "AgIAABsAAAAAAAAAAAA1wA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T20:28:58.094Z",
+              "WhenOpened": "2025-03-14T00:13:12.161Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MashingGameScript.cs",
+              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Jason\\MashingGameScript.cs",
+              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
+              "RelativeToolTip": "Assets\\Jason\\MashingGameScript.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAYwCcAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T00:10:14.357Z",
               "EditorCaption": ""
             }
           ]
