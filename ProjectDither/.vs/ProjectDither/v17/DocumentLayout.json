@@ -1,13 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\projects\\496projectdither\\projectdither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\projects\\496projectdither\\projectdither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,33 +30,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ComputerMiniGame.cs",
-              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAA1wA0AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ProceduralRoomGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
+              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
+              "RelativeToolTip": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
+              "ViewState": "AQIAAGwAAAAAAAAAAAAUwNkAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:13:12.161Z",
+              "WhenOpened": "2025-03-19T07:28:08.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RoomGenerator3.cs",
+              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
+              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
+              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
+              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
+              "ViewState": "AQIAAO8AAAAAAAAAAAAAAAYBAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T06:54:02.145Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "RoomGenerator2.cs",
+              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T03:25:17.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ComputerMiniGame.cs",
+              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
+              "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
+              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
+              "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T00:13:12.161Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MashingGameScript.cs",
-              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
+              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
               "RelativeDocumentMoniker": "Assets\\Jason\\MashingGameScript.cs",
-              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\Projects\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
+              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
               "RelativeToolTip": "Assets\\Jason\\MashingGameScript.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAYwCcAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:10:14.357Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T00:10:14.357Z"
             }
           ]
         }

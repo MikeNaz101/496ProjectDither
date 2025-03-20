@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 
-public class RoomGenerator2 : MonoBehaviour
+public class RoomGenerator3 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
-    private int numRooms = 2;
+    private int numRooms = 15;
     private bool[][] status;
     public int[][] roomDoors;
     //private List<Vector3> doors = new List<Vector3>(); // Store doors
@@ -18,7 +18,7 @@ public class RoomGenerator2 : MonoBehaviour
     private GameObject playerInstance;
     private Vector3 roomsSpacingBuff = new Vector3(15, 0, 15);
 
-    void InitializeStatus(int numRooms)
+    /*void InitializeStatus(int numRooms)
     {
         status = new bool[numRooms][]; // Initialize outer array
 
@@ -35,22 +35,35 @@ public class RoomGenerator2 : MonoBehaviour
         {
             roomDoors[i] = new int[4]; // Initialize inner arrays
         }
-    }
-    public struct DoorData
+    }*/
+    public struct Room
     {
-        //public int[][] roomDoors;
+        public Bounds roomBounds;
         public Vector3 position;
-        public int facingDirection; // 1=North, 2=East, 3=South, 4=West
-        public bool isConnected;
 
-        public DoorData(Vector3 pos, int dir)
+        public Room(Bounds bounds, Vector3 pos)
         {
+            roomBounds = bounds;
             position = pos;
-            facingDirection = dir;
-            isConnected = false; // Initialize to not connected
         }
     }
-    private List<DoorData> doors = new List<DoorData>();
+
+    public struct Door
+    {
+        public Vector3 position;
+        public bool isConnected;
+        public int direction;
+
+        public Door(Vector3 pos, bool connected, int dir)
+        {
+            position = pos;
+            isConnected = connected;
+            direction = dir;
+        }
+    }
+
+    
+    private List<Door> doors = new List<Door>();
     private class DoorConnection  // Helper class for connections
     {
         public int DoorIndexA;
@@ -247,7 +260,7 @@ public class RoomGenerator2 : MonoBehaviour
         }
 
         int facingDir = GetDoorDirection(doorPos); // doorPos is calculated *inside* GenerateWallWithDoor
-        doors.Add(new DoorData(doorPos, facingDir));
+        doors.Add(new Door(doorPos, false, facingDir));
 
         // Create walls
         GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);

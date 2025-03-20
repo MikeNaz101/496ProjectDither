@@ -66,7 +66,7 @@ public class ProceduralRoomGenerator : MonoBehaviour
                     Debug.Log("HEre");
                 }
             }
-            if (i == 0)
+            /*if (i == 0)
             {
                 playerInstance = Instantiate(playerPrefab, new Vector3(roomBounds[0].center.x, 0.5f, roomBounds[0].center.z), Quaternion.identity);
                 playerInstance.name = "Player";
@@ -102,7 +102,7 @@ public class ProceduralRoomGenerator : MonoBehaviour
                 MikesWeepingAngel angelScript = angelInstance.GetComponent<MikesWeepingAngel>();
                 angelScript.playerCam = playerInstance.GetComponentInChildren<Camera>();
                 roomPlaced = false;
-            }
+            }*/
         }
         GenerateCorridors();
     }
@@ -153,8 +153,6 @@ public class ProceduralRoomGenerator : MonoBehaviour
                 wall.transform.parent = parent.transform;
             }
         }
-
-        //GenerateDoorAndWindows(parent, position, width, height, wallHeight);
 
     }
     private void GenerateWallWithDoor(GameObject parent, Vector3 position, Vector3 scale)
