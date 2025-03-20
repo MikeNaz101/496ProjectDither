@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
+using System.CodeDom.Compiler;
 
 public class RoomGenerator3 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
-    private int numRooms = 15;
+    private int numRooms = 5;
+    private int maxDoorsPerRoom = 4;
     private bool[][] status;
     public int[][] roomDoors;
     //private List<Vector3> doors = new List<Vector3>(); // Store doors
-    private List<Bounds> roomBounds = new List<Bounds>();
+    //private List<Bounds> roomBounds = new List<Bounds>();
     private List<Bounds> CorridorSegmentBounds = new List<Bounds>();
     private Vector2 roomSizeMinMax = new Vector2(12, 28);
     private Vector2 bigRoomSize = new Vector2(200, 200);
@@ -36,7 +38,7 @@ public class RoomGenerator3 : MonoBehaviour
             roomDoors[i] = new int[4]; // Initialize inner arrays
         }
     }*/
-    public struct Room
+    /*public struct Room
     {
         public Bounds roomBounds;
         public Vector3 position;
@@ -60,11 +62,38 @@ public class RoomGenerator3 : MonoBehaviour
             isConnected = connected;
             direction = dir;
         }
+    }*/
+
+    public class Room
+    {
+        public Bounds roomBounds;
+        public Vector3 position;
+
+        public Room(Bounds bounds, Vector3 pos)
+        {
+            roomBounds = bounds;
+            position = pos;
+        }
     }
 
-    
+    public struct Door
+    {
+        public Vector3 position;
+        public bool isConnected;
+        public int direction;
+        public Room associatedRoom; // Direct reference
+
+        public Door(Vector3 pos, bool connected, int dir, Room room)
+        {
+            position = pos;
+            isConnected = connected;
+            direction = dir;
+            associatedRoom = room;
+        }
+    }
+    private List<Room> rooms = new List<Room>();
     private List<Door> doors = new List<Door>();
-    private class DoorConnection  // Helper class for connections
+    /*private class DoorConnection  // Helper class for connections
     {
         public int DoorIndexA;
         public int DoorIndexB;
@@ -76,20 +105,20 @@ public class RoomGenerator3 : MonoBehaviour
             DoorIndexB = b;
             Distance = distance;
         }
-    }
+    }*/
 
     void Start()
     {
         GenerateRooms();
-        GenerateCorridors();
+        //GenerateCorridors();
         BakeNavMesh();
     }
 
-    void GenerateBigRoom()
+    /*void GenerateBigRoom()
     {
         GameObject bigRoom = new GameObject("BigRoom");
         GenerateWalls(bigRoom, Vector3.zero, bigRoomSize.x, bigRoomSize.y, 10);
-    }
+    }*/
 
     // Generates multiple rooms within the defined bounds, avoiding overlaps.
     public void GenerateRooms()
@@ -110,17 +139,22 @@ public class RoomGenerator3 : MonoBehaviour
                 float posZ = Random.Range(-bigRoomSize.y / 2 + roomWidth / 2, bigRoomSize.y / 2 - roomWidth / 2);
 
                 Bounds newRoomBounds = new Bounds(new Vector3(posX, 0, posZ), new Vector3(roomWidth, 1, roomHeight));
-                if (!IsOverlapping(newRoomBounds, roomBounds))
+                if (!IsOverlapping(newRoomBounds, rooms))
                 {
-                    roomBounds.Add(newRoomBounds);
+                    //roomBounds.Add(newRoomBounds);
                     roomPlaced = true;
                     GameObject room = new GameObject("Room_" + i);
                     room.transform.position = new Vector3(posX, 0, posZ);
+
+                    // Create a Room object
+                    Room newRoom = new Room(newRoomBounds, room.transform.position);
+                    // Add the Room object to the list
+                    rooms.Add(newRoom);
                     GenerateWalls(room, room.transform.position, roomWidth, roomHeight, 20);
                 }
             }
             //Object Spawns
-            if (i == 0)
+            /*if (i == 0)
             {
                 playerInstance = Instantiate(playerPrefab, new Vector3(roomBounds[0].center.x, 0.5f, roomBounds[0].center.z), Quaternion.identity);
                 playerInstance.name = "Player";
@@ -154,12 +188,51 @@ public class RoomGenerator3 : MonoBehaviour
                 angelInstance.name = "Angel";
                 MikesWeepingAngel angelScript = angelInstance.GetComponent<MikesWeepingAngel>();
                 angelScript.playerCam = playerInstance.GetComponentInChildren<Camera>();
+            }*/
+        }
+        
+        int[,] roomDoors = new int[rooms.Count, maxDoorsPerRoom];
+
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                roomDoors[i, j] = j; // Store door index
+
+                /*if (rooms[i].roomBounds.Contains(doors[j].position))
+                {
+                    roomDoors[i, j] = j; // Store door index
+                }
+                else
+                {
+                    roomDoors[i, j] = -1; // No door assigned
+                }*/
             }
         }
     }
 
     // Checks if a new room bounds overlaps with any existing room bounds, considering a minimum spacing.
-    private bool IsOverlapping(Bounds newBounds, List<Bounds> existingBounds)
+    private bool IsOverlapping(Bounds newBounds, List<Room> existingRooms)
+    {
+        float minSpacing = 10f; // Minimum distance between rooms.
+
+        foreach (Room room in existingRooms)
+        {
+            // Create a copy of the existing room's bounds.
+            Bounds expandedBounds = room.roomBounds;
+
+            // Expand the bounds by half the minimum spacing in each direction.
+            expandedBounds.Expand(minSpacing);
+
+            if (expandedBounds.Intersects(newBounds))
+            {
+                return true; // Overlaps with expanded bounds, so it's too close.
+            }
+        }
+        return false; // No overlaps found.
+    }
+
+    /*private bool IsOverlapping(Bounds newBounds, List<Bounds> existingBounds)
     {
         float minSpacing = 10f; // The minimum distance between rooms.
 
@@ -179,7 +252,7 @@ public class RoomGenerator3 : MonoBehaviour
             }
         }
         return false; // No overlaps found.
-    }
+    }*/
 
     // Generates walls for a room, including two walls with doors.
     private void GenerateWalls(GameObject parent, Vector3 position, float width, float height, float wallHeight)
@@ -260,7 +333,7 @@ public class RoomGenerator3 : MonoBehaviour
         }
 
         int facingDir = GetDoorDirection(doorPos); // doorPos is calculated *inside* GenerateWallWithDoor
-        doors.Add(new Door(doorPos, false, facingDir));
+        doors.Add(new Door(doorPos, false, facingDir, rooms[rooms.Count-1]));
 
         // Create walls
         GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -299,7 +372,7 @@ public class RoomGenerator3 : MonoBehaviour
             return 0; // Invalid direction
         }
 
-        Bounds roomBound = roomBounds[roomIndex];
+        Bounds roomBound = rooms[rooms.Count-1].roomBounds;
         string relativeDirection = GetRelativeDirection(doorPosition, roomBound.center);
 
         switch (relativeDirection)
@@ -330,6 +403,109 @@ public class RoomGenerator3 : MonoBehaviour
         else  // Prioritize vertical direction
         {
             return z > 0 ? "North" : "South";
+        }
+    }
+
+    private void CreateCorridors()
+    {
+        //This list is going to store the points in which the corridor takes to reach the end door. 
+        //this will be used to test overlapping and then draw out the corridors if not overlapping.
+        List<Vector3> currentPathPoints = new List<Vector3>(); 
+        List<Vector3> pathPoints = new List<Vector3>(); 
+
+        for(int i = 0; i<rooms.Count; i++)
+        {
+            for(int j = i+1; j<rooms.Count; j++)
+            {
+                for(int k = 0; k<maxDoorsPerRoom; k++)
+                {
+                    Door startingPoint = doors[roomDoors[i][k]];
+                    Door endingPoint = doors[roomDoors[i][(k+2)%4]];
+                    currentPathPoints.Add(startingPoint.position);
+                    float vertDirection = startingPoint.position.z - endingPoint.position.z;
+                    float horizDirection = startingPoint.position.x - endingPoint.position.x;
+
+                    //This is to draw out from the starting door.
+                    if (!startingPoint.isConnected && !endingPoint.isConnected)
+                    {
+                        if(startingPoint.direction == 3) //if starting door faces south (down)
+                        {
+                            currentPathPoints.Add(startingPoint.position - new Vector3(0,0,10f));
+                        }
+                        else if(startingPoint.direction == 2 || startingPoint.direction == 4)
+                        {
+                            currentPathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                        }
+                        else
+                        {
+                            currentPathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
+                        }
+
+                        
+                        if(vertDirection > 0) // if the ending door is below the current door (down)
+                        {
+                            if(startingPoint.direction == 3) //if starting door faces south (down/3)
+                            {
+                                pathPoints.Add(currentPathPoints[0] + new Vector3(0,0,endingPoint.position.z));
+                            }
+                            else if(startingPoint.direction == 2) //if starting door faces East (right/2)
+                            {
+                                if(horizDirection < 0) // ending door is to the Right/East/2
+                                {
+                                    pathPoints.Add(currentPathPoints[0] + new Vector3(endingPoint.position.x,0,0));
+                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                                }
+                                else
+                                {
+                                    pathPoints.Add(currentPathPoints[0] + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                                }
+                            }
+                            else if(startingPoint.direction == 2 || startingPoint.direction == 4)
+                            {
+                                pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                            }
+                            else
+                            {
+                                pathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
+                            }
+
+
+                            if (horizDirection > 0) // has to turn left (west/3)
+                            {
+                                pathPoints.Add(currentPathPoints[0] - new Vector3(endingPoint.position.x,0,0));//.normalized);
+                            }
+                            else
+                            {
+                                pathPoints.Add(currentPathPoints[0] + new Vector3(endingPoint.position.x,0,0));
+                            }
+                        }
+                        else // if the ending door is above the current door (up)
+                        {
+                            if(startingPoint.direction == 3) //if starting door faces north (up)
+                            {
+                                pathPoints.Add(startingPoint.position - new Vector3(0,0,10f));
+                            }
+                            else if(startingPoint.direction == 2 || startingPoint.direction == 4)
+                            {
+                                pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                            }
+                            else
+                            {
+                                pathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
+                            }
+
+                            if (horizDirection > 0)
+                            {
+
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -757,13 +933,13 @@ public class RoomGenerator3 : MonoBehaviour
         Bounds segmentBounds = new Bounds(center, size);
 
         // Check against ALL room bounds.
-        foreach (Bounds roomBound in roomBounds)
+        /*foreach (Bounds roomBound in rooms)
         {
             if (segmentBounds.Intersects(roomBound))
             {
                 return false; // Overlaps a room, so it's invalid.
             }
-        }
+        }*/
 
         // Check against other corridor segments ---
         foreach (Bounds otherSegmentBounds in CorridorSegmentBounds)
@@ -778,7 +954,7 @@ public class RoomGenerator3 : MonoBehaviour
     }
 
     // Generates corridors between rooms, connecting doors based on proximity and avoiding overlaps.
-    private void GenerateCorridors()
+    /*private void GenerateCorridors()
     {
         if (doors.Count == 0) return;
 
@@ -814,11 +990,11 @@ public class RoomGenerator3 : MonoBehaviour
                 selectedConnections.Add(connection);
 
                 // Mark doors as connected using the struct!
-                DoorData doorA = doors[connection.DoorIndexA];
+                Door doorA = doors[connection.DoorIndexA];
                 doorA.isConnected = true;
                 doors[connection.DoorIndexA] = doorA;  // Reassign the modified struct
 
-                DoorData doorB = doors[connection.DoorIndexB];
+                Door doorB = doors[connection.DoorIndexB];
                 doorB.isConnected = true;
                 doors[connection.DoorIndexB] = doorB;
 
@@ -826,21 +1002,21 @@ public class RoomGenerator3 : MonoBehaviour
         }
 
         // Create the corridors.
-        foreach (DoorConnection connection in selectedConnections)
+        /*foreach (DoorConnection connection in selectedConnections)
         {
             // Now you can directly access .facingDirection
             CreateDirectionalCorridor(doors[connection.DoorIndexA].position, doors[connection.DoorIndexB].position,
                                      doors[connection.DoorIndexA].facingDirection, doors[connection.DoorIndexB].facingDirection);
         }
-    }
+    }*/
 
     // Gets the index of the room that contains a given door position.
     private int GetRoomIndex(Vector3 doorPosition)
     {
-        for (int i = 0; i < roomBounds.Count; i++)
+        for (int i = 0; i < rooms.Count; i++)
         {
             // Expand the bounds slightly to account for doors on the edges.
-            Bounds expandedBounds = roomBounds[i];
+            Bounds expandedBounds = rooms[i].roomBounds;
             expandedBounds.Expand(new Vector3(3f, 0, 3f)); //Expand by the door width + extra for connections
 
             if (expandedBounds.Contains(doorPosition))

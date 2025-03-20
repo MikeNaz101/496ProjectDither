@@ -107,7 +107,7 @@ public class RoomGenerator2 : MonoBehaviour
                 }
             }
             //Object Spawns
-            if (i == 0)
+            /*if (i == 0)
             {
                 playerInstance = Instantiate(playerPrefab, new Vector3(roomBounds[0].center.x, 0.5f, roomBounds[0].center.z), Quaternion.identity);
                 playerInstance.name = "Player";
@@ -141,7 +141,7 @@ public class RoomGenerator2 : MonoBehaviour
                 angelInstance.name = "Angel";
                 MikesWeepingAngel angelScript = angelInstance.GetComponent<MikesWeepingAngel>();
                 angelScript.playerCam = playerInstance.GetComponentInChildren<Camera>();
-            }
+            }*/
         }
     }
 
