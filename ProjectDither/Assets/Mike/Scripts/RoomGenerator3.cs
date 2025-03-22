@@ -389,7 +389,7 @@ public class RoomGenerator3 : MonoBehaviour
         //This list is going to store the points in which the corridor takes to reach the end door. 
         //this will be used to test overlapping and then draw out the corridors if not overlapping.
         List<Vector3> currentPathPoints = new List<Vector3>(); 
-        List<Vector3> pathPoints = new List<Vector3>(); 
+        //List<Vector3> pathPoints = new List<Vector3>(); 
 
         for(int i = 0; i<rooms.Count; i++)
         {
@@ -401,12 +401,13 @@ public class RoomGenerator3 : MonoBehaviour
                     Debug.Log("roomDoors[j,(k+2)%4] = " + roomDoors[j,(k+2)%4]);
                     Door startingPoint = doors[roomDoors[i,k]];
                     Door endingPoint = doors[roomDoors[j,(k+2)%4]];
+                    currentPathPoints.Clear();
                     currentPathPoints.Add(startingPoint.position);
                     float vertDirection = startingPoint.position.z - endingPoint.position.z;
                     float horizDirection = startingPoint.position.x - endingPoint.position.x;
 
                     //This is to draw out from the starting door.
-                    if (!startingPoint.isConnected && !endingPoint.isConnected)
+                    if (!startingPoint.isConnected && !endingPoint.isConnected) // checks if both doors are already connected
                     {
                         if(startingPoint.direction == 3) // if starting door faces south (down)
                         {
@@ -432,12 +433,9 @@ public class RoomGenerator3 : MonoBehaviour
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                                 }
                                 else
                                 {
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                 }
                             }
@@ -446,8 +444,6 @@ public class RoomGenerator3 : MonoBehaviour
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                                 }
                                 else
                                 {
@@ -462,15 +458,10 @@ public class RoomGenerator3 : MonoBehaviour
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                     
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    
                                 }
                                 else
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                 }
                             }
                             else
@@ -480,16 +471,12 @@ public class RoomGenerator3 : MonoBehaviour
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                                 }
                                 else
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                 }
                             }
                         }
@@ -504,16 +491,13 @@ public class RoomGenerator3 : MonoBehaviour
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                                 }
                                 else
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    
                                 }
                             }
                             else if(startingPoint.direction == 2) //if starting door faces East (right/2)
@@ -521,8 +505,7 @@ public class RoomGenerator3 : MonoBehaviour
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                                    
                                 }
                                 else
                                 {
@@ -536,16 +519,10 @@ public class RoomGenerator3 : MonoBehaviour
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    
                                 }
                                 else
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                 }
                             }
                             else
@@ -554,18 +531,18 @@ public class RoomGenerator3 : MonoBehaviour
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + new Vector3(endingPoint.position.x,0,0));
-                                    //pathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                                 }
                                 else
                                 {
-                                    //currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
                                     currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
                                 }
                             }
                         }
+                        doors[roomDoors[i, k]].isConnected = true;
+                        doors[roomDoors[j, (k+2)%4]].isConnected = true;
                         existingCorridors.Add(currentPathPoints);
-                        if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 4))
+                        Debug.Log("existingCorridors.Count = " + existingCorridors.Count);
+                        /*if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 0))
                         {
                             doors[roomDoors[i, k]].isConnected = true;
                             doors[roomDoors[j, (k+2)%4]].isConnected = true;
@@ -573,9 +550,9 @@ public class RoomGenerator3 : MonoBehaviour
                         else
                         {
                             existingCorridors.RemoveAt(existingCorridors.Count - 1);
-                        }
+                            Debug.Log("removed existing corridor");
+                        }*/
                     }
-                    
                 }
             }
         }
@@ -602,6 +579,7 @@ public class RoomGenerator3 : MonoBehaviour
     {
         foreach (List<Vector3> corridorPath in existingCorridorPaths) // Loop through each stored corridor path
         {
+            Debug.Log("Building corridors from " + corridorPath);
             for (int i = 0; i < corridorPath.Count - 1; i++) // Loop through points in the path
             {
                 Vector3 startPos = corridorPath[i];
