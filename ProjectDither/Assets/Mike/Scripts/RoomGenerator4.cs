@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.AI.Navigation;
 using System.CodeDom.Compiler;
 
-public class RoomGenerator3 : MonoBehaviour
+public class RoomGenerator4 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
     private int numRooms = 5;
@@ -136,14 +136,13 @@ public class RoomGenerator3 : MonoBehaviour
         }
         
         roomDoors = new int[rooms.Count, maxDoorsPerRoom];
-        int doorCount = 0;
+
         for (int i = 0; i < rooms.Count; i++)
         {
             for (int j = 0; j < maxDoorsPerRoom; j++)
             {
 
-                roomDoors[i, j] = doorCount; // Store the door index in the 2D array
-                doorCount++;
+                roomDoors[i, j] = j; // Store the door index in the 2D array
                 Debug.Log("roomDoors[i, j]" + roomDoors[i,j]);
                 // Check if a door exists for this room and if it lies within the room bounds
                 /*if (j < doors.Count && rooms[i].roomBounds.Contains(doors[j].position))
@@ -404,15 +403,15 @@ public class RoomGenerator3 : MonoBehaviour
                     Debug.Log("roomDoors[j,(k+2)%4] To = " + roomDoors[j,(k+2)%4]);
                     Door startingPoint = doors[roomDoors[i,k]];
                     Door endingPoint = doors[roomDoors[j,(k+2)%4]];
-                   // currentPathPoints.Clear();
-                   // currentPathPoints.Add(startingPoint.position);
+                    currentPathPoints.Clear();
+                    currentPathPoints.Add(startingPoint.position);
                     float vertDirection = startingPoint.position.z - endingPoint.position.z;
                     float horizDirection = startingPoint.position.x - endingPoint.position.x;
 
                     //This is to draw out from the starting door.
                     if (!startingPoint.isConnected && !endingPoint.isConnected) // checks if both doors are already connected
                     {
-                        /*if(startingPoint.direction == 3) // if starting door faces south (down)
+                        if(startingPoint.direction == 3) // if starting door faces south (down)
                         {
                             currentPathPoints.Add(startingPoint.position - new Vector3(0,0,10f));
                         }
@@ -421,11 +420,6 @@ public class RoomGenerator3 : MonoBehaviour
                             currentPathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
                         }
                         else // if starting door faces North (Up)
-                        {
-                            currentPathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
-                        }*/
-                        //if(startingPoint.direction == 1)
-                        if(roomDoors[i,k]%4==0)
                         {
                             currentPathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
                         }
@@ -550,7 +544,7 @@ public class RoomGenerator3 : MonoBehaviour
                         doors[roomDoors[j, (k+2)%4]].isConnected = true;*/
                         existingCorridors.Add(currentPathPoints);
                         Debug.Log("existingCorridors.Count = " + existingCorridors.Count);
-                        if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 0))
+                        /*if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 0))
                         {
                             doors[roomDoors[i, k]].isConnected = true;
                             doors[roomDoors[j, (k+2)%4]].isConnected = true;
@@ -559,7 +553,7 @@ public class RoomGenerator3 : MonoBehaviour
                         {
                             existingCorridors.RemoveAt(existingCorridors.Count - 1);
                             Debug.Log("removed existing corridor");
-                        }
+                        }*/
                     }
                 }
             }
