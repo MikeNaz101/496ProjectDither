@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
+<<<<<<< Updated upstream
       "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,6 +22,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\sethk\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> Stashed changes
     }
   ],
   "DocumentGroupContainers": [
@@ -34,6 +43,7 @@
           "Children": [
             {
               "$type": "Document",
+<<<<<<< Updated upstream
               "DocumentIndex": 2,
               "Title": "ProceduralRoomGenerator.cs",
               "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
@@ -43,6 +53,30 @@
               "ViewState": "AQIAAGwAAAAAAAAAAAAUwNkAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-19T07:28:08.689Z",
+=======
+              "DocumentIndex": 0,
+              "Title": "Phone_Answer.cs",
+              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
+              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
+              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
+              "RelativeToolTip": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T20:45:59.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TaskManeger.cs",
+              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "RelativeToolTip": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAAAEIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T23:17:48.867Z",
+>>>>>>> Stashed changes
               "EditorCaption": ""
             },
             {
