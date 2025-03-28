@@ -6,7 +6,7 @@ using System.CodeDom.Compiler;
 public class RoomGenerator3 : MonoBehaviour
 {
     public NavMeshSurface navMeshSurface;
-    private int numRooms = 5;
+    private int numRooms = 2;
     private int maxDoorsPerRoom = 4;
     private bool[][] status;
     public int[,] roomDoors;
@@ -242,16 +242,17 @@ public class RoomGenerator3 : MonoBehaviour
         Vector3[] wallPositions =
          {
             new Vector3(position.x, wallHeight / 2, position.z + height / 2),  // North
+            new Vector3(position.x + width / 2, wallHeight / 2,  position.z), // East
             new Vector3(position.x, wallHeight / 2, position.z - height / 2),  // South
-            new Vector3(position.x + width / 2, wallHeight / 2,  position.z), // West
-            new Vector3(position.x - width / 2, wallHeight / 2,  position.z)  // East
-        };
-
+            new Vector3(position.x - width / 2, wallHeight / 2,  position.z), // West
+            
+        };// check is bugs in wall structure
         Vector3[] wallScales = {
             new Vector3(width, wallHeight, 0.1f), // North/South
+            new Vector3(0.1f, wallHeight, height), // West/East
             new Vector3(width, wallHeight, 0.1f), // North/South
             new Vector3(0.1f, wallHeight, height),// West/East
-            new Vector3(0.1f, wallHeight, height) // West/East
+            
         };
         // Select two walls to have doors
         /*int doorWall1 = Random.Range(0, 4);
@@ -315,6 +316,8 @@ public class RoomGenerator3 : MonoBehaviour
 
         int facingDir = GetDoorDirection(doorPos); // doorPos is calculated *inside* GenerateWallWithDoor
         doors.Add(new Door(doorPos, false, facingDir, rooms[rooms.Count-1]));
+        Debug.Log("Door number " + (doors.Count-1) +"=" + doors[doors.Count-1].position);
+        Debug.Log("Door number " + (doors.Count-1) +"' direction =" + doors[doors.Count-1].direction);
 
         // Create walls
         GameObject leftWall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -379,7 +382,7 @@ public class RoomGenerator3 : MonoBehaviour
 
         if (Mathf.Abs(x) > Mathf.Abs(z)) // Prioritize horizontal direction
         {
-            return x < 0 ? "East" : "West";
+            return x < 0 ? "West" : "East";
         }
         else  // Prioritize vertical direction
         {
@@ -396,161 +399,173 @@ public class RoomGenerator3 : MonoBehaviour
 
         for(int i = 0; i<rooms.Count; i++)   //5
         {
-            for(int j = i+1; j<rooms.Count; j++)  // 1 - 5
+            for(int j = 0; j<rooms.Count; j++)  // 1 - 5
             {
+                if(i==j)continue;
                 for(int k = 0; k<maxDoorsPerRoom; k++)  //4
                 {
+                    
                     Debug.Log("roomDoors[i][k] From = " + roomDoors[i,k]);
                     Debug.Log("roomDoors[j,(k+2)%4] To = " + roomDoors[j,(k+2)%4]);
-                    Door startingPoint = doors[roomDoors[i,k]];
-                    Door endingPoint = doors[roomDoors[j,(k+2)%4]];
-                   // currentPathPoints.Clear();
-                   // currentPathPoints.Add(startingPoint.position);
-                    float vertDirection = startingPoint.position.z - endingPoint.position.z;
-                    float horizDirection = startingPoint.position.x - endingPoint.position.x;
+                    Door startingDoor = doors[roomDoors[i,k]];
+                    Door endingDoor = doors[roomDoors[j,(k+2)%4]];
+                    currentPathPoints.Clear();
+                   // currentPathPoints.Add(startingDoor.position);
+                    float vertDirection = startingDoor.position.z - endingDoor.position.z;
+                    float horizDirection = startingDoor.position.x - endingDoor.position.x;
 
                     //This is to draw out from the starting door.
-                    if (!startingPoint.isConnected && !endingPoint.isConnected) // checks if both doors are already connected
+                    if (!startingDoor.isConnected && !endingDoor.isConnected) // checks if both doors are already connected
                     {
-                        /*if(startingPoint.direction == 3) // if starting door faces south (down)
+                        /*if(startingDoor.direction == 3) // if starting door faces south (down)
                         {
-                            currentPathPoints.Add(startingPoint.position - new Vector3(0,0,10f));
+                            currentPathPoints.Add(startingDoor.position - new Vector3(0,0,10f));
                         }
-                        else if(startingPoint.direction == 2 || startingPoint.direction == 4) // if starting door faces East/Right or West/Left
+                        else if(startingDoor.direction == 2 || startingDoor.direction == 4) // if starting door faces East/Right or West/Left
                         {
-                            currentPathPoints.Add(startingPoint.position + new Vector3(10*((startingPoint.direction-2)-1),0,0));
+                            currentPathPoints.Add(startingDoor.position + new Vector3(10*((startingDoor.direction-2)-1),0,0));
                         }
                         else // if starting door faces North (Up)
                         {
-                            currentPathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
+                            currentPathPoints.Add(startingDoor.position + new Vector3(0,0,10f));
                         }*/
-                        //if(startingPoint.direction == 1)
+                        //if(startingDoor.direction == 1)
                         if(roomDoors[i,k]%4==0)
                         {
-                            currentPathPoints.Add(startingPoint.position + new Vector3(0,0,10f));
+                            //currentPathPoints.Add(startingDoor.position);
+                            //currentPathPoints.Add(startingDoor.position + new Vector3(0,0,10f));
+                            currentPathPoints.Add(startingDoor.position);
+                            currentPathPoints.Add(startingDoor.position + new Vector3(0,0,vertDirection/2));
+                            currentPathPoints.Add(endingDoor.position - new Vector3(0,0,vertDirection/2));
+                            currentPathPoints.Add(endingDoor.position);
+                            existingCorridors.Add(currentPathPoints);
+                            BuildCorridorsFromPaths(existingCorridors, 3f, 7f, 0.2f);
                         }
 
                         
-                        if(vertDirection > 0) // if the ending door is below the current door (down)
+                        if(vertDirection < 0) // if the ending door is below the current door (down)
                         {
                             //if starting door faces south (down/3) the second point in the path
                             // will be down until it reaches the same z-level as the ending door
-                            if(startingPoint.direction == 3)
+                            /*if(startingDoor.direction == 3)
                             {
-                                currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
+                                currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                             }
-                            else if(startingPoint.direction == 2) //if starting door faces East (right/2)
+                            else if(startingDoor.direction == 2) //if starting door faces East (right/2)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                             }
-                            else if(startingPoint.direction == 4)
+                            else if(startingDoor.direction == 4)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                     
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
-                            }
-                            else
+                            }*/
+                            if (startingDoor.direction == 1)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    /*currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x ,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
+                                    */
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    /*
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
+                                    */
                                 }
                             }
                         }
-                        else // if the ending door is above the current door (up)
+                        /*else // if the ending door is above the current door (up)
                         {
                             //if starting door faces south (down/3) the second point in the path
                             // will be left or right until it reaches the same x-level as the ending door
-                            if(startingPoint.direction == 3)
+                            if(startingDoor.direction == 3)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x + 3,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x + 3,0,0)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x + 3,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                     
                                 }
                             }
-                            else if(startingPoint.direction == 2) //if starting door faces East (right/2)
+                            else if(startingDoor.direction == 2) //if starting door faces East (right/2)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                     
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                             }
-                            else if(startingPoint.direction == 4)
+                            else if(startingDoor.direction == 4)
                             {
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                             }
                             else
                             {
-                                currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingPoint.position.z)));
+                                currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] - (new Vector3(0,0,currentPathPoints[currentPathPoints.Count-1].z) - new Vector3(0,0,endingDoor.position.z)));
                                 if(horizDirection < 0) // ending door is to the Right/East/2
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                                 else
                                 {
-                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingPoint.position.x,0,0)));
+                                    currentPathPoints.Add(currentPathPoints[currentPathPoints.Count-1] + (new Vector3(currentPathPoints[currentPathPoints.Count-1].x,0,0) - new Vector3(endingDoor.position.x,0,0)));
                                 }
                             }
-                        }
+                        }*/
                         /*doors[roomDoors[i, k]].isConnected = true;
                         doors[roomDoors[j, (k+2)%4]].isConnected = true;*/
-                        existingCorridors.Add(currentPathPoints);
-                        Debug.Log("existingCorridors.Count = " + existingCorridors.Count);
-                        if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 0))
+                        //existingCorridors.Add(currentPathPoints);
+                        //Debug.Log("existingCorridors.Count = " + existingCorridors.Count);
+                        /*if (!IsCorridorOverlapping(currentPathPoints, rooms, existingCorridors, 0))
                         {
                             doors[roomDoors[i, k]].isConnected = true;
                             doors[roomDoors[j, (k+2)%4]].isConnected = true;
@@ -559,12 +574,13 @@ public class RoomGenerator3 : MonoBehaviour
                         {
                             existingCorridors.RemoveAt(existingCorridors.Count - 1);
                             Debug.Log("removed existing corridor");
-                        }
+                        }*/
                     }
                 }
             }
         }
-        BuildCorridorsFromPaths(existingCorridors, 3f, 7f, 0.2f);
+    // BuildCorridorsFromPaths(existingCorridors, 3f, 7f, 0.2f);
+
     }
 
     
@@ -585,16 +601,21 @@ public class RoomGenerator3 : MonoBehaviour
     // Uses the CorridorPaths to create the corridor segments.
     private void BuildCorridorsFromPaths(List<List<Vector3>> existingCorridorPaths, float width, float height, float thickness)
     {
+        int k = 0;
+        Debug.Log("existingCorridorPaths" + existingCorridorPaths.Count);
         foreach (List<Vector3> corridorPath in existingCorridorPaths) // Loop through each stored corridor path
         {
-            Debug.Log("Building corridors from " + corridorPath);
+            
+            //Debug.Log("Building corridors from " + corridorPath[]);
             for (int i = 0; i < corridorPath.Count - 1; i++) // Loop through points in the path
             {
+                Debug.Log("Building corridors from " +  k + corridorPath[i]);
                 Vector3 startPos = corridorPath[i];
                 Vector3 endPos = corridorPath[i + 1];
 
                 CreateCorridorSegment(startPos, endPos, width, height, thickness); // Create corridor segment
             }
+            k++;
         }
     }
 
