@@ -1,35 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\headanimator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\headanimator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-=======
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\sethk\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Nick\\Task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,95 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-<<<<<<< Updated upstream
               "DocumentIndex": 2,
-              "Title": "ProceduralRoomGenerator.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAUwNkAAAA0AAAA",
+              "Title": "RoomGenerator2.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAASwJYAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T07:28:08.689Z",
-=======
-              "DocumentIndex": 0,
-              "Title": "Phone_Answer.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeToolTip": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-25T20:45:59.728Z",
+              "WhenOpened": "2025-03-28T00:35:43.481Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "TaskManeger.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
               "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
               "RelativeToolTip": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAAAEIAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAcwCoAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T23:17:48.867Z",
->>>>>>> Stashed changes
+              "WhenOpened": "2025-03-28T00:35:14.829Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RoomGenerator3.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "ViewState": "AQIAAO8AAAAAAAAAAAAAAAYBAAA3AAAA",
+              "Title": "HeadAnimator.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\HeadAnimator.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\HeadAnimator.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\HeadAnimator.cs",
+              "RelativeToolTip": "Assets\\Nick\\HeadAnimator.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T06:54:02.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RoomGenerator2.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T03:25:17.075Z",
+              "WhenOpened": "2025-03-28T00:29:06.478Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ComputerMiniGame.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Task.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Task.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs",
+              "RelativeToolTip": "Assets\\Nick\\Task.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:13:12.161Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MashingGameScript.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\MashingGameScript.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
-              "RelativeToolTip": "Assets\\Jason\\MashingGameScript.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAYwCcAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:10:14.357Z"
+              "WhenOpened": "2025-03-28T00:26:50.149Z"
             }
           ]
         }

@@ -1,22 +1,14 @@
 {
   "Version": 1,
-<<<<<<< Updated upstream
-  "WorkspaceRootPath": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\jason\\desktop\\game dev\\unity\\496projectdither\\projectdither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-=======
-  "WorkspaceRootPath": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\sethk\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\sethk\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Nick\\Task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,51 +17,32 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-<<<<<<< Updated upstream
           "DockedWidth": 200,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ComputerMiniGame.cs",
-              "DocumentMoniker": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ToolTip": "C:\\Users\\Jason\\Desktop\\Game Dev\\Unity\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAA1wCIAAAAAAAAA",
+              "Title": "TaskManeger.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "RelativeToolTip": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAASwDsAAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T20:28:58.094Z",
-=======
-          "DockedWidth": 240,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Phone_Answer.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeToolTip": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-25T20:45:59.728Z",
+              "WhenOpened": "2025-03-28T00:26:51.067Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TaskManeger.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "RelativeToolTip": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAeAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Task.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Task.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Task.cs",
+              "RelativeToolTip": "Assets\\Nick\\Task.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T23:17:48.867Z",
->>>>>>> Stashed changes
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-28T00:26:50.149Z"
             }
           ]
         }
