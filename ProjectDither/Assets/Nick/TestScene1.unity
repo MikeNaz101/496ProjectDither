@@ -119,6 +119,29 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &40798703 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2511240423080479738, guid: d5efc6aaad6f43341a3ba1c2d765de36, type: 3}
+  m_PrefabInstance: {fileID: 1156693424}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &40798707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40798703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b130396535713c54596fc152853190d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textures:
+  - {fileID: 2800000, guid: b227a87fdf0f84ba48b79b36fe5ff22a, type: 3}
+  - {fileID: 2800000, guid: dd05fdc9530c3d641a6fc30cf5c51a8c, type: 3}
+  - {fileID: 2800000, guid: 96a2b795dcc8b9d4d9725215a43bcaf3, type: 3}
+  - {fileID: 2800000, guid: dd05fdc9530c3d641a6fc30cf5c51a8c, type: 3}
+  speed: 0.25
 --- !u!1 &90352643 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: d5efc6aaad6f43341a3ba1c2d765de36, type: 3}
@@ -140,6 +163,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 5a2c5b1a95b2fc643b272f511914d119, type: 3}
   - {fileID: 2800000, guid: dd05fdc9530c3d641a6fc30cf5c51a8c, type: 3}
   - {fileID: 2800000, guid: 96a2b795dcc8b9d4d9725215a43bcaf3, type: 3}
+  speed: 1.5
 --- !u!1001 &876377775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +172,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 966339363408201843, guid: ee142010d563da04ca4f90d7be2c619b, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1157590695289246662, guid: ee142010d563da04ca4f90d7be2c619b, type: 3}
       propertyPath: m_Name
       value: Player Mike Prefab 1
@@ -296,6 +324,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: d5efc6aaad6f43341a3ba1c2d765de36, type: 3}
       insertIndex: -1
       addedObject: {fileID: 90352647}
+    - targetCorrespondingSourceObject: {fileID: -2511240423080479738, guid: d5efc6aaad6f43341a3ba1c2d765de36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 40798707}
   m_SourcePrefab: {fileID: 100100000, guid: d5efc6aaad6f43341a3ba1c2d765de36, type: 3}
 --- !u!1 &1648199363
 GameObject:
