@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nick\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\paperhand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\paperhand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nick\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,11 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "HandUI.cs",
               "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\HandUI.cs",
               "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\HandUI.cs",
@@ -35,15 +35,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PaperHand.cs",
               "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\PaperHand.cs",
               "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\PaperHand.cs",
               "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\PaperHand.cs",
               "RelativeToolTip": "Assets\\Nick\\Scripts\\PaperHand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T18:38:04.62Z"
+              "WhenOpened": "2025-04-03T18:38:04.62Z",
+              "EditorCaption": ""
             }
           ]
         }
