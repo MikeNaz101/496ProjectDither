@@ -26,7 +26,6 @@ public class PaperHand : MonoBehaviour
         }
         while (i < 5)
         {
-            Debug.Log(i);
             tmp[i].text = "";
             i++;
         }

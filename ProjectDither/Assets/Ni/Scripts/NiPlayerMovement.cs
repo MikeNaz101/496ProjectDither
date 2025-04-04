@@ -64,6 +64,7 @@ public class NiPlayerMovement : MonoBehaviour
     void OnInteract()
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Debug.DrawLine(ray.origin, ray.direction, Color.green);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactionRange, interactableLayer))

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,9 @@ public class HandUI : MonoBehaviour
     GameObject PaperHandSprite;
     [SerializeField]
     GameObject handParent;
+
+    [SerializeField]
+    TextMeshProUGUI eToInteract;
 
     Animator Am;
     Animator PaperAM;
@@ -69,6 +73,12 @@ public class HandUI : MonoBehaviour
         }
     }
 
+
+    public void makeInteractVisible(bool b)
+    {
+        eToInteract.enabled = b;
+    }
+
     void OnMove(InputValue moveVal)
     {
         movement = moveVal.Get<Vector2>();
@@ -88,7 +98,6 @@ public class HandUI : MonoBehaviour
 
     void OnViewPaper()
     {
-        Debug.Log(true);
         if (PaperState == 0)
         {
             PaperState = 1;
