@@ -182,8 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  mouseSensitivity: 100
-  cam: {fileID: 7299582048989585703}
+  mouseSensitivity: 50
+  playerCam: {fileID: 0}
+  interactionRange: 3
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &7299582048989585703
 GameObject:
   m_ObjectHideFlags: 0
