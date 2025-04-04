@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,20 +7,31 @@ public class HandUI : MonoBehaviour
     [SerializeField]
     GameObject handSprite;
     [SerializeField]
+    GameObject PaperHandSprite;
+    [SerializeField]
     GameObject handParent;
 
+    [SerializeField]
+    TextMeshProUGUI eToInteract;
+
     Animator Am;
+    Animator PaperAM;
+    
     public bool moving = false;
+    public int PaperState = 0;
+
     Vector2 mouseMovement = new Vector2();
     Vector2 movement = new Vector2();
     Vector2 InitHandPos;
     public float threshold = 60;
+
 
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Am = handSprite.GetComponent<Animator>();
+        PaperAM = PaperHandSprite.GetComponent<Animator>();
         InitHandPos = handParent.transform.position;
     }
 
@@ -61,12 +73,18 @@ public class HandUI : MonoBehaviour
         }
     }
 
-void OnMove(InputValue moveVal)
-{
-    movement = moveVal.Get<Vector2>();
-}
 
-void CenterHand()
+    public void makeInteractVisible(bool b)
+    {
+        eToInteract.enabled = b;
+    }
+
+    void OnMove(InputValue moveVal)
+    {
+        movement = moveVal.Get<Vector2>();
+    }
+
+    void CenterHand()
     {
         Vector3 distance = handParent.transform.position - new Vector3(InitHandPos.x, InitHandPos.y, 0);
         handParent.transform.position -= distance * Time.deltaTime * 2;
@@ -78,4 +96,16 @@ void CenterHand()
         //Debug.Log(mouseMovement);
     }
 
+    void OnViewPaper()
+    {
+        if (PaperState == 0)
+        {
+            PaperState = 1;
+        }
+        else
+        {
+            PaperState = 0;
+        }
+        PaperAM.SetInteger("PaperState", PaperState);
+    }
 }

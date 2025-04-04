@@ -1,35 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\raycast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\raycast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\roomgenerator2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\nickplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\nickplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\mike\\desktop\\496projectdither\\projectdither\\assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\proceduralroomgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\interactable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\interactable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\computerminigame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\ni\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\ni\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\jason\\mashinggamescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-=======
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\phone_answer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\sethk\\documents\\github\\496projectdither\\projectdither\\assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\seth\\task scripts\\taskmaneger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,95 +34,81 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-<<<<<<< Updated upstream
+              "DocumentIndex": 0,
+              "Title": "RayCast.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\RayCast.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\RayCast.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\RayCast.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\RayCast.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAC4AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T00:23:07.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProceduralRoomGenerator.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\ProceduralRoomGenerator.cs",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAUwNkAAAA0AAAA",
+              "Title": "Interactable.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\Interactable.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\Interactable.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\Interactable.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\Interactable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T07:28:08.689Z",
-=======
-              "DocumentIndex": 0,
-              "Title": "Phone_Answer.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "RelativeToolTip": "Assets\\Seth\\Task scripts\\Phone_Answer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-25T20:45:59.728Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-04T00:07:50.874Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TaskManeger.cs",
-              "DocumentMoniker": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "RelativeDocumentMoniker": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ToolTip": "C:\\Users\\sethk\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "RelativeToolTip": "Assets\\Seth\\Task scripts\\TaskManeger.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAAAEIAAAABAAAAAAAAAA==",
+              "Title": "NickPlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwCgAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T23:17:48.867Z",
->>>>>>> Stashed changes
+              "WhenOpened": "2025-04-03T22:47:34.375Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RoomGenerator3.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator3.cs",
-              "ViewState": "AQIAAO8AAAAAAAAAAAAAAAYBAAA3AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T06:54:02.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RoomGenerator2.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "RelativeToolTip": "Assets\\Mike\\Scripts\\RoomGenerator2.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T03:25:17.075Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ComputerMiniGame.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\ComputerMiniGame.cs",
-              "RelativeToolTip": "Assets\\Jason\\ComputerMiniGame.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:13:12.161Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "MashingGameScript.cs",
-              "DocumentMoniker": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Jason\\MashingGameScript.cs",
-              "ToolTip": "C:\\Users\\Mike\\Desktop\\496ProjectDither\\ProjectDither\\Assets\\Jason\\MashingGameScript.cs",
-              "RelativeToolTip": "Assets\\Jason\\MashingGameScript.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAYwCcAAAARAAAAAAAAAA==",
+              "Title": "NiPlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
+              "RelativeToolTip": "Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T00:10:14.357Z"
+              "WhenOpened": "2025-04-03T23:44:48.617Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InteractableObject.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\InteractableObject.cs",
+              "RelativeDocumentMoniker": "Assets\\Ni\\Scripts\\InteractableObject.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\InteractableObject.cs",
+              "RelativeToolTip": "Assets\\Ni\\Scripts\\InteractableObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T23:43:32.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HandUI.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\HandUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\HandUI.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\HandUI.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\HandUI.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAADgv2MAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T18:17:46.343Z"
             }
           ]
         }
