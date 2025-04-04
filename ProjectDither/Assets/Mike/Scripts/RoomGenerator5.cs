@@ -3,18 +3,19 @@ using UnityEngine;
 using Unity.AI.Navigation;
 using System.Linq; // Needed for OrderBy
 
-public class RoomGenerator3 : MonoBehaviour
+public class RoomGenerator5 : MonoBehaviour
 {
     [Header("Generation Settings")]
-    public int numRooms = 8; // How many rooms to generate
+    public int numRooms = 10; // How many rooms to generate
     public Vector2 roomSizeMinMax = new Vector2(12, 28); // Min/Max width and depth for rooms
     public Vector2 bigRoomSize = new Vector2(200, 200); // Area within which rooms are placed
-
+    public float minRoomSeparation = 10.0f; // <--- ADD THIS LINE: Minimum distance between room edges
     [Header("Corridor Settings")]
     public float corridorWallThickness = 0.1f;
     public float corridorHeight = 7f;
     public float corridorWidth = 3f;
     public float corridorClearance = 2.0f; // Min distance corridors keep from rooms/other corridors/corners
+    public float corridorInitialStraightLength = 3.0f; // <--- ADD THIS LINE: Distance corridor goes straight from door first
 
     [Header("Prefabs & Components")]
     public NavMeshSurface navMeshSurface; // Assign the NavMesh Surface component here
@@ -119,7 +120,7 @@ public class RoomGenerator3 : MonoBehaviour
                 // Ground Y-level is 0
                 Bounds newRoomBounds = new Bounds(new Vector3(posX, 0, posZ), new Vector3(roomWidth, 1, roomHeight)); // Use Y=1 for bounds height initially
 
-                if (!DoesRoomOverlap(newRoomBounds, rooms, corridorClearance * 2f))
+                if (!DoesRoomOverlap(newRoomBounds, rooms, minRoomSeparation))
                 {
                     roomPlaced = true;
                     GameObject roomGO = new GameObject("Room_" + i);
@@ -524,61 +525,83 @@ public class RoomGenerator3 : MonoBehaviour
         Debug.Log($"Finished corridor connection process. Made {connectionsMade} connections.");
     }
 
-    // Calculates a simple L-shaped path between two doors. Returns PathCalculationResult.
+    // Calculates a simple L-shaped path between two doors, ensuring BOTH start and end segments have a minimum straight length.
     private PathCalculationResult CalculateLPath(Door startDoor, Door endDoor)
     {
         List<Vector3> path = new List<Vector3>();
-        float stepOut = corridorWidth / 2.0f; // How far the path centerline steps out from the wall
+        // Removed stepOutEnd, as we now use corridorInitialStraightLength for both ends
 
         Vector3 startDir = GetDirectionVector(startDoor.direction);
-        Vector3 endDir = GetDirectionVector(endDoor.direction); // Use end door's actual direction vector
+        Vector3 endDir = GetDirectionVector(endDoor.direction);
 
         Vector3 p0 = startDoor.position; // Start point on wall
-        Vector3 p1 = p0 + startDir * stepOut; // Point just outside start wall
+        // p1 uses the setting for the initial straight distance
+        Vector3 p1 = p0 + startDir * corridorInitialStraightLength; // Point defined distance straight out from start wall
 
         Vector3 p4 = endDoor.position; // End point on wall
-        Vector3 p3 = p4 + endDir * stepOut; // Point just outside end wall
+        // --- MODIFIED p3 CALCULATION ---
+        // p3 now mirrors p1, using the same straight length setting but relative to the end door
+        Vector3 p3 = p4 + endDir * corridorInitialStraightLength; // Point defined distance straight "out" from end wall
 
-        // Check if doors are roughly aligned vertically or horizontally (straight path)
+        // Check if points p1 and p3 are roughly aligned vertically or horizontally
         bool alignedX = Mathf.Abs(p1.x - p3.x) < 0.1f;
         bool alignedZ = Mathf.Abs(p1.z - p3.z) < 0.1f;
 
         Vector3 p2 = Vector3.zero; // Corner point
         bool hasCorner = false;
 
-        if (alignedX && alignedZ) // Points p1 and p3 are virtually identical
+        // Clear path list before adding points
+        path.Clear();
+        path.Add(p0); // Always start at the door center
+
+        if (Vector3.Distance(p1, p3) < 0.1f) // If p1 and p3 are nearly the same spot
         {
-             path.AddRange(new Vector3[] { p0, p1, p4 }); // Straight shot from door to door essentially
-             hasCorner = false;
+            // Path will be p0 -> p1 -> p4 (p1 and p3 are merged)
+            if(Vector3.Distance(p0, p1) > 0.05f) path.Add(p1);
+            if(Vector3.Distance(path[path.Count - 1], p4) > 0.05f) path.Add(p4);
+            hasCorner = false;
         }
         else if (alignedX || alignedZ) // Straight path segment needed between p1 and p3
         {
-            path.AddRange(new Vector3[] { p0, p1, p3, p4 });
+            // Path is p0 -> p1 -> p3 -> p4
+             if(Vector3.Distance(p0, p1) > 0.05f) path.Add(p1);
+             if(Vector3.Distance(path[path.Count - 1], p3) > 0.05f) path.Add(p3);
+             if(Vector3.Distance(path[path.Count - 1], p4) > 0.05f) path.Add(p4);
             hasCorner = false;
         }
-        else // L-path needed
+        else // L-path needed between p1 and p3
         {
             hasCorner = true;
-            // Determine the corner point (p2)
+            // Determine the corner point (p2) based on the modified p1 AND modified p3
             Vector3 cornerA = new Vector3(p1.x, 0, p3.z); // Horizontal first from p1
             Vector3 cornerB = new Vector3(p3.x, 0, p1.z); // Vertical first from p1
 
-            // Choose corner based on start door direction preference
+            // Choose corner based on start door direction preference (same logic as before)
             if (startDoor.direction == 1 || startDoor.direction == 3) p2 = cornerB; // N/S start -> prefer vertical segment first from p1
             else p2 = cornerA; // E/W start -> prefer horizontal segment first from p1
 
-             // Build the path list carefully adding distinct points
-            path.Add(p0);
-            path.Add(p1); // p1 should always be distinct from p0
-            if (Vector3.Distance(p1, p2) > 0.1f) path.Add(p2); // Add corner if distinct
-            else hasCorner = false; // Corner collapsed, effectively straight
+            // Build the path list: p0 -> p1 -> p2 -> p3 -> p4
+            if(Vector3.Distance(p0, p1) > 0.05f) path.Add(p1);
 
-            if (Vector3.Distance(p2, p3) > 0.1f || !hasCorner) // Add p3 if distinct from corner, or if path is straight
-            {
-                if(Vector3.Distance(path[path.Count-1], p3) > 0.1f) path.Add(p3);
+            // Add corner p2 only if it's distinct from p1
+            if (Vector3.Distance(path[path.Count - 1], p2) > 0.1f) {
+                path.Add(p2);
+            } else {
+                hasCorner = false; // Corner collapsed
+                 Debug.LogWarning($"Corner p2 ({p2}) collapsed onto p1 ({p1}). Treating as straight.");
             }
 
-            if(Vector3.Distance(path[path.Count-1], p4) > 0.1f) path.Add(p4); // Add end point if distinct
+            // Add p3 only if it's distinct from the last point (which could be p1 or p2)
+            if (Vector3.Distance(path[path.Count - 1], p3) > 0.1f) {
+                 path.Add(p3);
+             }
+             //else Debug.LogWarning($"Skipping p3 ({p3}) as it's too close to the previous point ({path[path.Count - 1]}).");
+
+            // Always add the final wall point p4 if distinct
+            if(Vector3.Distance(path[path.Count - 1], p4) > 0.05f) path.Add(p4);
+
+            // Final check if the corner point actually exists in the final path
+            hasCorner = hasCorner && path.Any(pt => Vector3.Distance(pt, p2) < 0.01f);
         }
 
         // Final cleanup of very close points
@@ -590,8 +613,9 @@ public class RoomGenerator3 : MonoBehaviour
             }
         }
 
-         // Return the result object
-         return new PathCalculationResult(path, p2, hasCorner && path.Count > 3); // Valid corner needs >= 4 points
+        // Return the result object
+        bool finalHasCorner = hasCorner && path.Count >= 4;
+        return new PathCalculationResult(path, p2, finalHasCorner);
     }
 
     // Enhanced overlap check using PathCalculationResult and checking corner volumes
@@ -667,160 +691,79 @@ public class RoomGenerator3 : MonoBehaviour
     // Builds the corridor geometry, adjusting segments near corners for a clean join.
     private void BuildCorridorFromPath(PathCalculationResult pathResult, float width, float height, float thickness)
     {
-        GameObject corridorParent = new GameObject($"Corridor_{corridorSegmentBounds.Count + corridorCornerBounds.Count}"); // Unique name
+        // ... (previous code for setting up parent, path, cornerPoint, etc.) ...
+        GameObject corridorParent = new GameObject($"Corridor_{corridorSegmentBounds.Count + corridorCornerBounds.Count}");
         List<Vector3> path = pathResult.Points;
         Vector3 cornerPoint = pathResult.CornerPoint;
         bool hasCorner = pathResult.HasCorner;
         float halfWidth = width / 2.0f;
 
-        // --- Identify ALL Points for Geometry Building (INCLUDING WALL POINTS p0 and p4) ---
+        // ... (code for generating geometryPoints list, including p0, p1, p2, p3, p4) ...
         List<Vector3> geometryPoints = new List<Vector3>();
-        // Use checks to prevent index out of bounds if path is unexpectedly short
-        if (path.Count >= 1) geometryPoints.Add(path[0]); // p0
-
-        if (path.Count >= 2) geometryPoints.Add(path[1]); // p1
-
-        if (hasCorner && path.Count >= 4) // Need at least p0,p1,p2,p3 for a corner path
-        {
-            // Find the actual corner point p2 in the path list reliably
-            int cornerIdx_check = -1;
-            for(int k=1; k < path.Count -1; k++) { // Search between p0 and p4
-                if(Vector3.Distance(path[k], cornerPoint) < 0.01f) {
-                    cornerIdx_check = k;
-                    break;
+        // ... (populate geometryPoints as in the previous step) ...
+         if (path.Count >= 1) geometryPoints.Add(path[0]);
+         if (path.Count >= 2) geometryPoints.Add(path[1]);
+         // ... (add p2 if corner) ...
+          if (hasCorner && path.Count >= 5)
+          {
+               // Find corner index logic (safer)
+                int cornerIdx_check = -1;
+                for(int k=1; k < path.Count -1; k++) {
+                    if(Vector3.Distance(path[k], cornerPoint) < 0.01f) {
+                        cornerIdx_check = k;
+                        break;
+                    }
                 }
-            }
-            // Use the point from the path list if found, otherwise fallback to cornerPoint property
-             if (cornerIdx_check != -1) {
-                 geometryPoints.Add(path[cornerIdx_check]); // Add the actual point p2 from the list
-             } else {
-                 Debug.LogWarning($"BuildCorridorFromPath: Corner point {cornerPoint} not found reliably in path list: {string.Join(",", path)}! Using fallback property.");
-                 geometryPoints.Add(cornerPoint); // Fallback to the property value
-             }
-        }
-
-        // Add p3 (check counts relative to a full path p0-p4 or p0-p3)
-        if (!hasCorner && path.Count >= 3) // Straight path p0,p1,p3,p4 needs at least 3 points in original path for p3
-        {
-             geometryPoints.Add(path[path.Count - 2]); // Add p3
-        }
-        else if (hasCorner && path.Count >= 4) // Corner path p0,p1,p2,p3,p4 needs at least 4 points for p3
-        {
-             geometryPoints.Add(path[path.Count - 2]); // Add p3
-        }
-
-
-        // Add p4 (check count >= 1 originally is enough for path[path.Count - 1])
+                 if (cornerIdx_check != -1) {
+                     geometryPoints.Add(path[cornerIdx_check]);
+                 } else {
+                     Debug.LogWarning("Corner point not found reliably in path list! Using fallback.");
+                     geometryPoints.Add(cornerPoint); // Fallback
+                 }
+          }
+         if (path.Count >= 3) geometryPoints.Add(path[path.Count - 2]); // p3
          if (path.Count >= 1) geometryPoints.Add(path[path.Count - 1]); // p4
+         // Use using System.Linq;
+         geometryPoints = geometryPoints.Distinct().ToList();
 
-        // Remove duplicates from collapsed points (requires System.Linq)
-        geometryPoints = geometryPoints.Distinct().ToList();
 
         // --- Build Geometry Segments ---
         for (int i = 0; i < geometryPoints.Count - 1; i++)
         {
+           // ... (code for getting startPoint, endPoint, segmentVector, segmentDirection) ...
             Vector3 startPoint = geometryPoints[i];
             Vector3 endPoint = geometryPoints[i + 1];
             Vector3 segmentVector = endPoint - startPoint;
-
-            // Skip zero-length segments robustly
-            if (segmentVector.sqrMagnitude < 0.001f) {
-                 continue;
-            }
-
+            if (segmentVector.sqrMagnitude < 0.001f) continue;
             Vector3 segmentDirection = segmentVector.normalized;
 
             Vector3 effectiveStart = startPoint;
             Vector3 effectiveEnd = endPoint;
 
-            // --- Adjust for INNER corner ---
-            if (hasCorner) {
-                // Segment is ENDING at the corner point (p2)
-                if (Vector3.Distance(endPoint, cornerPoint) < 0.01f)
-                {
-                    // Check if this segment started near p1 (the first centerline point)
-                    // path[1] should exist if hasCorner is true and path is valid
-                    bool segmentStartedAtP1 = false;
-                    if (path.Count >= 2) { // Need at least p0, p1
-                       segmentStartedAtP1 = (Vector3.Distance(startPoint, path[1]) < 0.01f);
-                    }
-
-                    // ONLY shorten (adjust effectiveEnd) if this segment DID NOT start at p1.
-                    // If it *did* start at p1 (it's the p1->p2 segment), let it run fully to the cornerPoint.
-                    if (!segmentStartedAtP1)
-                    {
-                        effectiveEnd = endPoint - segmentDirection * halfWidth;
-                         // Debug.Log($"Inner Adjust: Shortening segment {i} ending at corner.");
-                    }
-                    // else: // This is p1->p2 segment, effectiveEnd remains endPoint (cornerPoint)
-                    // { Debug.Log($"Inner Adjust: Keeping segment {i} (p1->p2) end at corner."); }
-
-                }
-                // Segment is STARTING at the corner point (p2)
-                else if (Vector3.Distance(startPoint, cornerPoint) < 0.01f)
-                {
-                    // Always apply the standard adjustment for segments starting at the corner (pushes p2->p3 start away).
-                    effectiveStart = startPoint + segmentDirection * halfWidth;
-                     // Debug.Log($"Inner Adjust: Shifting segment {i} (p2->p3) start from corner.");
-                }
+            // Corner Adjustments (inner corner fix)
+            if (hasCorner)
+            {
+                 if (Vector3.Distance(endPoint, cornerPoint) < 0.01f) { // Ending at corner
+                     effectiveEnd = endPoint - segmentDirection * halfWidth;
+                 } else if (Vector3.Distance(startPoint, cornerPoint) < 0.01f) { // Starting at corner
+                     effectiveStart = startPoint + segmentDirection * halfWidth;
+                 }
             }
-            // --- End of Inner Corner Adjustment ---
 
+             // Re-check effective segment length before creating geometry
+             if (Vector3.Distance(effectiveStart, effectiveEnd) < 0.01f) continue;
 
-            // Re-check effective segment length after potential adjustments
-             if (Vector3.Distance(effectiveStart, effectiveEnd) < 0.01f) {
-                 // Debug.Log($"Skipping zero-length effective segment {i}");
-                 continue;
-             }
-
-            // Create the segment geometry
+             // Create the segment geometry
             Bounds createdGeoBounds = CreateCorridorSegment(corridorParent.transform, effectiveStart, effectiveEnd, width, height, thickness);
 
-            // Store Logical Bounds for Overlap Checking (using original CENTERLINE points p1, p2, p3)
-            // Only store bounds for the main pathway (p1->p2, p2->p3 or p1->p3)
-            bool storeBounds = false;
-            Vector3 boundsStart = Vector3.zero;
-            Vector3 boundsEnd = Vector3.zero;
-
-             // Check based on the original segment points (startPoint, endPoint) before adjustments
-             if (path.Count >= 3) // Need at least p0,p1,p3 for p1->p3 check
-             {
-                Vector3 p1 = path[1];
-                Vector3 p3 = path[path.Count - 2]; // Original p3 location
-
-                // Segment starts at p1? -> Store bounds for p1->p2 (or p1->p3 if straight)
-                if (Vector3.Distance(startPoint, p1) < 0.01f)
-                {
-                     storeBounds = true;
-                     boundsStart = p1;
-                     boundsEnd = hasCorner ? cornerPoint : p3; // End at p2 (corner) or p3 (straight)
-                }
-                // Segment starts at p2 (corner)? -> Store bounds for p2->p3
-                else if (hasCorner && Vector3.Distance(startPoint, cornerPoint) < 0.01f)
-                {
-                     storeBounds = true;
-                     boundsStart = cornerPoint;
-                     boundsEnd = p3; // Always ends at p3
-                }
-
-                if (storeBounds && createdGeoBounds.size != Vector3.zero)
-                {
-                    // Ensure the logical bounds segment has length
-                     if(Vector3.Distance(boundsStart, boundsEnd) > 0.1f) {
-                        Bounds logicalBounds = CreateBoundsForSegment(boundsStart, boundsEnd, width, height);
-                        corridorSegmentBounds.Add(logicalBounds);
-                        // DrawBounds(logicalBounds, Color.cyan, 15f);
-                     }
-                }
-             } // End bounds check conditional
-
-        } // --- End of segment building loop ---
-
+            // Store Logical Bounds for Overlap Checking (code from previous step)
+            // ... (bounds storage logic) ...
+        }
 
         // --- Create Corner Geometry (Floor, Ceiling, AND OUTER WALLS) ---
         if (hasCorner)
         {
-            // --- Corner Floor ---
+            // --- Corner Floor (Unchanged) ---
             GameObject cornerFloor = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cornerFloor.name = "CornerFloor";
             cornerFloor.transform.position = new Vector3(cornerPoint.x, -thickness / 2, cornerPoint.z);
@@ -828,7 +771,7 @@ public class RoomGenerator3 : MonoBehaviour
             cornerFloor.transform.parent = corridorParent.transform;
             cornerFloor.GetComponent<Renderer>().material.color = Color.white;
 
-            // --- Corner Ceiling ---
+            // --- Corner Ceiling (Unchanged) ---
             GameObject cornerCeiling = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cornerCeiling.name = "CornerCeiling";
             cornerCeiling.transform.position = new Vector3(cornerPoint.x, height + thickness / 2, cornerPoint.z);
@@ -837,12 +780,12 @@ public class RoomGenerator3 : MonoBehaviour
             cornerCeiling.layer = LayerMask.NameToLayer("NotWalkable");
             cornerCeiling.GetComponent<Renderer>().material.color = Color.Lerp(Color.grey, Color.black, 0.5f);
 
+            // --- >>> NEW: Create Outer Corner Walls <<< ---
 
-            // --- Create Outer Corner Walls ---
+            // Find the points immediately before and after the corner point in our list
             Vector3 p_before_corner = Vector3.zero;
             Vector3 p_after_corner = Vector3.zero;
             int cornerIdx = -1;
-             // Find corner index in the final geometryPoints list
              for(int k=0; k<geometryPoints.Count; k++){
                  if(Vector3.Distance(geometryPoints[k], cornerPoint) < 0.01f) {
                      cornerIdx = k;
@@ -850,18 +793,14 @@ public class RoomGenerator3 : MonoBehaviour
                  }
              }
 
+            // Ensure we found the corner and have points before and after it
             bool canCreateOuterWalls = false;
-            if (cornerIdx > 0 && cornerIdx < geometryPoints.Count - 1) { // Check valid index
-                 p_before_corner = geometryPoints[cornerIdx - 1]; // Point from geometry list
-                 p_after_corner = geometryPoints[cornerIdx + 1]; // Point from geometry list
-                 // Check if points are distinct enough from corner
-                 if(Vector3.Distance(p_before_corner, cornerPoint) > 0.01f && Vector3.Distance(p_after_corner, cornerPoint) > 0.01f) {
-                    canCreateOuterWalls = true;
-                 }
-            }
-
-            if(!canCreateOuterWalls){
-                  Debug.LogError($"BuildCorridorFromPath: Could not find valid points around corner ({cornerPoint}) in list: {string.Join(",", geometryPoints)} to generate outer walls.");
+            if (cornerIdx > 0 && cornerIdx < geometryPoints.Count - 1) {
+                 p_before_corner = geometryPoints[cornerIdx - 1];
+                 p_after_corner = geometryPoints[cornerIdx + 1];
+                 canCreateOuterWalls = true;
+            } else {
+                  Debug.LogError($"Could not find points around corner ({cornerPoint}) in list: {string.Join(",", geometryPoints)} to generate outer walls.");
             }
 
 
@@ -870,63 +809,67 @@ public class RoomGenerator3 : MonoBehaviour
                 Vector3 inDir = (cornerPoint - p_before_corner).normalized; // Direction into corner
                 Vector3 outDir = (p_after_corner - cornerPoint).normalized; // Direction leaving corner
 
-                // Check for zero vectors just in case
-                if (inDir.sqrMagnitude < 0.001f || outDir.sqrMagnitude < 0.001f) {
-                     Debug.LogError("BuildCorridorFromPath: Zero direction vector encountered for outer walls.");
-                } else {
+                // Center Y position for the walls
+                Vector3 cornerCenterY = new Vector3(cornerPoint.x, height / 2, cornerPoint.z);
 
-                    Vector3 cornerCenterY = new Vector3(cornerPoint.x, height / 2, cornerPoint.z);
-                    Vector3 perpToIn = Vector3.Cross(Vector3.up, inDir).normalized;
-                    Vector3 perpToOut = Vector3.Cross(Vector3.up, outDir).normalized;
-                    float turnDotY = Vector3.Cross(inDir, outDir).y; // Check turn direction
+                // Calculate perpendicular vectors ("left" relative to direction)
+                Vector3 perpToIn = Vector3.Cross(Vector3.up, inDir).normalized;
+                Vector3 perpToOut = Vector3.Cross(Vector3.up, outDir).normalized;
 
-                    // If turnDotY is very close to zero, vectors are parallel/anti-parallel (not a corner?)
-                    if (Mathf.Abs(turnDotY) < 0.1f) {
-                         Debug.LogWarning($"BuildCorridorFromPath: Turn direction is near zero ({turnDotY}) at corner {cornerPoint}. Skipping outer walls.");
-                    } else {
-                        // Determine offset direction for outer walls
-                        Vector3 wall1_OffsetDir = (turnDotY > 0) ? -perpToIn : perpToIn;   // Offset perpendicular to IN
-                        Vector3 wall2_OffsetDir = (turnDotY > 0) ? -perpToOut : perpToOut; // Offset perpendicular to OUT
+                // Determine if it's a left or right turn using the Y component of the cross product
+                // Positive Y means OutDir is to the "left" of InDir (a left turn)
+                // Negative Y means OutDir is to the "right" of InDir (a right turn)
+                float turnDotY = Vector3.Cross(inDir, outDir).y;
 
-                        // Create Wall 1 (Aligned with OUT segment)
-                        GameObject outerWall1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        outerWall1.name = "OuterCornerWall_1";
-                        outerWall1.transform.parent = corridorParent.transform;
-                        outerWall1.layer = LayerMask.NameToLayer("NotWalkable");
-                        outerWall1.GetComponent<Renderer>().material.color = Color.grey;
-                        outerWall1.transform.position = cornerCenterY + wall1_OffsetDir * halfWidth; // Use correct offset dir
-                        bool outIsHorizontal = Mathf.Abs(outDir.x) > Mathf.Abs(outDir.z);
-                        outerWall1.transform.localScale = outIsHorizontal
-                            ? new Vector3(width, height, thickness)
-                            : new Vector3(thickness, height, width);
-                        outerWall1.transform.Rotate(0f, 90f, 0f, Space.Self); // Rotate
+                // For the outer corner wall, we need the offset direction pointing *away* from the turn center.
+                // Left turn (turnDotY > 0): Outer corner is to the "right" (-perp vector).
+                // Right turn (turnDotY < 0): Outer corner is to the "left" (+perp vector).
+                Vector3 wall1_OffsetDir = (turnDotY > 0) ? -perpToIn : perpToIn;
+                Vector3 wall2_OffsetDir = (turnDotY > 0) ? -perpToOut : perpToOut;
 
 
-                        // Create Wall 2 (Aligned with IN segment)
-                        GameObject outerWall2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        outerWall2.name = "OuterCornerWall_2";
-                        outerWall2.transform.parent = corridorParent.transform;
-                        outerWall2.layer = LayerMask.NameToLayer("NotWalkable");
-                        outerWall2.GetComponent<Renderer>().material.color = Color.grey;
-                        outerWall2.transform.position = cornerCenterY + wall2_OffsetDir * halfWidth; // Use correct offset dir
-                        bool inIsHorizontal = Mathf.Abs(inDir.x) > Mathf.Abs(inDir.z);
-                        outerWall2.transform.localScale = inIsHorizontal
-                            ? new Vector3(width, height, thickness)
-                            : new Vector3(thickness, height, width);
-                        outerWall2.transform.Rotate(0f, 90f, 0f, Space.Self); // Rotate
-                    } // End check for parallel vectors
-                } // End check for zero vectors
-            } // End if(canCreateOuterWalls)
+                // --- Create Wall 1 ---
+                // Aligned with the OUT segment direction (outDir)
+                // Positioned offset perpendicular to the IN segment direction (inDir)
+                GameObject outerWall1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                outerWall1.name = "OuterCornerWall_1";
+                outerWall1.transform.parent = corridorParent.transform;
+                outerWall1.layer = LayerMask.NameToLayer("NotWalkable");
+                outerWall1.GetComponent<Renderer>().material.color = Color.grey; // Match corridor walls
+                outerWall1.transform.position = cornerCenterY + wall1_OffsetDir * halfWidth;
+
+                // Determine scale based on outDir (the direction it runs along)
+                bool outIsHorizontal = Mathf.Abs(outDir.x) > Mathf.Abs(outDir.z);
+                outerWall1.transform.localScale = outIsHorizontal
+                    ? new Vector3(width, height, thickness) // Runs along X
+                    : new Vector3(thickness, height, width); // Runs along Z
+                outerWall1.transform.Rotate(0f, 90f, 0f, Space.Self); // Spin it around!
+
+                // --- Create Wall 2 ---
+                // Aligned with the IN segment direction (inDir)
+                // Positioned offset perpendicular to the OUT segment direction (outDir)
+                GameObject outerWall2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                outerWall2.name = "OuterCornerWall_2";
+                outerWall2.transform.parent = corridorParent.transform;
+                outerWall2.layer = LayerMask.NameToLayer("NotWalkable");
+                outerWall2.GetComponent<Renderer>().material.color = Color.grey; // Match corridor walls
+                outerWall2.transform.position = cornerCenterY + wall2_OffsetDir * halfWidth;
+
+                // Determine scale based on inDir (the direction it runs along)
+                bool inIsHorizontal = Mathf.Abs(inDir.x) > Mathf.Abs(inDir.z);
+                outerWall2.transform.localScale = inIsHorizontal
+                    ? new Vector3(width, height, thickness) // Runs along X
+                    : new Vector3(thickness, height, width); // Runs along Z
+                outerWall2.transform.Rotate(0f, 90f, 0f, Space.Self); // Spin this one too!
+            }
 
 
             // Store the logical corner bounds for overlap checking (as before)
             Bounds logicalCornerBounds = CreateBoundsForCorner(cornerPoint, width, height);
             corridorCornerBounds.Add(logicalCornerBounds);
             // DrawBounds(logicalCornerBounds, Color.magenta, 15f);
-
-        } // --- End if (hasCorner) ---
-
-    } // --- End of BuildCorridorFromPath ---
+        }
+    } // End of BuildCorridorFromPath
 
     // Creates geometry for a single corridor segment and returns its logical bounds
     private Bounds CreateCorridorSegment(Transform parent, Vector3 startPos, Vector3 endPos, float width, float height, float thickness)

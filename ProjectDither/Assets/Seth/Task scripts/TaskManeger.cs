@@ -47,7 +47,7 @@ public class TaskManager : MonoBehaviour
         }
 
         //Example: Access a specific task and modify it.
-        tasks[1].isCompleted = true;
+        taskListing[1].isCompleted = true;
         Debug.Log("Task: " + taskListing[1].taskName + ", Completed: " + taskListing[1].isCompleted);
     }
 
@@ -56,8 +56,8 @@ public class TaskManager : MonoBehaviour
     {
         if (taskIndex >= 0 && taskIndex < taskListing.Length)
         {
-            tasks[taskIndex].isCompleted = true;
-            Debug.Log("Task '" + taskListings[taskIndex].taskName + "' completed!");
+            taskListing[taskIndex].isCompleted = true;
+            Debug.Log("Task '" + taskListing[taskIndex].taskName + "' completed!");
         }
         else
         {
