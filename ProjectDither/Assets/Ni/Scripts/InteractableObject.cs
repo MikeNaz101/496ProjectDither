@@ -2,10 +2,27 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    [System.Obsolete]
+    public enum InteractionType
+    {
+        Press,
+        Hold
+    }
+
+    public InteractionType interactionType; // You choose this in the Inspector
+
     public void Interact()
     {
-        Debug.Log ("Object Interacted With: " +gameObject.name);
-        gameObject.active = false;
+        if (interactionType != InteractionType.Press) return;
+
+        Debug.Log("Object Interacted With: " + gameObject.name);
+        gameObject.SetActive(false);
+    }
+
+    public void HoldInteract()
+    {
+        if (interactionType != InteractionType.Hold) return;
+
+        Debug.Log("Hold Interacted With: " + gameObject.name);
+        gameObject.SetActive(false);
     }
 }
