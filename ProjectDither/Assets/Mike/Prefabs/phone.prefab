@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3746909873850112208
+--- !u!1 &5465219068857287279
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5092455347370259718}
-  - component: {fileID: 49060897336553405}
-  - component: {fileID: 7555010611317514439}
-  - component: {fileID: 241691448794761286}
-  - component: {fileID: -8346909666490532229}
+  - component: {fileID: 5917064669190295840}
+  - component: {fileID: 8148432267071095502}
+  - component: {fileID: 4372856977082288100}
+  - component: {fileID: 5550576916431137744}
+  - component: {fileID: 6530596976277246158}
+  - component: {fileID: 7080809246021801889}
   m_Layer: 0
-  m_Name: FoodBowl
-  m_TagString: FoodBowl
+  m_Name: phone
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5092455347370259718
+--- !u!4 &5917064669190295840
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3746909873850112208}
+  m_GameObject: {fileID: 5465219068857287279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.792105, y: 1.25, z: -1.0142646}
-  m_LocalScale: {x: 0.62877, y: 0.08701548, z: 0.62877}
+  m_LocalPosition: {x: 394, y: 107.5, z: 0}
+  m_LocalScale: {x: 1, y: 0.1988439, z: 0.23529}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &49060897336553405
+--- !u!33 &8148432267071095502
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3746909873850112208}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7555010611317514439
+  m_GameObject: {fileID: 5465219068857287279}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4372856977082288100
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3746909873850112208}
+  m_GameObject: {fileID: 5465219068857287279}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -88,13 +89,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &241691448794761286
-CapsuleCollider:
+--- !u!65 &5550576916431137744
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3746909873850112208}
+  m_GameObject: {fileID: 5465219068857287279}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -106,25 +107,51 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &-8346909666490532229
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6530596976277246158
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5465219068857287279}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7080809246021801889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3746909873850112208}
+  m_GameObject: {fileID: 5465219068857287279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b6ef6adcac1fc147ab2591427fec918, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d4edd2ceeeacea4f82c2ba64926c14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taskName: Feed the dog
+  taskName: 
   roomNumber: 0
   taskManager: {fileID: 0}
-  taskPrefab: {fileID: 3746909873850112208}
-  dog: {fileID: 3357318140211354186, guid: 621ef0783bceb3a4ebff948328fc0661, type: 3}
+  phoneRinging: {fileID: 0}
+  phoneMessage: {fileID: 0}
+  phone: {fileID: 0}

@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation; // Required for NavMeshSurface
-using System.Linq; // Needed for OrderBy, Any, FindIndex, etc.
+using System.Linq;
+using Random = UnityEngine.Random; // Needed for OrderBy, Any, FindIndex, etc.
+//using System;
 
 public class RoomGenerator6 : MonoBehaviour
 {
+    public event Action<List<Room>> OnRoomsGenerated;
+
+    
     [Header("Generation Settings")]
     public int numRooms = 8; // How many rooms to generate
     public Vector2 roomSizeMinMax = new Vector2(12, 28); // Min/Max width and depth for rooms
@@ -1104,6 +1110,11 @@ public class RoomGenerator6 : MonoBehaviour
         
         BakeNavMesh(); // Now bake the NavMesh
         Debug.Log("Dungeon Generation Coroutine Complete.");
+        Debug.Log("RoomGenerator: About to invoke OnRoomsGenerated event. Rooms count: " + rooms.Count);
+        OnRoomsGenerated?.Invoke(rooms);
+        Debug.Log("RoomGenerator: OnRoomsGenerated event invoked.");
+
+        Debug.Log("RoomGenerator: GenerateAndBakeSequence() complete.");
     }
 
 } // End of RoomGenerator5 class

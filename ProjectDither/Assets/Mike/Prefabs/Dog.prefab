@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   default_speed: 100
   agent: {fileID: 3868912173322785885}
-  player: {fileID: 5645012273899944107, guid: c9896d980e056db49aa27219593a62cb, type: 3}
+  player: {fileID: 1979951793261548938, guid: c9896d980e056db49aa27219593a62cb, type: 3}
   enemy: {fileID: 3168108722471511079, guid: 8a43f3dafae8189419e26353ec3c824d, type: 3}
   foodBowl: {fileID: 3746909873850112208, guid: 75c98a15e88473a4a8cefccfd6c2d65f, type: 3}
   corners: []
