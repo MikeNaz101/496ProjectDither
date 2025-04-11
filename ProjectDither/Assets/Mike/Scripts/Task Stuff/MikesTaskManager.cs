@@ -31,6 +31,16 @@ public class MikesTaskManager : MonoBehaviour
     {
         Debug.Log("TaskManager AssignTasksToRooms() called. Generated rooms count: " + generatedRooms.Count);
 
+        if (taskListUI != null)
+        {
+            Debug.Log("MikesTaskManager: taskListUI is assigned!"); // RIGHT BEFORE the call
+            taskListUI.SetTasks(activeTasks);
+        }
+        else
+        {
+            Debug.LogError("TaskListUI not assigned in TaskManager!");
+        }
+
         if (availableTasks.Count == 0)
         {
             Debug.LogError("No available tasks to assign!");
@@ -110,19 +120,6 @@ public class MikesTaskManager : MonoBehaviour
         Vector3 spawnPos = new Vector3(x, 0.5f, z);
         Debug.Log("Generated random spawn position: " + spawnPos + " for room " + room.id);
         return spawnPos; // Adjust Y as needed
-    }
-
-    public void TaskCompleted(string completedTaskName)
-    {
-        if (taskListUI != null)
-        {
-            taskListUI.UpdateTaskDisplay(completedTaskName);
-            Debug.Log("Updated TaskListUI for completed task: " + completedTaskName);
-        }
-        else
-        {
-            Debug.LogError("TaskListUI not assigned in TaskManager!");
-        }
     }
 
     public List<Task> GetTasksForRoom(int roomId)

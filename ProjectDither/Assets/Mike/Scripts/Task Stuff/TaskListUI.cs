@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 public class TaskListUI : MonoBehaviour
 {
-    public GameObject taskItemPrefab;
-    public Transform taskListParent;
+    public Transform taskListParent; // The UI element to hold task names (e.g., a Vertical Layout Group)
+    public GameObject taskNamePrefab; // A simple Text prefab
     public GameObject taskListPanel; // The entire panel to show/hide
     public KeyCode toggleKey = KeyCode.Tab; // The key to toggle the list
 
-    private List<GameObject> taskItems = new List<GameObject>();
-    private Dictionary<string, GameObject> taskItemLookup = new Dictionary<string, GameObject>();
+    private List<GameObject> taskNameObjects = new List<GameObject>();
 
     void Start()
     {
@@ -27,59 +26,35 @@ public class TaskListUI : MonoBehaviour
 
     public void SetTasks(List<Task> tasks)
     {
-        ClearTasks(); // Clear any existing UI
+        ClearTasks(); // Clear previous UI
+
         foreach (Task task in tasks)
         {
-            GameObject taskItem = Instantiate(taskItemPrefab, taskListParent);
-            Text taskText = taskItem.GetComponentInChildren<Text>();
-            taskText.text = task.taskName;
-            taskItems.Add(taskItem);
-            taskItemLookup[task.taskName] = taskItem;
+            GameObject nameObject = Instantiate(taskNamePrefab, taskListParent);
+            Text nameText = nameObject.GetComponent<Text>();
+            if (nameText != null)
+            {
+                nameText.text = task.taskName;
+                taskNameObjects.Add(nameObject);
+            }
+            else
+            {
+                Debug.LogError("Text component not found on taskNamePrefab!");
+            }
         }
     }
 
     void ClearTasks()
     {
-        foreach (GameObject item in taskItems)
+        foreach (GameObject nameObject in taskNameObjects)
         {
-            Destroy(item);
+            Destroy(nameObject);
         }
-        taskItems.Clear();
-        taskItemLookup.Clear();
+        taskNameObjects.Clear();
     }
 
     void ToggleTaskList()
     {
         taskListPanel.SetActive(!taskListPanel.activeSelf);
-    }
-
-    public void UpdateTaskDisplay(string completedTaskName)
-    {
-        if (taskItemLookup.ContainsKey(completedTaskName))
-        {
-            GameObject item = taskItemLookup[completedTaskName];
-            Text taskText = item.GetComponentInChildren<Text>();
-
-            // Create a line to draw across the text
-            GameObject line = new GameObject("ScratchLine", typeof(RectTransform), typeof(Image));
-            line.transform.SetParent(item.transform, false);
-
-            // Calculate the position and size of the line
-            RectTransform textRect = taskText.GetComponent<RectTransform>();
-            RectTransform lineRect = line.GetComponent<RectTransform>();
-
-            lineRect.anchorMin = new Vector2(0, 0.5f); // Middle left
-            lineRect.anchorMax = new Vector2(1, 0.5f); // Middle right
-            lineRect.pivot = new Vector2(0.5f, 0.5f);
-            lineRect.sizeDelta = new Vector2(textRect.rect.width, 5f); // Line thickness
-            lineRect.anchoredPosition = Vector2.zero;
-
-            // Set the line's color
-            line.GetComponent<Image>().color = Color.red;
-
-            // Make the text look scratched out
-            taskText.color = Color.gray;
-            taskText.fontStyle = FontStyle.Italic;
-        }
     }
 }

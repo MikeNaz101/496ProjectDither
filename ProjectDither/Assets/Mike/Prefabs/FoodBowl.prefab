@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7555010611317514439}
   - component: {fileID: 241691448794761286}
   - component: {fileID: -8346909666490532229}
-  m_Layer: 0
+  - component: {fileID: -2453572226582084737}
+  m_Layer: 9
   m_Name: FoodBowl
   m_TagString: FoodBowl
   m_Icon: {fileID: 0}
@@ -128,3 +129,17 @@ MonoBehaviour:
   taskManager: {fileID: 0}
   taskPrefab: {fileID: 3746909873850112208}
   dog: {fileID: 3357318140211354186, guid: 621ef0783bceb3a4ebff948328fc0661, type: 3}
+--- !u!114 &-2453572226582084737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746909873850112208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e945dbda16a3da44802b44848debf0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionType: 0
+  interactionRange: 3

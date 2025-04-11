@@ -185,9 +185,10 @@ MonoBehaviour:
   mouseSensitivity: 50
   playerCam: {fileID: 0}
   interactionRange: 3
+  holdTime: 2
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1 &7299582048989585703
 GameObject:
   m_ObjectHideFlags: 0

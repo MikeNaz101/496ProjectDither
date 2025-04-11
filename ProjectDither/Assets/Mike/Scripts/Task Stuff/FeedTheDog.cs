@@ -22,8 +22,15 @@ public class FeedTheDog : Task
             Debug.LogError("FoodBowl not found in the scene!");
         }
     }
+    public override void Activate()
+    {
+        //phoneRinging.Stop();
+        //phoneMessage.Play();
+        Complete();
+        ///phoneCollider.enabled = false; // Deactivate after use
+    }
 
-    void OnTriggerEnter(Collider other)
+    /*void OnTriggerEnter(Collider other)
     {
         if (taskCompleted)
             return;
@@ -40,5 +47,5 @@ public class FeedTheDog : Task
             TaskCompleted();
             taskCompleted = true;
         }
-    }
+    }*/
 }
