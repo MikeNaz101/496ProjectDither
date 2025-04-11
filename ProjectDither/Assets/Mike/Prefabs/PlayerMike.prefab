@@ -185,6 +185,7 @@ MonoBehaviour:
   mouseSensitivity: 50
   playerCam: {fileID: 0}
   interactionRange: 3
+  holdTime: 2
   interactableLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -304,7 +305,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

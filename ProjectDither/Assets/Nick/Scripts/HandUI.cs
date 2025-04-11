@@ -12,6 +12,9 @@ public class HandUI : MonoBehaviour
     GameObject handParent;
 
     [SerializeField]
+    NickPlayerMovement npm;
+
+    [SerializeField]
     TextMeshProUGUI eToInteract;
 
     Animator Am;
@@ -50,6 +53,8 @@ public class HandUI : MonoBehaviour
         {
             Am.SetBool("Moving", false);
         }
+
+        //eToInteract.onEnable() (npm.lookingAtInteractable);
     }
 
     void CheckHand()
