@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\raycast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\raycast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\nickplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\nickplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\interactable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\interactable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NickPlayerMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Nick\\Scripts\\NickPlayerMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\ni\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\ni\\scripts\\interactableobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\ni\\scripts\\niplayermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\handui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,52 +31,39 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RayCast.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\RayCast.cs",
-              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\RayCast.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\RayCast.cs",
-              "RelativeToolTip": "Assets\\Nick\\Scripts\\RayCast.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAC4AAAA8AAAAAAAAAA==",
+              "Title": "NiPlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NiPlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\NiPlayerMovement.cs",
+              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NiPlayerMovement.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\NiPlayerMovement.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAowAcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T00:23:07.942Z",
+              "WhenOpened": "2025-04-10T23:27:45.375Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Interactable.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\Interactable.cs",
-              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\Interactable.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\Interactable.cs",
-              "RelativeToolTip": "Assets\\Nick\\Scripts\\Interactable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T00:07:50.874Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "NickPlayerMovement.cs",
               "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
               "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
               "RelativeToolTip": "Assets\\Nick\\Scripts\\NickPlayerMovement.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAQwCgAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T22:47:34.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-10T23:24:41.401Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "NiPlayerMovement.cs",
               "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
               "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
               "RelativeToolTip": "Assets\\Ni\\Scripts\\NiPlayerMovement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAADwvx0AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T23:44:48.617Z"
+              "WhenOpened": "2025-04-03T23:44:48.617Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -94,21 +73,9 @@
               "RelativeDocumentMoniker": "Assets\\Ni\\Scripts\\InteractableObject.cs",
               "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Ni\\Scripts\\InteractableObject.cs",
               "RelativeToolTip": "Assets\\Ni\\Scripts\\InteractableObject.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T23:43:32.847Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "HandUI.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\HandUI.cs",
-              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\HandUI.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\HandUI.cs",
-              "RelativeToolTip": "Assets\\Nick\\Scripts\\HandUI.cs",
-              "ViewState": "AgIAAFkAAAAAAAAAAADgv2MAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T18:17:46.343Z"
             }
           ]
         }
