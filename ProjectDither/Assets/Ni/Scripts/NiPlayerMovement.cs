@@ -1,138 +1,338 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using TMPro;
+using UnityEngine.UI;
 
 public class NiPlayerMovement : MonoBehaviour
 {
+    //I used Headers to make everything organize in the Inspector
+    [Header("Movement Settings")]
     [SerializeField]
     float speed = 2.0f;
     [SerializeField]
-    float mouseSensitivity = 100;
+    float mouseSensitivity = 100f;
+
+    [Header("Camera & Interaction")]
     [SerializeField]
     Camera playerCam;
     [SerializeField]
     float interactionRange = 3.0f;
     [SerializeField]
-    float holdTime = 2.0f; // Time required to hold E for interaction
+    LayerMask interactableLayer; // Layer for interactable objects
 
-    public LayerMask interactableLayer;
+    [Header("Hold Interaction")]
+    [SerializeField]
+    float holdTime = 2.0f;
+    [SerializeField]
+    Slider holdProgressBar; // Progress bar for hold interaction
+
+    [Header("UI")]
+    [SerializeField]
+    TMP_Text interactionPrompt; // Text for interaction prompt
+
+    [Header("Button Clicking Mini-Game")]
+    [SerializeField]
+    Camera interactionCam;  // Computer camera
+    [SerializeField]
+    GameObject computerObject;
+    [SerializeField]
+    GameObject computerToSwitchWith;
+    [SerializeField]
+    GameObject buttonClickingCanvas;
+    [SerializeField]
+    Button[] buttons; // The buttons for the mini-game
+    [SerializeField]
+    float buttonClickTimeLimit = 5.0f;
+    [SerializeField]
+    TMP_Text gameStatusText;
 
     Vector2 movement;
     Vector2 mouseMovement;
     CharacterController chara;
-    float cameraUpRotation = 0;
+    float cameraUpRotation = 0f;
+    float holdTimer = 0f;
 
-    float holdTimer = 0f; // Timer for holding the E key
-    bool isHolding = false; // Whether the player is holding the E key
-    bool isPerformingHoldTask = false; // Whether the hold task is being performed
+    bool isHolding = false;
+    bool isPerformingHoldTask = false;
+    bool isLookingAtInteractable = false;
+    bool canHoldInteract = false;
+    GameObject currentInteractable = null;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    bool inComputerCamera = false;
+    bool isButtonClickingGameActive = false;
+    float buttonClickTimer = 0f;
+    int buttonsClicked = 0;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         chara = GetComponent<CharacterController>();
         playerCam = Camera.main;
-    }
+        interactionCam.enabled = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Camera control (look around)
-        float mouseX = mouseMovement.x * Time.deltaTime * mouseSensitivity;
-        float mouseY = mouseMovement.y * Time.deltaTime * mouseSensitivity;
-        cameraUpRotation -= mouseY;
-        cameraUpRotation = Mathf.Clamp(cameraUpRotation, -90, 90);
-        playerCam.transform.localRotation = Quaternion.Euler(cameraUpRotation, 0, 0);
+        if (interactionPrompt != null)
+            interactionPrompt.gameObject.SetActive(false);
 
-        // Movement control
-        transform.Rotate(Vector3.up * mouseX);
-        float moveX = movement.x;
-        float moveZ = movement.y;
-        Vector3 m = (transform.right * moveX) + (transform.forward * moveZ);
-        chara.SimpleMove(m * speed);
-
-        // Handle press interaction (press E once for a quick action)
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (holdProgressBar != null)
         {
-            PerformPressInteraction();
+            holdProgressBar.gameObject.SetActive(false);
+            holdProgressBar.value = 0;
         }
 
-        // Handle hold interaction (hold E for a longer task)
-        if (Keyboard.current.eKey.isPressed)
+        if (buttonClickingCanvas != null)
+            buttonClickingCanvas.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (inComputerCamera) // If the player interacted with the computer, handle the mini-game logic
         {
-            if (!isHolding)
+            // Handle the button clicking mini-game
+            if (isButtonClickingGameActive)
             {
-                // Start holding the key
-                isHolding = true;
-                holdTimer = 0f; // Reset the timer
+                interactionPrompt.gameObject.SetActive(false);
+                buttonClickTimer += Time.deltaTime;
+                if (buttonClickTimer >= buttonClickTimeLimit || buttonsClicked == buttons.Length) // If time is up or all buttons are clicked, exit
+                {
+                    ExitComputerCam();
+                }
+                return; // Prevent FPS movement during mini-game
             }
+        }
+        //Handle core FPS movement
+        HandleCamera();
+        HandleMovement();
+        HandlePressInteraction();
+        HandleHoldInteraction();
+        CheckForInteractable();
+    }
 
-            // Increment the hold timer
-            holdTimer += Time.deltaTime;
+    void HandleCamera() //Handle camera rotation
+    {
+        if (inComputerCamera) return; // Prevent camera movement during mini-game
 
-            // If the hold time is met, start performing the task
-            if (holdTimer >= holdTime && !isPerformingHoldTask)
+        float mouseX = mouseMovement.x * Time.deltaTime * mouseSensitivity;
+        float mouseY = mouseMovement.y * Time.deltaTime * mouseSensitivity;
+
+        cameraUpRotation -= mouseY;
+        cameraUpRotation = Mathf.Clamp(cameraUpRotation, -90f, 90f);
+
+        playerCam.transform.localRotation = Quaternion.Euler(cameraUpRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
+    }
+
+    void HandleMovement() //Handle player movement
+    {
+        if (inComputerCamera) return; // Prevent movement during mini-game
+
+        Vector3 move = (transform.right * movement.x) + (transform.forward * movement.y);
+        chara.SimpleMove(move * speed);
+    }
+
+    void HandlePressInteraction() //Handle Press interaction
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && isLookingAtInteractable && !canHoldInteract)
+        {
+            InteractWithObject();
+        }
+    }
+
+    void HandleHoldInteraction() //Handle Hold interaction
+    {
+        if (Keyboard.current.eKey.isPressed && isLookingAtInteractable && canHoldInteract)
+        {
+            StartHoldInteraction();
+        }
+        else
+        {
+            ResetHoldInteraction();
+        }
+    }
+
+    void StartHoldInteraction() //Start the hold interaction
+    {
+        if (!isHolding)
+        {
+            isHolding = true;
+            holdTimer = 0f;
+            holdProgressBar.gameObject.SetActive(true);
+        }
+
+        holdTimer += Time.deltaTime; // Increment the hold timer
+        holdProgressBar.value = holdTimer / holdTime; // Update the progress bar
+
+        if (holdTimer >= holdTime && !isPerformingHoldTask)
+        {
+            StartCoroutine(PerformHoldInteractionTask());
+        }
+    }
+
+    void ResetHoldInteraction() //Reset the hold interaction
+    {
+        if (isHolding)
+        {
+            isHolding = false;
+            holdTimer = 0f;
+            holdProgressBar.value = 0;
+            holdProgressBar.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator PerformHoldInteractionTask() //Simulate a task that takes time
+    {
+        isPerformingHoldTask = true;
+        InteractWithObject(true);
+
+        yield return new WaitForSeconds(1f); // Simulated task duration
+
+        isPerformingHoldTask = false;
+        ResetHoldInteraction();
+    }
+
+    void InteractWithObject(bool isHoldTask = false) //Interact with the object
+    {
+        if (currentInteractable != null)
+        {
+            var interactableObject = currentInteractable.GetComponent<InteractableObject>();
+            if (isHoldTask)
             {
-                StartCoroutine(PerformHoldInteractionTask());
+                interactableObject.HoldInteract();
+            }
+            else
+            {
+                interactableObject.Interact();
+            }
+            Debug.Log(isHoldTask ? "Holding interaction with: " : "Quick interacted with: " + currentInteractable.name);
+        }
+
+        var hideSeek = currentInteractable.GetComponent<HideAndSeekObject>();
+        if (hideSeek != null)
+        {
+            hideSeek.Interact();
+        }
+    }
+
+    void CheckForInteractable() //Check for interactable objects
+    {
+        Ray ray = playerCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2)); // Create a ray from the camera to the center of the screen
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, interactableLayer)) //Check if raycast hits an interactable object
+        {
+            isLookingAtInteractable = true;
+            currentInteractable = hit.collider.gameObject; //Get the interactable object
+
+            var interactableObject = currentInteractable.GetComponent<InteractableObject>();
+            canHoldInteract = interactableObject != null && interactableObject.interactionType == InteractableObject.InteractionType.Hold; // Check if the object is of type Hold
+
+            if (interactionPrompt != null)
+            {
+                interactionPrompt.text = canHoldInteract ? "Hold [E] to interact" : "Press [E] to interact"; //Change the prompt text based on interaction type
+                interactionPrompt.gameObject.SetActive(true);
             }
         }
         else
         {
-            // Reset when the key is released
-            if (isHolding)
+            isLookingAtInteractable = false;
+            canHoldInteract = false;
+            currentInteractable = null;
+
+            if (interactionPrompt != null)
+                interactionPrompt.gameObject.SetActive(false);
+
+            if (holdProgressBar != null)
             {
-                isHolding = false;
-                holdTimer = 0f;
+                holdProgressBar.value = 0;
+                holdProgressBar.gameObject.SetActive(false);
             }
         }
     }
 
-    // Methods to handle input actions
-    void OnMove(InputValue moveVal)
+    void OnMove(InputValue moveVal) //Handle player movement input
     {
         movement = moveVal.Get<Vector2>();
     }
 
-    void OnLook(InputValue lookVal)
+    void OnLook(InputValue lookVal) //Handle mouse look input
     {
         mouseMovement = lookVal.Get<Vector2>();
     }
 
-    // Perform the press interaction (when E is pressed once)
-    private void PerformPressInteraction()
+    public void EnterComputerCam() //Enter the computer camera
     {
-        // You can add your quick interaction logic here
-        Ray ray = playerCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        Debug.DrawLine(ray.origin, ray.direction, Color.green);
-        RaycastHit hit;
+        inComputerCamera = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-        if (Physics.Raycast(ray, out hit, interactionRange, interactableLayer))
+        playerCam.enabled = false;
+        interactionCam.enabled = true;
+
+        StartButtonClickingMiniGame();
+    }
+
+    public void ExitComputerCam() //Exit the computer camera
+    {
+        inComputerCamera = false;
+        isButtonClickingGameActive = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        playerCam.enabled = true;
+        interactionCam.enabled = false;
+
+        buttonClickingCanvas.SetActive(false);
+    }
+
+    void StartButtonClickingMiniGame() //Start the button clicking mini-game
+    {
+        isButtonClickingGameActive = true;
+        buttonClickingCanvas.SetActive(true);
+        buttonClickTimer = 0f;
+        buttonsClicked = 0;
+        gameStatusText.text = "Click all the buttons!";
+
+        foreach (Button button in buttons)
         {
-            Debug.Log("Quick Interacted with: " + hit.collider.gameObject.name);
-            hit.collider.gameObject.SendMessage("Interact");
+            button.gameObject.SetActive(true);
+            button.onClick.RemoveAllListeners(); // Clear old listeners
+            button.onClick.AddListener(() => OnButtonClicked(button)); // Add new listener for click event instead of manually assigning in Inspector
         }
     }
 
-    // Coroutine for performing the task after holding [E] (longer interaction)
-    private IEnumerator PerformHoldInteractionTask()
+
+
+    void OnButtonClicked(Button clickedButton) //Handle button click
     {
-        isPerformingHoldTask = true;
+        clickedButton.gameObject.SetActive(false);
+        buttonsClicked++;
 
-        // Perform the task (example: interacting with an object)
-        Ray ray = playerCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        Debug.DrawLine(ray.origin, ray.direction, Color.red);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, interactionRange, interactableLayer))
+        if (buttonClickTimer >= buttonClickTimeLimit) //If time is up, reset the game
         {
-            Debug.Log("Holding interaction started with: " + hit.collider.gameObject.name);
-            hit.collider.gameObject.SendMessage("HoldInteract");
+            ResetButtonMiniGame();
+            StartButtonClickingMiniGame();
+        }
+        else if (buttonsClicked == buttons.Length) //If all buttons are clicked, exit the mini-game
+        {
+            if (computerObject != null)
+            {
+                computerObject.SetActive(false);
+                computerToSwitchWith.SetActive(true);
+            }
+            ExitComputerCam();
+        }
+    }
+
+    void ResetButtonMiniGame() //Reset the button mini-game
+    {
+        isButtonClickingGameActive = false;
+        buttonClickTimer = 0f;
+        buttonsClicked = 0;
+
+        foreach (Button button in buttons) // Reset all buttons
+        {
+            button.gameObject.SetActive(true); 
         }
 
-        // Simulate some task duration (e.g., waiting for an interaction to complete)
-        yield return new WaitForSeconds(1f); // Adjust based on the task duration
-
-        // Task completed
-        isPerformingHoldTask = false;
+        buttonClickingCanvas.SetActive(false);
     }
+
 }
