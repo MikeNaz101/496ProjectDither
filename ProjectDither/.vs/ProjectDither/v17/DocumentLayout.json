@@ -3,8 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\assets\\brendan\\test on jasons stuff\\computerminigametest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\test on jasons stuff\\computerminigametest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\gamer\\documents\\github\\clone\\496projectdither\\projectdither\\assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\noteobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\noteobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\buttoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\buttoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\gamer\\documents\\github\\clone\\496projectdither\\projectdither\\assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\effectobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\brendan\\rythmgame\\rhythm game tutorial\\scripts\\effectobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\assets\\brendan\\scripts\\beatscroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\brendan\\scripts\\beatscroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ComputerMiniGameTest.cs",
-              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\Test on Jasons stuff\\ComputerMiniGameTest.cs",
-              "RelativeDocumentMoniker": "Assets\\Brendan\\Test on Jasons stuff\\ComputerMiniGameTest.cs",
-              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\Test on Jasons stuff\\ComputerMiniGameTest.cs",
-              "RelativeToolTip": "Assets\\Brendan\\Test on Jasons stuff\\ComputerMiniGameTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "NoteObject.cs",
+              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\NoteObject.cs",
+              "RelativeDocumentMoniker": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\NoteObject.cs",
+              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\NoteObject.cs",
+              "RelativeToolTip": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\NoteObject.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwEAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T22:39:12.713Z",
+              "WhenOpened": "2025-04-15T07:53:58.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EffectObject.cs",
+              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\EffectObject.cs",
+              "RelativeDocumentMoniker": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\EffectObject.cs",
+              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\EffectObject.cs",
+              "RelativeToolTip": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\EffectObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T07:51:06.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BeatScroller.cs",
+              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\Scripts\\BeatScroller.cs",
+              "RelativeDocumentMoniker": "Assets\\Brendan\\Scripts\\BeatScroller.cs",
+              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\Scripts\\BeatScroller.cs",
+              "RelativeToolTip": "Assets\\Brendan\\Scripts\\BeatScroller.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAqwBgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T23:02:20.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\GameManager.cs",
+              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\GameManager.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGQAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T03:24:06.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ButtonController.cs",
+              "DocumentMoniker": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\ButtonController.cs",
+              "RelativeDocumentMoniker": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\ButtonController.cs",
+              "ToolTip": "C:\\Users\\Gamer\\Documents\\GitHub\\clone\\496ProjectDither\\ProjectDither\\Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\ButtonController.cs",
+              "RelativeToolTip": "Assets\\Brendan\\RythmGame\\Rhythm Game Tutorial\\Scripts\\ButtonController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwBoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T22:32:23.226Z",
               "EditorCaption": ""
             }
           ]
