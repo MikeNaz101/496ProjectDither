@@ -205,7 +205,7 @@ public class RoomGenerator7 : MonoBehaviour
 
               if(angelRoomIndex >= 0 && angelRoomIndex < rooms.Count) {
                   Room angelRoom = rooms[angelRoomIndex];
-                  Vector3 angelSpawnPos = angelRoom.roomBounds.center + Vector3.up * 0.5f;
+                  Vector3 angelSpawnPos = angelRoom.roomBounds.center + Vector3.up * 1.5f;
                   GameObject angelInstance = Instantiate(angelPrefab, angelSpawnPos, Quaternion.identity);
                   angelInstance.name = "Angel";
                   Debug.Log($"Spawned Angel in Room {angelRoomIndex}");

@@ -7,7 +7,7 @@ public class MikesWeepingAngel : MonoBehaviour
     public NavMeshAgent ai;
     public GameObject player;
     public Camera playerCam;
-    private float aiSpeed = 1.5f;
+    private float aiSpeed = 20f;
     public LayerMask obstacleMask; // Assign this in the inspector to detect walls, objects, etc.
 
     void Start()
