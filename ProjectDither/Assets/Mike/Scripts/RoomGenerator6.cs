@@ -8,7 +8,7 @@ using Random = UnityEngine.Random; // Needed for OrderBy, Any, FindIndex, etc.
 
 public class RoomGenerator6 : MonoBehaviour
 {
-    public event Action<List<Room>> OnRoomsGenerated;
+    public event Action<List<Room>> OnRoomsGenerated1;
 
     
     [Header("Generation Settings")]
@@ -1111,7 +1111,7 @@ public class RoomGenerator6 : MonoBehaviour
         BakeNavMesh(); // Now bake the NavMesh
         Debug.Log("Dungeon Generation Coroutine Complete.");
         Debug.Log("RoomGenerator: About to invoke OnRoomsGenerated event. Rooms count: " + rooms.Count);
-        OnRoomsGenerated?.Invoke(rooms);
+        OnRoomsGenerated1?.Invoke(rooms);
         Debug.Log("RoomGenerator: OnRoomsGenerated event invoked.");
 
         Debug.Log("RoomGenerator: GenerateAndBakeSequence() complete.");

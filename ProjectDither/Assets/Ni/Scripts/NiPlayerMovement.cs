@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class NiPlayerMovement : MonoBehaviour
 {
-    //I used Headers to make everything organize in the Inspector
+    private GameManager gameManager;
+    private TaskInteraction taskInteractor; // Reference to the TaskInteraction script
+
     [Header("Movement Settings")]
     [SerializeField]
     float speed = 2.0f;
@@ -33,7 +35,7 @@ public class NiPlayerMovement : MonoBehaviour
 
     [Header("Button Clicking Mini-Game")]
     [SerializeField]
-    Camera interactionCam;  // Computer camera
+    Camera interactionCam;   // Computer camera
     [SerializeField]
     GameObject computerObject;
     [SerializeField]
@@ -66,6 +68,12 @@ public class NiPlayerMovement : MonoBehaviour
 
     void Start()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
+        taskInteractor = GetComponent<TaskInteraction>(); // Get the TaskInteraction component
+        if (taskInteractor == null)
+        {
+            Debug.LogError("NiPlayerMovement: TaskInteraction script not found on the player!");
+        }
         Cursor.lockState = CursorLockMode.Locked;
         chara = GetComponent<CharacterController>();
         playerCam = Camera.main;
@@ -86,6 +94,13 @@ public class NiPlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (gameManager != null)
+            {
+                gameManager.ToggleTaskListAnimation();
+            }
+        }
         if (inComputerCamera) // If the player interacted with the computer, handle the mini-game logic
         {
             // Handle the button clicking mini-game
@@ -106,6 +121,7 @@ public class NiPlayerMovement : MonoBehaviour
         HandlePressInteraction();
         HandleHoldInteraction();
         CheckForInteractable();
+        HandleLeftClickInteraction(); // NEW: Handle left-click interaction
     }
 
     void HandleCamera() //Handle camera rotation
@@ -247,6 +263,21 @@ public class NiPlayerMovement : MonoBehaviour
         }
     }
 
+    void HandleLeftClickInteraction()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame && isLookingAtInteractable)
+        {
+            if (taskInteractor != null)
+            {
+                taskInteractor.InteractWithCurrentTask(currentInteractable);
+            }
+            else
+            {
+                Debug.LogWarning("NiPlayerMovement: TaskInteractor component is missing!");
+            }
+        }
+    }
+
     void OnMove(InputValue moveVal) //Handle player movement input
     {
         movement = moveVal.Get<Vector2>();
@@ -298,8 +329,6 @@ public class NiPlayerMovement : MonoBehaviour
         }
     }
 
-
-
     void OnButtonClicked(Button clickedButton) //Handle button click
     {
         clickedButton.gameObject.SetActive(false);
@@ -329,10 +358,9 @@ public class NiPlayerMovement : MonoBehaviour
 
         foreach (Button button in buttons) // Reset all buttons
         {
-            button.gameObject.SetActive(true); 
+            button.gameObject.SetActive(true);
         }
 
         buttonClickingCanvas.SetActive(false);
     }
-
 }

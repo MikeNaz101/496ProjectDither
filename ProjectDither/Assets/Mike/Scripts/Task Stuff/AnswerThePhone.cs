@@ -4,31 +4,36 @@ public class AnswerThePhone : Task
 {
     public AudioSource phoneRinging;
     public AudioSource phoneMessage;
-
-    private GameObject phoneInstance; // Reference to the spawned phone
-    private Collider phoneCollider; // Reference to the phone's collider
+    // public GameObject phoneInstance; // You might need this for visual changes
+    // public Collider phoneCollider; // You might need this to disable interaction
 
     public override void Activate()
     {
+        Debug.Log($"Player answered the phone for task: {taskName}");
         phoneRinging.Stop();
         phoneMessage.Play();
-        //TaskCompleted(); // REMOVE THIS LINE
-        //phoneCollider.enabled = false; // Deactivate after use
+        TaskCompleted(); // Mark the task as completed upon activation
+        // If you have visual elements or want to disable further interaction:
+        // if (phoneInstance != null) { /* Change appearance */ }
+        // if (phoneCollider != null) { phoneCollider.enabled = false; }
     }
 
     public override void Complete()
     {
         Debug.Log("Task Completed: Answer the phone");
-        // Any task-specific completion logic here
+        // Any task-specific completion logic (e.g., update game state)
     }
 
     public override void InitializeTask()
     {
-        phoneRinging.Play(); // Start ringing
+        phoneRinging.Play(); // Start ringing when the task is initialized
     }
 
     void Start()
     {
-        // We'll move the initial ringing to InitializeTask()
+        if (taskName == null)
+        {
+            taskName = "Answer the Phone";
+        }
     }
 }

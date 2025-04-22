@@ -7,11 +7,20 @@ public class MikesTaskManager : MonoBehaviour
 {
     public List<Task> availableTasks;
     public int numberOfTasks = 5;
-    public TaskListUI taskListUI;
-    public RoomGenerator6 roomGenerator;
+    public TaskDisplayUI taskListUI;
+    public RoomGenerator7 roomGenerator;
+    public string playerTag = "Player";
 
     private Dictionary<int, List<Task>> tasksByRoom = new Dictionary<int, List<Task>>();
     private List<Task> activeTasks = new List<Task>();
+    private GameObject player;
+    private TaskDisplayUI taskListUIComponent; // Cached reference
+
+    void Awake()
+    {
+        // Set the TaskManager instance when it's created
+        Task.SetTaskManager(this);
+    }
 
     void Start()
     {
@@ -27,18 +36,47 @@ public class MikesTaskManager : MonoBehaviour
         Debug.Log("TaskManager subscribed to RoomGenerator.OnRoomsGenerated.");
     }
 
-    void AssignTasksToRooms(List<RoomGenerator6.Room> generatedRooms)
+    void FindPlayerAndUI()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag(playerTag);
+            if (player == null)
+            {
+                Debug.LogError($"No GameObject found with the tag '{playerTag}'!");
+                return;
+            }
+        }
+
+        if (taskListUIComponent == null)
+        {
+            taskListUIComponent = player.GetComponentInChildren<TaskDisplayUI>();
+            if (taskListUIComponent == null)
+            {
+                Debug.LogError("TaskDisplayUI component not found on the player or its children!");
+            }
+            else
+            {
+                Debug.Log("TaskDisplayUI found on the player.");
+            }
+        }
+        taskListUI = taskListUIComponent;
+    }
+
+    void AssignTasksToRooms(List<RoomGenerator7.Room> generatedRooms)
     {
         Debug.Log("TaskManager AssignTasksToRooms() called. Generated rooms count: " + generatedRooms.Count);
 
+        FindPlayerAndUI();
+
         if (taskListUI != null)
         {
-            Debug.Log("MikesTaskManager: taskListUI is assigned!"); // RIGHT BEFORE the call
+            Debug.Log("MikesTaskManager: taskListUI is available!");
             taskListUI.SetTasks(activeTasks);
         }
         else
         {
-            Debug.LogError("TaskListUI not assigned in TaskManager!");
+            Debug.LogError("TaskListUI not found, cannot update task list!");
         }
 
         if (availableTasks.Count == 0)
@@ -50,13 +88,11 @@ public class MikesTaskManager : MonoBehaviour
         tasksByRoom.Clear();
         activeTasks.Clear();
 
-        // 1. Shuffle available tasks to randomize assignment
         List<Task> shuffledTasks = availableTasks.OrderBy(a => Random.value).ToList();
         Debug.Log("Shuffled tasks. Task count: " + shuffledTasks.Count);
 
-        // 2. Distribute tasks (one per room for the first few)
         int taskIndex = 0;
-        foreach (RoomGenerator6.Room room in generatedRooms)
+        foreach (RoomGenerator7.Room room in generatedRooms)
         {
             if (taskIndex < numberOfTasks && taskIndex < shuffledTasks.Count)
             {
@@ -64,7 +100,7 @@ public class MikesTaskManager : MonoBehaviour
 
                 Task newTask = Instantiate(shuffledTasks[taskIndex]);
                 newTask.roomNumber = room.id;
-                newTask.taskManager = this;
+                // newTask.taskManager = this; // No longer directly assigning
                 activeTasks.Add(newTask);
 
                 Debug.Log("Instantiated task: " + newTask.taskName + ". Room number: " + newTask.roomNumber);
@@ -79,7 +115,6 @@ public class MikesTaskManager : MonoBehaviour
 
                 taskIndex++;
 
-                // 3. Spawn the associated item in the room
                 if (newTask.taskPrefab != null)
                 {
                     Vector3 spawnPosition = GetRandomPointInRoom(room);
@@ -89,7 +124,7 @@ public class MikesTaskManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("Task prefab is null for task: " + newTask.taskName);
+                    Debug.LogWarning($"Task prefab is null for task '{newTask.taskName}' (index {taskIndex}) in availableTasks!");
                 }
                 newTask.InitializeTask();
                 Debug.Log("Task Initialized.");
@@ -97,39 +132,59 @@ public class MikesTaskManager : MonoBehaviour
             else
             {
                 Debug.Log("Reached task limit or no more tasks. Breaking loop.");
-                break; // Stop if we've assigned enough tasks
+                break;
             }
         }
 
         if (taskListUI != null)
         {
-            taskListUI.SetTasks(activeTasks); // Send active tasks to UI
+            taskListUI.SetTasks(activeTasks);
             Debug.Log("TaskListUI updated with active tasks. Active task count: " + activeTasks.Count);
         }
         else
         {
-            Debug.LogError("TaskListUI not assigned in TaskManager!");
+            Debug.LogError("TaskListUI not found, cannot update task list!");
         }
     }
 
-    // Helper method to get a random point within a room
-    Vector3 GetRandomPointInRoom(RoomGenerator6.Room room)
+    Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
     {
-        float x = Random.Range(room.roomBounds.min.x + 1f, room.roomBounds.max.x - 1f);
-        float z = Random.Range(room.roomBounds.min.z + 1f, room.roomBounds.max.z - 1f);
+        float x = Random.Range(room.roomBounds.min.x + 1f, room.roomBounds.max.x - 1f); // Avoid spawning on walls
+        float z = Random.Range(room.roomBounds.min.z + 1f, room.roomBounds.max.z - 1f); // Avoid spawning on walls
         Vector3 spawnPos = new Vector3(x, 0.5f, z);
         Debug.Log("Generated random spawn position: " + spawnPos + " for room " + room.id);
-        return spawnPos; // Adjust Y as needed
+        return spawnPos;
     }
 
     public List<Task> GetTasksForRoom(int roomId)
     {
-        if (tasksByRoom.ContainsKey(roomId))
+        if (tasksByRoom != null && tasksByRoom.ContainsKey(roomId))
         {
             Debug.Log("Returning tasks for room " + roomId + ". Task count: " + tasksByRoom[roomId].Count);
             return tasksByRoom[roomId];
         }
         Debug.Log("No tasks found for room " + roomId + ". Returning empty list.");
         return new List<Task>();
+    }
+
+    public void RemoveTask(string taskNameToRemove)
+    {
+        // Remove from active tasks
+        activeTasks.RemoveAll(task => task.taskName == taskNameToRemove);
+
+        // Remove from tasks by room
+        foreach (var roomId in tasksByRoom.Keys.ToList()) // ToList() to avoid modifying during iteration
+        {
+            if (tasksByRoom[roomId] != null)
+            {
+                tasksByRoom[roomId].RemoveAll(task => task.taskName == taskNameToRemove);
+                if (tasksByRoom[roomId].Count == 0)
+                {
+                    tasksByRoom.Remove(roomId); // Remove empty room lists
+                }
+            }
+        }
+
+        Debug.Log($"Task '{taskNameToRemove}' removed by TaskManager.");
     }
 }
