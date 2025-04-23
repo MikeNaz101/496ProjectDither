@@ -1132,6 +1132,10 @@ public class RoomGenerator7 : MonoBehaviour
          Debug.Log("RoomGenerator: OnRoomsGenerated event invoked.");
 
          Debug.Log("RoomGenerator: GenerateAndBakeSequence() complete.");
-     }
+    }
+    public List<Room> GetAllRooms()
+    {
+        return rooms;
+    }
 
 } // End of RoomGenerator6 class

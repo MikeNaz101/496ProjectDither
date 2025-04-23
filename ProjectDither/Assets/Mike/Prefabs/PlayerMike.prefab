@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &153254711436405438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4083806961893958301}
+  m_Layer: 0
+  m_Name: hand
+  m_TagString: Hand
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4083806961893958301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153254711436405438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.232, y: -0.249, z: 0.584}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5110908236478315805}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1979951793261548938
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,6 +46,7 @@ GameObject:
   - component: {fileID: 1477758623426369330}
   - component: {fileID: 9183490536620914868}
   - component: {fileID: 1748491448222620078}
+  - component: {fileID: 4699120261266165384}
   m_Layer: 0
   m_Name: PlayerMike
   m_TagString: Player
@@ -199,6 +231,23 @@ MonoBehaviour:
   buttons: []
   buttonClickTimeLimit: 5
   gameStatusText: {fileID: 0}
+--- !u!114 &4699120261266165384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979951793261548938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c81957f5af81d40a786ae6320e9d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 3
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  playerCam: {fileID: 7523285343791464573}
 --- !u!1 &7299582048989585703
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +279,8 @@ Transform:
   m_LocalPosition: {x: 0.137, y: 0.635, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4083806961893958301}
   m_Father: {fileID: 5645012273899944107}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!20 &7523285343791464573

@@ -35,7 +35,7 @@ public class NiPlayerMovement : MonoBehaviour
 
     [Header("Button Clicking Mini-Game")]
     [SerializeField]
-    Camera interactionCam;   // Computer camera
+    Camera interactionCam;     // Computer camera
     [SerializeField]
     GameObject computerObject;
     [SerializeField]

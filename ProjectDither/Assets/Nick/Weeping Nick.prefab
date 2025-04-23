@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7197085674772578804}
   - component: {fileID: 2114693013053140698}
   - component: {fileID: 240590139062965046}
+  - component: {fileID: 2092518838388690137}
   m_Layer: 0
   m_Name: Weeping Nick
   m_TagString: Untagged
@@ -152,9 +153,12 @@ MonoBehaviour:
   ai: {fileID: 7681943509035324078}
   player: {fileID: 1979951793261548938, guid: c9896d980e056db49aa27219593a62cb, type: 3}
   playerCam: {fileID: 0}
+  aiSpeed: 10
   obstacleMask:
     serializedVersion: 2
     m_Bits: 384
+  lookFreezeFactor: 0.1
+  hitCount: 0
 --- !u!114 &2114693013053140698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +270,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2092518838388690137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058636547402833860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc7d97105a03a44e9ee959b192478e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabToSpawn: {fileID: 9058636547402833860}
+  bulletTag: Bullet
+  speedIncreasePerHit: 2
 --- !u!1001 &7675781172245985190
 PrefabInstance:
   m_ObjectHideFlags: 0
