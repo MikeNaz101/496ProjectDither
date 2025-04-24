@@ -9,6 +9,7 @@ TagManager:
   - Phone
   - Bullet
   - Hand
+  - AttachPoint
   layers:
   - Default
   - TransparentFX

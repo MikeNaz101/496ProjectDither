@@ -126,8 +126,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 100
-  m_Acceleration: 20
+  m_Speed: 30
+  m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -158,6 +158,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   lookFreezeFactor: 0.1
+  seesPlayerSound: {fileID: 8300000, guid: 7e4e171843d5cac429d085c46b1a5897, type: 3}
+  unfreezeSound: {fileID: 8300000, guid: 23327e1c1b98f2148a7a5c4b2fe95787, type: 3}
   hitCount: 0
 --- !u!114 &2114693013053140698
 MonoBehaviour:
@@ -172,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loseSceneName: EndGameScene
-  loseSoundEffect: {fileID: 8300000, guid: 74861cb897477dc45bdd019c8ff7da97, type: 3}
+  loseSoundEffect: {fileID: 8300000, guid: e9f0cd5fc47510f459698d99627529d3, type: 3}
 --- !u!82 &240590139062965046
 AudioSource:
   m_ObjectHideFlags: 0
@@ -183,8 +185,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 74861cb897477dc45bdd019c8ff7da97, type: 3}
-  m_Resource: {fileID: 8300000, guid: 74861cb897477dc45bdd019c8ff7da97, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7e4e171843d5cac429d085c46b1a5897, type: 3}
+  m_Resource: {fileID: 8300000, guid: 7e4e171843d5cac429d085c46b1a5897, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -285,6 +287,7 @@ MonoBehaviour:
   enemyPrefabToSpawn: {fileID: 9058636547402833860}
   bulletTag: Bullet
   speedIncreasePerHit: 2
+  hitSound: {fileID: 8300000, guid: 74861cb897477dc45bdd019c8ff7da97, type: 3}
 --- !u!1001 &7675781172245985190
 PrefabInstance:
   m_ObjectHideFlags: 0

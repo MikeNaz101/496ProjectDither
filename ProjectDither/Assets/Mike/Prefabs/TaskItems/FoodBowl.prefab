@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   taskName: Feed the dog
-  roomNumber: 7
+  roomNumber: 2
   taskPrefab: {fileID: 3746909873850112208}
   dog: {fileID: 3357318140211354186, guid: 621ef0783bceb3a4ebff948328fc0661, type: 3}
 --- !u!114 &-2453572226582084737

@@ -28,7 +28,7 @@ public class InteractableObject : MonoBehaviour
             gameObject.SetActive(false);
             objectToSwitchWith.SetActive(true);
         }
-        else if (interactionType == InteractionType.Computer) // For the computer interaction
+        /*else if (interactionType == InteractionType.Computer) // For the computer interaction
         {
             Debug.Log("Object Interacted With: " + gameObject.name);
             hasInteracted = true;
@@ -42,7 +42,7 @@ public class InteractableObject : MonoBehaviour
         {
             Debug.Log("Object Interacted With: " + gameObject.name);
             hasInteracted = true;
-        }
+        }*/
 
     }
 

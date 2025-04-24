@@ -4,7 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 
-public class NiPlayerMovement1 : MonoBehaviour
+/*public class NiPlayerMovement1 : MonoBehaviour
 {
     private GameManager gameManager;
 
@@ -345,4 +345,4 @@ public class NiPlayerMovement1 : MonoBehaviour
         buttonClickingCanvas.SetActive(false);
     }
 
-}
+}*/

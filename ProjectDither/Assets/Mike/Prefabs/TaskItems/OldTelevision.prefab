@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   taskName: Break The TV
-  roomNumber: 10
+  roomNumber: 1
   taskPrefab: {fileID: 3042664100234627474}
   staticSound: {fileID: 8300000, guid: 1031c08e6005aae499e3b8cbc53ffcef, type: 3}
   breakSound: {fileID: 8300000, guid: 884874469e2612a458b5e5c945c5de8d, type: 3}

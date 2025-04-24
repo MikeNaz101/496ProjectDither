@@ -33,7 +33,7 @@ public class NiPlayerMovement : MonoBehaviour
     [SerializeField]
     TMP_Text interactionPrompt; // Text for interaction prompt
 
-    [Header("Button Clicking Mini-Game")]
+    /*[Header("Button Clicking Mini-Game")]
     [SerializeField]
     Camera interactionCam;     // Computer camera
     [SerializeField]
@@ -47,7 +47,7 @@ public class NiPlayerMovement : MonoBehaviour
     [SerializeField]
     float buttonClickTimeLimit = 5.0f;
     [SerializeField]
-    TMP_Text gameStatusText;
+    TMP_Text gameStatusText;*/
 
     Vector2 movement;
     Vector2 mouseMovement;
@@ -77,7 +77,7 @@ public class NiPlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         chara = GetComponent<CharacterController>();
         playerCam = Camera.main;
-        interactionCam.enabled = false;
+        //interactionCam.enabled = false;
 
         if (interactionPrompt != null)
             interactionPrompt.gameObject.SetActive(false);
@@ -88,8 +88,8 @@ public class NiPlayerMovement : MonoBehaviour
             holdProgressBar.value = 0;
         }
 
-        if (buttonClickingCanvas != null)
-            buttonClickingCanvas.SetActive(false);
+        //if (buttonClickingCanvas != null)
+        //    buttonClickingCanvas.SetActive(false);
     }
 
     void Update()
@@ -101,7 +101,7 @@ public class NiPlayerMovement : MonoBehaviour
                 gameManager.ToggleTaskListAnimation();
             }
         }
-        if (inComputerCamera) // If the player interacted with the computer, handle the mini-game logic
+        /*if (inComputerCamera) // If the player interacted with the computer, handle the mini-game logic
         {
             // Handle the button clicking mini-game
             if (isButtonClickingGameActive)
@@ -114,12 +114,12 @@ public class NiPlayerMovement : MonoBehaviour
                 }
                 return; // Prevent FPS movement during mini-game
             }
-        }
+        }*/
         //Handle core FPS movement
         HandleCamera();
         HandleMovement();
-        HandlePressInteraction();
-        HandleHoldInteraction();
+        //HandlePressInteraction();
+        //HandleHoldInteraction();
         CheckForInteractable();
         HandleLeftClickInteraction(); // NEW: Handle left-click interaction
     }
@@ -146,7 +146,7 @@ public class NiPlayerMovement : MonoBehaviour
         chara.SimpleMove(move * speed);
     }
 
-    void HandlePressInteraction() //Handle Press interaction
+    /*void HandlePressInteraction() //Handle Press interaction
     {
         if (Keyboard.current.eKey.wasPressedThisFrame && isLookingAtInteractable && !canHoldInteract)
         {
@@ -182,9 +182,9 @@ public class NiPlayerMovement : MonoBehaviour
         {
             StartCoroutine(PerformHoldInteractionTask());
         }
-    }
+    }*/
 
-    void ResetHoldInteraction() //Reset the hold interaction
+    /*void ResetHoldInteraction() //Reset the hold interaction
     {
         if (isHolding)
         {
@@ -193,9 +193,9 @@ public class NiPlayerMovement : MonoBehaviour
             holdProgressBar.value = 0;
             holdProgressBar.gameObject.SetActive(false);
         }
-    }
+    }*/
 
-    IEnumerator PerformHoldInteractionTask() //Simulate a task that takes time
+    /*IEnumerator PerformHoldInteractionTask() //Simulate a task that takes time
     {
         isPerformingHoldTask = true;
         InteractWithObject(true);
@@ -227,7 +227,7 @@ public class NiPlayerMovement : MonoBehaviour
         {
             hideSeek.Interact();
         }
-    }
+    }*/
 
     void CheckForInteractable() //Check for interactable objects
     {
@@ -288,7 +288,7 @@ public class NiPlayerMovement : MonoBehaviour
         mouseMovement = lookVal.Get<Vector2>();
     }
 
-    public void EnterComputerCam() //Enter the computer camera
+    /*public void EnterComputerCam() //Enter the computer camera
     {
         inComputerCamera = true;
         Cursor.lockState = CursorLockMode.None;
@@ -362,5 +362,5 @@ public class NiPlayerMovement : MonoBehaviour
         }
 
         buttonClickingCanvas.SetActive(false);
-    }
+    }*/
 }

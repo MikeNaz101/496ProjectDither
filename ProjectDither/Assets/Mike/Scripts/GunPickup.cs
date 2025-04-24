@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI; // Required for Graphic check
 
 public class GunPickup : MonoBehaviour
 {
     [Header("Gun Settings")]
-    public GameObject bulletPrefab; // Prefab of the bullet to spawn
-    public Transform bulletSpawnPoint; // Point where the bullet spawns
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPoint; // Point where the bullet spawns (relative to the gun)
     public float fireForce = 20f;
 
-    private Transform playerHandTransform;
+    // Found at runtime using "Hand" tag
+    private GameObject handImageObject;
+
+    private Transform attachPointTransform; // Found at runtime using "AttachPoint" tag
     private bool isHeld = false;
     private Rigidbody rb;
     private Collider coll;
@@ -17,52 +21,71 @@ public class GunPickup : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
 
-        // Ensure these components exist
-        if (rb == null)
+        // Ensure components exist
+        if (rb == null || coll == null || bulletSpawnPoint == null || bulletPrefab == null)
         {
-            Debug.LogError("GunPickup: Rigidbody component not found on this GameObject!");
+            Debug.LogError("GunPickup: Missing component references on the gun itself!");
             enabled = false;
-        }
-        if (coll == null)
-        {
-            Debug.LogError("GunPickup: Collider component not found on this GameObject!");
-            enabled = false;
-        }
-        if (bulletSpawnPoint == null)
-        {
-            Debug.LogError("GunPickup: bulletSpawnPoint not assigned!");
-            enabled = false;
-        }
-        if (bulletPrefab == null)
-        {
-            Debug.LogError("GunPickup: bulletPrefab not assigned!");
-            enabled = false;
+            return;
         }
 
-        // Find the player's hand transform using the tag
-        GameObject handObject = GameObject.FindGameObjectWithTag("Hand");
-        if (handObject != null)
+        // Find attach point
+        GameObject attachPointObject = GameObject.FindGameObjectWithTag("AttachPoint");
+        if (attachPointObject != null)
         {
-            playerHandTransform = handObject.transform;
+            attachPointTransform = attachPointObject.transform;
+            Debug.Log("GunPickup: Found attach point object: " + attachPointObject.name);
         }
         else
         {
-            Debug.LogError("GunPickup: No GameObject found with the tag 'Hand'! Make sure your player's hand point has this tag.");
-            enabled = false; // Disable the script if the hand isn't found
+            Debug.LogError("GunPickup: No GameObject found with the tag 'AttachPoint'!");
+            enabled = false;
+            return; // Stop if attach point is missing
+        }
+
+        // Find Hand UI Object by Tag
+        handImageObject = GameObject.FindGameObjectWithTag("Hand");
+        if (handImageObject == null)
+        {
+            Debug.LogWarning("GunPickup: Could not find GameObject with tag 'Hand'. Make sure your hand UI GameObject exists, is active, and has the 'Hand' tag assigned. Hand UI will not be hidden/shown.");
+        }
+        else
+        {
+             Debug.Log("GunPickup: Found hand UI object by tag: " + handImageObject.name);
+             // Optional sanity check
+             if (handImageObject.GetComponent<Graphic>() == null)
+             {
+                 Debug.LogWarning($"GunPickup: GameObject '{handImageObject.name}' tagged as 'Hand' does not have a Graphic component (like RawImage or Image).");
+             }
         }
     }
 
     public void Pickup()
     {
-        if (!isHeld && playerHandTransform != null)
+        if (!isHeld && attachPointTransform != null)
         {
             isHeld = true;
             rb.isKinematic = true;
             coll.enabled = false;
-            transform.SetParent(playerHandTransform);
+
+            transform.SetParent(attachPointTransform);
             transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity; // You might want to adjust this
-            Debug.Log("Gun picked up!");
+
+            // --- USE YOUR SPECIFIED ROTATION ---
+            transform.localRotation = Quaternion.Euler(270f, 0f, 180f);
+            // -----------------------------------
+
+            // HIDE HAND UI (checks if found in Start)
+            if (handImageObject != null)
+            {
+                handImageObject.SetActive(false);
+            }
+
+            Debug.Log("Gun picked up and attached to: " + attachPointTransform.name);
+        }
+        else if (attachPointTransform == null)
+        {
+            Debug.LogError("GunPickup: Cannot pickup gun because AttachPoint was not found during Start().");
         }
     }
 
@@ -70,12 +93,13 @@ public class GunPickup : MonoBehaviour
     {
         if (isHeld)
         {
-            if (Input.GetMouseButtonDown(0)) // Left mouse button for shooting
+            // Left mouse button for shooting
+            if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
             }
-
-            if (Input.GetMouseButtonDown(1)) // Right mouse button for dropping
+            // Right mouse button for dropping
+            if (Input.GetMouseButtonDown(1))
             {
                 Drop();
             }
@@ -84,18 +108,26 @@ public class GunPickup : MonoBehaviour
 
     void Shoot()
     {
+        // Check again just in case
         if (bulletPrefab != null && bulletSpawnPoint != null)
         {
+            // Instantiate the bullet at the spawn point's position and rotation
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             if (bulletRb != null)
             {
-                bulletRb.AddForce(bulletSpawnPoint.forward * fireForce, ForceMode.Impulse);
+                // --- APPLY FORCE UPWARDS RELATIVE TO SPAWN POINT ---
+                bulletRb.AddForce(bulletSpawnPoint.up * fireForce, ForceMode.Impulse);
+                // ---------------------------------------------------
             }
             else
             {
-                Debug.LogError("GunPickup: Bullet prefab does not have a Rigidbody component!");
+                Debug.LogError("GunPickup: Bullet prefab '" + bulletPrefab.name + "' does not have a Rigidbody component!");
             }
+        }
+         else
+        {
+             Debug.LogError("GunPickup: Cannot shoot. Missing bulletPrefab or bulletSpawnPoint reference.");
         }
     }
 
@@ -104,13 +136,19 @@ public class GunPickup : MonoBehaviour
         if (isHeld)
         {
             isHeld = false;
-            transform.SetParent(null);
+
+            transform.SetParent(null); // Unparent the gun
             rb.isKinematic = false;
             coll.enabled = true;
-            rb.linearVelocity = Vector3.zero; // Reset velocity when dropped
-            rb.angularVelocity = Vector3.zero; // Reset angular velocity
-            // Optionally add a small force/torque when dropping for a more natural feel
-            // rb.AddForce(Random.insideUnitSphere * 2f, ForceMode.Impulse);
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            // SHOW HAND UI (checks if found in Start)
+            if (handImageObject != null)
+            {
+                handImageObject.SetActive(true);
+            }
+
             Debug.Log("Gun dropped!");
         }
     }

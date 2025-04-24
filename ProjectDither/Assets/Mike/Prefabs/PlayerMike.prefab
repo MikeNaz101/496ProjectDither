@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4083806961893958301}
   m_Layer: 0
-  m_Name: hand
-  m_TagString: Hand
+  m_Name: GunGrip
+  m_TagString: AttachPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153254711436405438}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.232, y: -0.249, z: 0.584}
+  m_LocalRotation: {x: -0, y: -0.067574516, z: -0, w: 0.9977143}
+  m_LocalPosition: {x: 0.132, y: -0.341, z: 0.651}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5110908236478315805}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -7.749, z: 0}
 --- !u!1 &1979951793261548938
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,13 +224,6 @@ MonoBehaviour:
   holdTime: 2
   holdProgressBar: {fileID: 0}
   interactionPrompt: {fileID: 0}
-  interactionCam: {fileID: 0}
-  computerObject: {fileID: 0}
-  computerToSwitchWith: {fileID: 0}
-  buttonClickingCanvas: {fileID: 0}
-  buttons: []
-  buttonClickTimeLimit: 5
-  gameStatusText: {fileID: 0}
 --- !u!114 &4699120261266165384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,11 +573,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1604450011946867159, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2002
+      value: -1900
       objectReference: {fileID: 0}
     - target: {fileID: 1604450011946867159, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674066494846658720, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
+      propertyPath: m_Actions
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1724389747261262067, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_margin.w
@@ -622,6 +619,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 753.9
       objectReference: {fileID: 0}
+    - target: {fileID: 2696661325684851305, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
     - target: {fileID: 3999655010060586520, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_margin.y
       value: -11.152245
@@ -644,7 +645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5967899086439685161, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6063748397340992095, guid: 8e0f7a1b3cc3c3e4b9bf260764065319, type: 3}
       propertyPath: m_margin.y

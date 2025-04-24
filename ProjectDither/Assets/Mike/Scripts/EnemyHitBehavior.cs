@@ -1,48 +1,76 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using Random = UnityEngine.Random;
+using UnityEngine.AI; // Keep if needed, though not directly used here
+using System.Collections.Generic; // Keep for room logic
+using Random = UnityEngine.Random; // Keep for room logic
 
+// Require AudioSource component to ensure sounds can play
+[RequireComponent(typeof(AudioSource))]
 public class EnemyHitBehavior : MonoBehaviour
 {
+    [Header("Enemy References")]
     [Tooltip("The prefab of this enemy to instantiate when hit.")]
     public GameObject enemyPrefabToSpawn;
+
+    [Header("Behavior Settings")]
     [Tooltip("Tag of the object that represents a 'bullet'.")]
     public string bulletTag = "Bullet";
     [Tooltip("Initial multiplier for speed increase per hit.")]
     public float speedIncreasePerHit = 2f;
 
+    [Header("Sound Effects")]
+    [Tooltip("Sound to play when the enemy is hit by a bullet.")]
+    public AudioClip hitSound; // Assign this in the Inspector
+
+    // Component References
     private MikesWeepingAngel weepingAngelScript;
-    private int hitCount = 0;
+    private AudioSource audioSource; // Reference to the AudioSource
     private GameObject player;
     private RoomGenerator7 roomGenerator;
 
+    // State
+    private int hitCount = 0;
+
     void Start()
     {
+        // Get components
         weepingAngelScript = GetComponent<MikesWeepingAngel>();
+        audioSource = GetComponent<AudioSource>(); // Get the AudioSource
         player = GameObject.FindGameObjectWithTag("Player");
-        roomGenerator = FindFirstObjectByType<RoomGenerator7>();
+        roomGenerator = FindFirstObjectByType<RoomGenerator7>(); // Use FindFirstObjectByType for newer Unity versions
 
-        if (roomGenerator == null)
+        // --- Null Checks ---
+        bool errorFound = false;
+        if (audioSource == null) // Check if AudioSource exists
+        {
+            Debug.LogError("EnemyHitBehavior: AudioSource component not found on " + gameObject.name + "! Add one to the prefab.");
+            errorFound = true;
+        }
+         if (roomGenerator == null)
         {
             Debug.LogError("RoomGenerator7 not found in the scene for " + gameObject.name);
-            enabled = false;
+            errorFound = true;
         }
         if (player == null)
         {
             Debug.LogError("Player with tag 'Player' not found in the scene.");
-            enabled = false;
+            errorFound = true;
         }
         if (enemyPrefabToSpawn == null)
         {
             Debug.LogError("Enemy Prefab to Spawn not assigned in the inspector for " + gameObject.name);
-            enabled = false;
+            errorFound = true;
         }
         if (weepingAngelScript == null)
         {
             Debug.LogError("MikesWeepingAngel script not found on " + gameObject.name);
-            enabled = false;
+            errorFound = true;
         }
+
+        if (errorFound)
+        {
+            enabled = false; // Disable script if critical components are missing
+        }
+        // --- End Null Checks ---
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -67,15 +95,33 @@ public class EnemyHitBehavior : MonoBehaviour
 
     private void HandleHit()
     {
+        // --- Play Hit Sound ---
+        if (audioSource != null && hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound); // Play the assigned hit sound
+        }
+        // ----------------------
+
         hitCount++;
 
         // Increase speed on the current enemy
-        weepingAngelScript.aiSpeed += speedIncreasePerHit * hitCount;
+        if (weepingAngelScript != null) // Check if script exists before accessing
+        {
+             weepingAngelScript.aiSpeed += speedIncreasePerHit * hitCount;
+             weepingAngelScript.lookFreezeFactor = Mathf.Max(0f, 1f - (0.1f * hitCount));
+             weepingAngelScript.hitCount = hitCount; // Update hit count on Weeping Angel script
+        }
+        else {
+             Debug.LogWarning("HandleHit: weepingAngelScript reference is null. Cannot update speed/freeze factor.");
+             // Decide if you should return here or continue spawning/moving
+        }
 
-        // Lessen freeze ability (modify the base speed when looked at)
-        weepingAngelScript.lookFreezeFactor = Mathf.Max(0f, 1f - (0.1f * hitCount)); // Example: reduces freeze effect by 10% per hit
 
         // Get all rooms from the room generator
+        if (roomGenerator == null) {
+            Debug.LogWarning("HandleHit: roomGenerator reference is null. Cannot move/spawn enemies.");
+            return; // Cannot proceed without room generator
+        }
         List<RoomGenerator7.Room> allRooms = roomGenerator.GetAllRooms();
         if (allRooms == null || allRooms.Count < 2)
         {
@@ -84,31 +130,35 @@ public class EnemyHitBehavior : MonoBehaviour
         }
 
         // Find the player's current room
+        if (player == null) {
+             Debug.LogWarning("HandleHit: player reference is null. Cannot determine player room.");
+            return;
+        }
         RoomGenerator7.Room playerRoom = GetCurrentRoom(player.transform.position, allRooms);
         if (playerRoom == null)
         {
             Debug.LogWarning("Could not determine the player's current room.");
-            return;
+             // Decide if you should return or continue without player room knowledge
         }
+
 
         // Move this enemy to a random room that isn't the player's
         RoomGenerator7.Room newRoomForThisEnemy = GetRandomRoomExcluding(allRooms, playerRoom);
         if (newRoomForThisEnemy != null)
         {
-            // Find a random point within the new room's bounds
             Vector3 respawnPosition = GetRandomPointInRoom(newRoomForThisEnemy);
             NavMeshHit hit;
             if (NavMesh.SamplePosition(respawnPosition, out hit, 5f, NavMesh.AllAreas))
             {
                 transform.position = hit.position;
-                weepingAngelScript.ai.Warp(hit.position); // Use Warp for immediate position change
+                if(weepingAngelScript != null && weepingAngelScript.ai != null) weepingAngelScript.ai.Warp(hit.position);
                 Debug.Log(gameObject.name + " moved to room " + newRoomForThisEnemy.id);
             }
             else
             {
                 Debug.LogWarning("Could not find a valid NavMesh position in the new room for " + gameObject.name);
-                transform.position = respawnPosition; // Fallback if NavMesh fails
-                weepingAngelScript.ai.Warp(respawnPosition);
+                transform.position = respawnPosition;
+                 if(weepingAngelScript != null && weepingAngelScript.ai != null) weepingAngelScript.ai.Warp(respawnPosition);
             }
         }
         else
@@ -117,57 +167,65 @@ public class EnemyHitBehavior : MonoBehaviour
         }
 
         // Instantiate another of itself in another room
+        if (enemyPrefabToSpawn == null) {
+            Debug.LogWarning("HandleHit: enemyPrefabToSpawn is null. Cannot spawn new enemy.");
+            return;
+        }
         RoomGenerator7.Room spawnRoomForNewEnemy = GetRandomRoomExcluding(allRooms, playerRoom, newRoomForThisEnemy);
         if (spawnRoomForNewEnemy != null)
         {
             Vector3 spawnPosition = GetRandomPointInRoom(spawnRoomForNewEnemy);
             NavMeshHit hit;
+            GameObject newEnemy = null; // Declare outside the if/else
             if (NavMesh.SamplePosition(spawnPosition, out hit, 5f, NavMesh.AllAreas))
             {
-                GameObject newEnemy = Instantiate(enemyPrefabToSpawn, hit.position, Quaternion.identity);
-                EnemyHitBehavior newEnemyHitScript = newEnemy.GetComponent<EnemyHitBehavior>();
-                if (newEnemyHitScript != null)
-                {
-                    newEnemyHitScript.roomGenerator = roomGenerator; // Ensure the new enemy has a reference to the room generator
-                }
-                MikesWeepingAngel newEnemyWeepingAngelScript = newEnemy.GetComponent<MikesWeepingAngel>();
-                if (newEnemyWeepingAngelScript != null)
-                {
-                    newEnemyWeepingAngelScript.playerCam = player.GetComponentInChildren<Camera>(); // Ensure new enemy has player camera reference
-                }
-                Debug.Log("New " + newEnemy.name + " spawned in room " + spawnRoomForNewEnemy.id);
+                 newEnemy = Instantiate(enemyPrefabToSpawn, hit.position, Quaternion.identity);
+                 Debug.Log("New " + newEnemy.name + " spawned in room " + spawnRoomForNewEnemy.id + " on NavMesh.");
             }
             else
             {
-                GameObject newEnemy = Instantiate(enemyPrefabToSpawn, spawnPosition, Quaternion.identity);
+                 newEnemy = Instantiate(enemyPrefabToSpawn, spawnPosition, Quaternion.identity);
+                 Debug.LogWarning("Could not find valid NavMesh position for new enemy. Spawned at raw position in room " + spawnRoomForNewEnemy.id);
+            }
+
+            // Configure the newly spawned enemy
+            if (newEnemy != null)
+            {
                 EnemyHitBehavior newEnemyHitScript = newEnemy.GetComponent<EnemyHitBehavior>();
                 if (newEnemyHitScript != null)
                 {
-                    newEnemyHitScript.roomGenerator = roomGenerator;
+                    newEnemyHitScript.roomGenerator = roomGenerator; // Pass reference
                 }
-                MikesWeepingAngel newEnemyWeepingAngelScript = newEnemy.GetComponent<MikesWeepingAngel>();
-                if (newEnemyWeepingAngelScript != null)
-                {
-                    newEnemyWeepingAngelScript.playerCam = player.GetComponentInChildren<Camera>();
-                }
-                Debug.LogWarning("Could not find a valid NavMesh position in the spawn room for the new enemy. Spawned at " + spawnPosition);
+                 MikesWeepingAngel newEnemyWeepingAngelScript = newEnemy.GetComponent<MikesWeepingAngel>();
+                 if (newEnemyWeepingAngelScript != null && player != null)
+                 {
+                     // Find camera on the player object or its children
+                     Camera playerCamera = player.GetComponentInChildren<Camera>();
+                     if (playerCamera != null) {
+                        newEnemyWeepingAngelScript.playerCam = playerCamera;
+                     } else {
+                         Debug.LogWarning($"Could not find Camera component on Player object '{player.name}' or its children for new enemy '{newEnemy.name}'.");
+                     }
+                 }
             }
         }
         else
         {
             Debug.LogWarning("Could not find a second room to spawn a new enemy in (excluding player's and current enemy's room).");
         }
-
-        // Update the hit count on the Weeping Angel script
-        weepingAngelScript.hitCount = hitCount;
     }
 
+    // --- Helper Methods for Room Logic (Keep these as they are) ---
     private RoomGenerator7.Room GetCurrentRoom(Vector3 position, List<RoomGenerator7.Room> allRooms)
     {
         foreach (var room in allRooms)
         {
-            if (room.roomBounds.Contains(position))
+            Bounds b = room.roomBounds;
+            if (position.x >= b.min.x && position.x <= b.max.x &&
+                position.z >= b.min.z && position.z <= b.max.z)
             {
+                // Optional: Add a small tolerance check for Y if needed
+                // if (Mathf.Abs(position.y - b.center.y) <= b.extents.y)
                 return room;
             }
         }
@@ -176,10 +234,12 @@ public class EnemyHitBehavior : MonoBehaviour
 
     private RoomGenerator7.Room GetRandomRoomExcluding(List<RoomGenerator7.Room> allRooms, RoomGenerator7.Room excludedRoom1, RoomGenerator7.Room excludedRoom2 = null)
     {
+         if (allRooms == null) return null;
         List<RoomGenerator7.Room> validRooms = new List<RoomGenerator7.Room>();
         foreach (var room in allRooms)
         {
-            if (room != excludedRoom1 && room != excludedRoom2)
+             // Ensure room is not null before comparison
+             if (room != null && room != excludedRoom1 && room != excludedRoom2)
             {
                 validRooms.Add(room);
             }
@@ -192,10 +252,19 @@ public class EnemyHitBehavior : MonoBehaviour
         return null;
     }
 
-    private Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
+     private Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
     {
-        float randomX = Random.Range(room.roomBounds.min.x + 1f, room.roomBounds.max.x - 1f);
-        float randomZ = Random.Range(room.roomBounds.min.z + 1f, room.roomBounds.max.z - 1f);
+        // Check if room and bounds exist
+        if (room == null || room.roomBounds == null) {
+            Debug.LogError("GetRandomPointInRoom: Room or Room Bounds are null!");
+            return Vector3.zero; // Return a default value
+        }
+        // Add small padding to avoid spawning exactly on the edge
+        float padding = 1f;
+        float randomX = Random.Range(room.roomBounds.min.x + padding, room.roomBounds.max.x - padding);
+        float randomZ = Random.Range(room.roomBounds.min.z + padding, room.roomBounds.max.z - padding);
+        // Assuming ground level is Y=0, adjust if needed
         return new Vector3(randomX, 0f, randomZ);
     }
+    // --- End Helper Methods ---
 }

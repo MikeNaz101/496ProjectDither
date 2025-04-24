@@ -173,7 +173,7 @@ public class RoomGenerator7 : MonoBehaviour
               Debug.Log("Spawned Player in Room 0");
          }
 
-         if (dogPrefab != null && foodBowlPrefab != null && playerInstance != null && rooms.Count > numRooms / 2)
+         /*if (dogPrefab != null && foodBowlPrefab != null && playerInstance != null && rooms.Count > numRooms / 2)
          {
               int dogRoomIndex = numRooms / 2;
               if(dogRoomIndex < rooms.Count) {
@@ -196,7 +196,7 @@ public class RoomGenerator7 : MonoBehaviour
                       dogScript.player = playerInstance;
                   }
               }
-         }
+         }*/
 
          if (angelPrefab != null && playerInstance != null && rooms.Count > 1)
          {

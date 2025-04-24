@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class HideAndSeekObject : MonoBehaviour
+/*public class HideAndSeekObject : MonoBehaviour
 {
     [SerializeField]
     GameObject ground;  // Use to detect the ground the doll will use to hide
@@ -82,4 +82,4 @@ public class HideAndSeekObject : MonoBehaviour
         yield return new WaitForSeconds(delay);
         canInteract = true; // Re-enable interaction after the delay
     }
-}
+}*/
