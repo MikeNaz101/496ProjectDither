@@ -12,6 +12,7 @@ public class MikesWeepingAngel : MonoBehaviour
     [Tooltip("Factor that reduces speed when looked at. 1 means full speed, 0 means stopped.")]
     [Range(0f, 1f)]
     public float lookFreezeFactor = 0.1f; // Initial freeze factor
+    DitherManAnim anim;
     [HideInInspector]
     public int hitCount = 0; // Track hit count from EnemyHitBehavior
 
@@ -50,6 +51,8 @@ public class MikesWeepingAngel : MonoBehaviour
         {
             enabled = false; // Script won't work without a player
         }
+
+        anim = GameObject.FindAnyObjectByType<DitherManAnim>();
     }
 
     void Update()
@@ -67,12 +70,14 @@ public class MikesWeepingAngel : MonoBehaviour
             ai.isStopped = false; // Allow stopping by setting speed to 0
             ai.speed = aiSpeed * lookFreezeFactor;
             ai.SetDestination(transform.position);
+            anim.PauseAnim();
         }
         else
         {
             ai.isStopped = false;
             ai.speed = aiSpeed;
             ai.SetDestination(player.transform.position);
+            anim.PlayAnim();
         }
     }
 
