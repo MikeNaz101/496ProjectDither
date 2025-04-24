@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     public GameObject resultsScreen;
     public Text percentHitText, normalsText, goodsText, perfectsText, missesText, rankText, finalScoreText;
 
+    public int winScore = 10350;
+    private bool gameEnded = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +47,35 @@ public class GameManager : MonoBehaviour
         currentMultiplier = 1;
 
         totalNotes = FindObjectsOfType<NoteObject>().Length;
+    }
+
+    void ResetGame()
+    {
+        currentScore = 0;
+        currentMultiplier = 1;
+        multiplierTracker = 0;
+
+        scoreText.text = "Score: 0";
+        multiText.text = "Multiplier: x1";
+
+        normalHits = goodHits = perfectHits = missedHits = 0;
+
+        startPlaying = false;
+        gameEnded = false;
+
+        resultsScreen.SetActive(false);
+
+        foreach (NoteObject note in FindObjectsOfType<NoteObject>())
+        {
+            note.gameObject.SetActive(true);
+            note.hasBeenHit = false;
+        }
+
+        theBS.hasStarted = false;
+        theMusic.Stop();
+        theMusic.time = 0f;
+
+        FindObjectOfType<NoteSpawner>().SpawnNotes();
     }
 
     // Update is called once per frame
@@ -59,46 +91,62 @@ public class GameManager : MonoBehaviour
                 theMusic.Play();
             }
         }
-     else
+     else if (!gameEnded)
         {
-            if(!theMusic.isPlaying && resultsScreen.activeInHierarchy)
+            if (currentScore >= winScore)
             {
-                resultsScreen.SetActive(true);
+                gameEnded = true;
+                theMusic.Stop();
+                theBS.hasStarted = false;
 
-                normalsText.text = "" + normalHits;
-                goodsText.text = goodHits.ToString();
-                perfectsText.text = perfectHits.ToString();
-                missesText.text = "" + missedHits;
+                Debug.Log("You Win!");
+                resultsScreen.SetActive(false);
+            }
 
-                float totalHit = normalHits + goodHits + perfectHits;
-                float percentHit = (totalHit / totalNotes) * 100f;
-
-                percentHitText.text = percentHit.ToString("F1") + "%";
-
-                string rankVal = "F";
-                if(percentHit > 40)
+            /*  if(!theMusic.isPlaying && !resultsScreen.activeInHierarchy)
                 {
-                    rankVal = "D";
-                    if(percentHit > 55)
-                    {
-                        rankVal = "C";
-                        if(percentHit > 70)
-                        {
-                            rankVal = "B";
-                                if(percentHit > 85)
-                                {
-                                    rankVal = "A";
-                                    if(percentHit > 95)
-                                    {
-                                        rankVal = "S";
-                                    }
-                                }
-                        }
-                    }
-                }
-                rankText.text = rankVal;
+                    resultsScreen.SetActive(true);
 
-                finalScoreText.text = currentScore.ToString();
+                    normalsText.text = "" + normalHits;
+                    goodsText.text = goodHits.ToString();
+                    perfectsText.text = perfectHits.ToString();
+                    missesText.text = "" + missedHits;
+
+                    float totalHit = normalHits + goodHits + perfectHits;
+                    float percentHit = (totalHit / totalNotes) * 100f;
+
+                    percentHitText.text = percentHit.ToString("F1") + "%";
+
+                    string rankVal = "F";
+                    if(percentHit > 40)
+                    {
+                        rankVal = "D";
+                        if(percentHit > 55)
+                        {
+                            rankVal = "C";
+                            if(percentHit > 70)
+                            {
+                                rankVal = "B";
+                                    if(percentHit > 85)
+                                    {
+                                        rankVal = "A";
+                                        if(percentHit > 95)
+                                        {
+                                            rankVal = "S";
+                                        }
+                                    }
+                            }
+                        }
+                    } 
+                    rankText.text = rankVal;
+
+                    finalScoreText.text = currentScore.ToString();
+                } */
+
+            else if (!theMusic.isPlaying) 
+            {
+                Debug.Log("You lose! Restarting. . .");
+                ResetGame();
             }
      }
     }
@@ -159,4 +207,6 @@ public class GameManager : MonoBehaviour
 
         missedHits++;
     }
+
+    
 }

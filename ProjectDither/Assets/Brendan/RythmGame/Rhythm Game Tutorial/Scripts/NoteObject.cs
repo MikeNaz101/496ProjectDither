@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class NoteObject : MonoBehaviour
 {
     public bool canBePressed;
+    public bool hasBeenHit = false;
     public KeyCode keyToPress;
     public GameObject missEffect, hitEffect, goodEffect, perfectEffect;
 
@@ -21,11 +22,12 @@ public class NoteObject : MonoBehaviour
         {
             if (canBePressed)
             { 
+                hasBeenHit = true;
                 gameObject.SetActive(false);
 
                 // GameManager.instance.NoteHit();
 
-                if (Mathf.Abs(transform.position.y) > 0.25)
+                if (Mathf.Abs(transform.position.y) > 0.25f)
                 {
                     Debug.Log("Hit");
                     GameManager.instance.NormalHit();
@@ -57,10 +59,9 @@ public class NoteObject : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Activator")
+        if (other.tag == "Activator" && !hasBeenHit)
         {
             canBePressed = false;
-
             GameManager.instance.NoteMissed();
             Instantiate(missEffect, transform.position, missEffect.transform.rotation);
         }
