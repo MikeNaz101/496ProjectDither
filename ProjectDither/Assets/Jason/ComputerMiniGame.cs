@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+//using static UnityEditor.Searcher.SearcherWindow.Alignment;
 using TMPro;
 
 public class ComputerMiniGame : MonoBehaviour
-{
+{/*
 
     [SerializeField] float speed = 50f;
     private Vector2 moveInput;
@@ -54,5 +54,5 @@ public class ComputerMiniGame : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         
-    }
+    }*/
 }
