@@ -1,21 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
+  "WorkspaceRootPath": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\mike\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nick\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\replaybutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\replaybutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nick\\documents\\github\\496projectdither\\projectdither\\assets\\mike\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|c:\\users\\nwpop\\documents\\github\\496projectdither\\projectdither\\assets\\nick\\scripts\\textfill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\nick\\scripts\\textfill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\nick\\scripts\\textfill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\mike\\scripts\\mikesweepingangle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\mike\\scripts\\mikesweepingangle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\mike\\scripts\\mikesweepingangle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\dithermananim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\assets\\dithermananim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{33E94E6C-B6A6-FD1F-2FCE-23477315C5BD}|Assembly-CSharp.csproj|solutionrelative:assets\\dithermananim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -31,10 +35,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ReplayButton.cs",
+              "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\ReplayButton.cs",
+              "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\ReplayButton.cs",
+              "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\ReplayButton.cs",
+              "RelativeToolTip": "Assets\\Nick\\Scripts\\ReplayButton.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-26T14:57:38.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\GameManager.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\GameManager.cs",
+              "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\GameManager.cs",
               "RelativeToolTip": "Assets\\Mike\\Scripts\\GameManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -43,24 +60,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TextFill.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\TextFill.cs",
+              "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\TextFill.cs",
               "RelativeDocumentMoniker": "Assets\\Nick\\Scripts\\TextFill.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\TextFill.cs",
+              "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Nick\\Scripts\\TextFill.cs",
               "RelativeToolTip": "Assets\\Nick\\Scripts\\TextFill.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAYwDwAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-24T23:32:37.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-24T23:32:37.943Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MikesWeepingAngle.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
+              "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
               "RelativeDocumentMoniker": "Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
+              "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
               "RelativeToolTip": "Assets\\Mike\\Scripts\\MikesWeepingAngle.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAkwDYAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -68,11 +84,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DitherManAnim.cs",
-              "DocumentMoniker": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\DitherManAnim.cs",
+              "DocumentMoniker": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\DitherManAnim.cs",
               "RelativeDocumentMoniker": "Assets\\DitherManAnim.cs",
-              "ToolTip": "C:\\Users\\nwpop\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\DitherManAnim.cs",
+              "ToolTip": "C:\\Users\\Nick\\Documents\\GitHub\\496ProjectDither\\ProjectDither\\Assets\\DitherManAnim.cs",
               "RelativeToolTip": "Assets\\DitherManAnim.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
