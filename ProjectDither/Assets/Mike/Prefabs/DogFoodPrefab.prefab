@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2960973838635178451}
   - component: {fileID: 6419212017687859871}
   - component: {fileID: 5098551158494328265}
+  - component: {fileID: 3007073224623255667}
   m_Layer: 0
   m_Name: DogFoodPrefab
   m_TagString: Untagged
@@ -136,3 +137,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3007073224623255667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6509217148190542473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9031c6c77ed5bfe4095146049801db5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barkSound: {fileID: 0}

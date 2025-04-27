@@ -4,13 +4,14 @@ public class FeedTheDog : Task
 {
     public GameObject dog;
     private GameObject foodBowlInstance;
-    private bool foodCollected = false;
-    private bool taskCompleted = false;
+    public bool FoodCollected { get; private set; } = false; // Use a property for controlled access
+    public bool TaskCompleted { get; private set; } = false; // Use a property
+    private Dog dogScript; // To easily access the Dog script
 
     public override void Complete()
     {
         Debug.Log("Task Completed: Feed the dog");
-        // Any task-specific completion logic
+        // Any task-specific completion logic (e.g., reward the player)
     }
 
     public override void InitializeTask()
@@ -25,44 +26,62 @@ public class FeedTheDog : Task
         {
             taskName = "Feed the Dog";
         }
+
+        if (dog != null)
+        {
+            dogScript = dog.GetComponent<Dog>();
+            if (dogScript == null)
+            {
+                Debug.LogError("Dog GameObject does not have a Dog script attached!");
+            }
+        }
+        else
+        {
+            Debug.LogError("Dog GameObject is not assigned for FeedTheDog task!");
+        }
+
+        FoodCollected = false; // Initialize
+        TaskCompleted = false; // Initialize
     }
 
     public override void Activate()
     {
-        Debug.Log($"Player interacted to feed the dog for task: {taskName}");
-        // This Activate method now represents the player's interaction.
-        // You'll likely need more specific logic here based on your gameplay.
-
-        // Example logic: If the player interacts near the dog AND has "collected" food:
-        // (You'll need to track the 'foodCollected' state based on other player actions)
-        if (dog != null && foodCollected && !taskCompleted)
+        Debug.Log($"Dog reached the food bowl for task: {taskName}");
+        if (FoodCollected && !TaskCompleted)
         {
             Complete();
             TaskCompleted();
-            taskCompleted = true;
-            // Potentially trigger dog eating animation, etc.
+            // Potentially trigger dog eating animation here (if not handled in Dog script)
         }
-        else if (dog != null && !foodCollected)
+        else if (!FoodCollected)
         {
-            Debug.Log("Need to collect food first!");
-            // Optionally provide feedback to the player
+            Debug.Log("Dog reached the bowl, but food hasn't been collected yet.");
+            // Optionally provide feedback
         }
-        else if (dog == null)
+        else if (TaskCompleted)
         {
-            Debug.LogError("Dog GameObject is not assigned or found for FeedTheDog task!");
+            Debug.Log("Task already completed.");
         }
     }
 
-    // Example of how you might track food collection (this would be in another script or within this one based on player actions):
     public void CollectFood()
     {
-        foodCollected = true;
-        if (foodBowlInstance != null)
+        if (!FoodCollected && !TaskCompleted)
         {
-            foodBowlInstance.SetActive(false); // Or handle food collection visually
+            FoodCollected = true;
+            if (foodBowlInstance != null)
+            {
+                foodBowlInstance.SetActive(false); // Or handle food collection visually
+            }
+            Debug.Log("Dog food collected!");
         }
-        Debug.Log("Dog food collected!");
+        else if (TaskCompleted)
+        {
+            Debug.Log("Cannot collect food, task is already completed.");
+        }
+        else if (FoodCollected)
+        {
+            Debug.Log("Food already collected.");
+        }
     }
-
-    // You might have a separate interaction when the player is near the dog *after* collecting food that calls Activate.
 }

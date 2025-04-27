@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Dog : MonoBehaviour
+public class Dog1 : MonoBehaviour
 {
     private enum State
     {
