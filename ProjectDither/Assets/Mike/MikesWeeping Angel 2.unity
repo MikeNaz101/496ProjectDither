@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableTasks:
-  - {fileID: -8346909666490532229, guid: 75c98a15e88473a4a8cefccfd6c2d65f, type: 3}
+  - {fileID: 0}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableTasks:
-  - {fileID: -8346909666490532229, guid: 75c98a15e88473a4a8cefccfd6c2d65f, type: 3}
+  - {fileID: 0}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   - {fileID: 7339122750033863956, guid: 07d26f5dd681fe74d85ea8f8b3e977fc, type: 3}
   - {fileID: 9132438170586326315, guid: cf5088b582d079949b4182c145d56392, type: 3}
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958afd5e65882ab45889752715cbb679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRooms: 6
+  numRooms: 5
   roomSizeMinMax: {x: 15, y: 50.7}
   bigRoomSize: {x: 200, y: 200.2}
   minRoomSeparation: 20
