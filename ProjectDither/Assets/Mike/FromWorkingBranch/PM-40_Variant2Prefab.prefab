@@ -65,7 +65,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 953e7b7d3d9b0e345ab53f3eb82b044f, type: 2}
-  - {fileID: 2100000, guid: cd674e500d0b2f246bb9b8d89d768a37, type: 2}
+  - {fileID: 2100000, guid: 0f7d45a414a11674baea4b8c0fa08a5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,7 +183,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 953e7b7d3d9b0e345ab53f3eb82b044f, type: 2}
-  - {fileID: 2100000, guid: cd674e500d0b2f246bb9b8d89d768a37, type: 2}
+  - {fileID: 2100000, guid: 0f7d45a414a11674baea4b8c0fa08a5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 5544145250451821188}
   - component: {fileID: 3854327937173161007}
   m_Layer: 9
-  m_Name: PM-40_Variant2Prefab 1
+  m_Name: PM-40_Variant2Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,7 +280,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 953e7b7d3d9b0e345ab53f3eb82b044f, type: 2}
-  - {fileID: 2100000, guid: cd674e500d0b2f246bb9b8d89d768a37, type: 2}
+  - {fileID: 2100000, guid: 0f7d45a414a11674baea4b8c0fa08a5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -446,7 +446,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 953e7b7d3d9b0e345ab53f3eb82b044f, type: 2}
-  - {fileID: 2100000, guid: cd674e500d0b2f246bb9b8d89d768a37, type: 2}
+  - {fileID: 2100000, guid: 0f7d45a414a11674baea4b8c0fa08a5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -533,7 +533,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 953e7b7d3d9b0e345ab53f3eb82b044f, type: 2}
-  - {fileID: 2100000, guid: cd674e500d0b2f246bb9b8d89d768a37, type: 2}
+  - {fileID: 2100000, guid: 0f7d45a414a11674baea4b8c0fa08a5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

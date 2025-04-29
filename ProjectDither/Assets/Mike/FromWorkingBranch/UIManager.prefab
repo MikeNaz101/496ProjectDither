@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 2772248410438159301}
   - component: {fileID: 3927196072979991018}
   m_Layer: 0
-  m_Name: UIManager 1
+  m_Name: UIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,11 +416,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3542154447303413911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4126557407fd94a95bff05442f85c4, type: 3}
+  m_Script: {fileID: 11500000, guid: cf64d4a237b4d1c4785b7c7ee3651ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSceneName: VinnySceneMikeRevised
-  creditsPanel: {fileID: 0}
+  gameSceneName: GameScene
+  mainMenuElementsContainer: {fileID: 2145262050503145133}
+  creditsScrollView: {fileID: 6951051753256709502}
+  creditsBackButton: {fileID: 6951051753256709502}
 --- !u!1 &4488248356728482385
 GameObject:
   m_ObjectHideFlags: 0
