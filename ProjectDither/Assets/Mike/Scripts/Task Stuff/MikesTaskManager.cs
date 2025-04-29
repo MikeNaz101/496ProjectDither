@@ -10,7 +10,7 @@ public class MikesTaskManager : MonoBehaviour
     public int numberOfTasks = 5; // How many tasks to select and activate
 
     [Header("References")]
-    public TaskDisplayUI taskListUI; // Assign the UI handler in Inspector
+    public TaskDisplayUI taskDisplayUI; // Assign the UI handler in Inspector
     public RoomGenerator7 roomGenerator; // Assign RoomGenerator in Inspector
     public GameManager gameManager; // Assign GameManager in Inspector
 
@@ -18,18 +18,16 @@ public class MikesTaskManager : MonoBehaviour
     [SerializeField] private List<Task> activeTasks = new List<Task>();
     [SerializeField] private int totalTasksAssigned = 0;
     [SerializeField] private int tasksCompletedCount = 0;
+    [SerializeField] private List<Task> temporaryTasks = new List<Task>(); // For tasks added after initial assignment
 
     // --- Private Runtime Data ---
     private Dictionary<int, List<Task>> tasksByRoom = new Dictionary<int, List<Task>>();
-    // Removed player finding logic as it wasn't directly used for task completion reporting
-    // private GameObject player;
-    // private string playerTag = "Player";
-    // private TaskDisplayUI taskListUIComponent; // Cache is handled by public field now
 
     void Awake()
     {
         // Set the static TaskManager instance for Tasks to use
         Task.SetTaskManager(this);
+        taskDisplayUI = FindFirstObjectByType<TaskDisplayUI>();
 
         // Ensure required references are set
         if (gameManager == null)
@@ -37,15 +35,17 @@ public class MikesTaskManager : MonoBehaviour
             Debug.LogError("GameManager reference is not set in MikesTaskManager!");
             // Optionally try to find it: gameManager = FindObjectOfType<GameManager>();
         }
-        if (taskListUI == null)
+        
+        if (taskDisplayUI == null)
         {
-             Debug.LogError("TaskDisplayUI reference is not set in MikesTaskManager!");
-             // Optionally try to find it: taskListUI = FindObjectOfType<TaskDisplayUI>();
-             // Note: Finding UI might be better done via player reference if it's on the player
+            
+            Debug.LogError("TaskDisplayUI reference is not set in MikesTaskManager!");
+            // Optionally try to find it: taskDisplayUI = FindObjectOfType<TaskDisplayUI>();
+            // Note: Finding UI might be better done via player reference if it's on the player
         }
-         if (roomGenerator == null)
+        if (roomGenerator == null)
         {
-             Debug.LogError("RoomGenerator reference is not set in MikesTaskManager!");
+            Debug.LogError("RoomGenerator reference is not set in MikesTaskManager!");
         }
     }
 
@@ -55,8 +55,8 @@ public class MikesTaskManager : MonoBehaviour
 
         if (roomGenerator != null)
         {
-             roomGenerator.OnRoomsGenerated += AssignTasksToRooms;
-             Debug.Log("TaskManager subscribed to RoomGenerator.OnRoomsGenerated.");
+            roomGenerator.OnRoomsGenerated += AssignTasksToRooms;
+            Debug.Log("TaskManager subscribed to RoomGenerator.OnRoomsGenerated.");
         }
         else
         {
@@ -67,22 +67,13 @@ public class MikesTaskManager : MonoBehaviour
     // Renamed from FindPlayerAndUI - only sets UI if needed
     void EnsureUIReference()
     {
-        // This assumes taskListUI is assigned in the inspector.
-        // If it needs to be found dynamically (e.g., on a player prefab):
-        // if (taskListUI == null)
-        // {
-        //     GameObject player = GameObject.FindGameObjectWithTag(playerTag);
-        //     if (player != null) taskListUI = player.GetComponentInChildren<TaskDisplayUI>();
-        //     if (taskListUI == null) Debug.LogError("TaskDisplayUI component not found!");
-        // }
-
-        if (taskListUI != null)
+        if (taskDisplayUI != null)
         {
-            Debug.Log("MikesTaskManager: taskListUI is available!");
+            Debug.Log("MikesTaskManager: taskDisplayUI is available!");
         }
         else
         {
-            Debug.LogError("TaskListUI reference is missing!");
+            Debug.LogError("TaskDisplayUI reference is missing!");
         }
     }
 
@@ -102,7 +93,8 @@ public class MikesTaskManager : MonoBehaviour
         tasksByRoom.Clear();
         activeTasks.Clear();
         tasksCompletedCount = 0;
-        totalTasksAssigned = 0; // Reset for this assignment
+        totalTasksAssigned = 0;
+        temporaryTasks.Clear(); // Clear any temporary tasks from previous generation
 
         // Shuffle and select tasks
         List<Task> shuffledTasks = availableTasks.OrderBy(a => Random.value).ToList();
@@ -114,15 +106,16 @@ public class MikesTaskManager : MonoBehaviour
             // Stop if we've assigned enough tasks or run out of task types or rooms
             if (taskIndex >= numberOfTasks || taskIndex >= shuffledTasks.Count)
             {
-                 Debug.Log($"Stopping task assignment. Reached limit ({numberOfTasks}) or ran out of task types ({shuffledTasks.Count}).");
-                 break;
+                Debug.Log($"Stopping task assignment. Reached limit ({numberOfTasks}) or ran out of task types ({shuffledTasks.Count}).");
+                break;
             }
 
-             Debug.Log("Assigning task to room " + room.id);
+            Debug.Log("Assigning task to room " + room.id);
 
             // Instantiate the Task component itself (often from a prefab containing the script)
             Task taskPrefabToInstantiate = shuffledTasks[taskIndex];
-            if (taskPrefabToInstantiate == null) {
+            if (taskPrefabToInstantiate == null)
+            {
                 Debug.LogError($"Available task at index {taskIndex} is null!");
                 taskIndex++;
                 continue; // Skip this one
@@ -170,24 +163,27 @@ public class MikesTaskManager : MonoBehaviour
 
         // Set the total count AFTER assignment loop is finished
         totalTasksAssigned = activeTasks.Count;
-        Debug.Log($"Total tasks assigned and active: {totalTasksAssigned}");
+        Debug.Log($"Total initial tasks assigned and active: {totalTasksAssigned}");
 
-        // Update the UI with the list of assigned tasks
-        if (taskListUI != null)
+        // Update the UI with the initial list of assigned tasks
+        if (taskDisplayUI != null)
         {
-            taskListUI.SetTasks(activeTasks); // Assumes SetTasks clears old list and adds new ones
-            Debug.Log("TaskListUI updated with active tasks. Active task count: " + activeTasks.Count);
+            List<Task> allTasksToDisplay = new List<Task>(activeTasks);
+            allTasksToDisplay.AddRange(temporaryTasks);
+            taskDisplayUI.SetTasks(allTasksToDisplay); // Assumes SetTasks clears old list and adds new ones
+            Debug.Log("TaskDisplayUI updated with active tasks. Active task count: " + allTasksToDisplay.Count);
         }
         else
         {
-            Debug.LogError("TaskListUI not found, cannot update task list!");
+            Debug.LogError("TaskDisplayUI not found, cannot update task list!");
         }
     }
 
-    Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
+    public Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
     {
         // Ensure bounds are valid before using them
-        if (room.roomBounds.size == Vector3.zero) {
+        if (room.roomBounds.size == Vector3.zero)
+        {
             Debug.LogError($"Room {room.id} has zero size bounds!");
             return Vector3.zero; // Or some default position
         }
@@ -210,7 +206,6 @@ public class MikesTaskManager : MonoBehaviour
         // Debug.Log("No tasks found for room " + roomId + ". Returning empty list.");
         return new List<Task>(); // Return empty list, not null
     }
-
     // This method is called by individual Task scripts when they are completed
     public void MarkTaskAsCompleted(string taskName)
     {
@@ -220,10 +215,11 @@ public class MikesTaskManager : MonoBehaviour
         if (completedTask != null)
         {
             // Check if it was already marked as complete somehow (safety check)
-             if (!activeTasks.Contains(completedTask)) {
-                 Debug.LogWarning($"Task '{taskName}' reported completion but was already removed from active list.");
-                 return; // Already processed
-             }
+            if (!activeTasks.Contains(completedTask))
+            {
+                Debug.LogWarning($"Task '{taskName}' reported completion but was already removed from active list.");
+                return; // Already processed
+            }
 
             Debug.Log($"TaskManager processing completion for: {taskName}");
 
@@ -232,34 +228,34 @@ public class MikesTaskManager : MonoBehaviour
             Debug.Log($"Tasks completed: {tasksCompletedCount} / {totalTasksAssigned}");
 
             // 2. Update UI (Tell TaskDisplayUI to draw the line)
-            if (taskListUI != null)
+            if (taskDisplayUI != null)
             {
                 // --- YOU NEED TO IMPLEMENT THIS METHOD IN TaskDisplayUI ---
-                taskListUI.MarkTaskCompleteUI(taskName);
+                taskDisplayUI.MarkTaskCompleteUI(taskName);
                 // This method should find the UI element for taskName and enable/configure its Line Renderer
                 Debug.Log($"Requested UI update for completed task: {taskName}");
             }
             else
             {
-                Debug.LogWarning("Cannot mark task complete on UI - TaskListUI reference is missing.");
+                Debug.LogWarning("Cannot mark task complete on UI - TaskDisplayUI reference is missing.");
             }
 
             // 3. Remove from internal tracking lists
             activeTasks.Remove(completedTask);
             if (tasksByRoom.ContainsKey(completedTask.roomNumber))
             {
-                 tasksByRoom[completedTask.roomNumber].Remove(completedTask);
-                 if (tasksByRoom[completedTask.roomNumber].Count == 0)
-                 {
-                     tasksByRoom.Remove(completedTask.roomNumber);
-                 }
+                tasksByRoom[completedTask.roomNumber].Remove(completedTask);
+                if (tasksByRoom[completedTask.roomNumber].Count == 0)
+                {
+                    tasksByRoom.Remove(completedTask.roomNumber);
+                }
             }
 
-            // 4. Check for Win Condition
+            // 4. Check for Win Condition (initial tasks)
             // Ensure totalTasksAssigned > 0 to prevent winning immediately if no tasks were assigned
             if (totalTasksAssigned > 0 && tasksCompletedCount >= totalTasksAssigned)
             {
-                Debug.Log("All tasks completed! Notifying GameManager.");
+                Debug.Log("All initial tasks completed! Notifying GameManager to spawn exit.");
                 if (gameManager != null)
                 {
                     gameManager.AllTasksCompleted(); // Notify GameManager
@@ -276,7 +272,44 @@ public class MikesTaskManager : MonoBehaviour
         }
     }
 
-    // --- Replaced RemoveTask with MarkTaskAsCompleted ---
-    // public void RemoveTask(string taskNameToRemove) // Old method
-    // { ... }
+    // New method to add temporary tasks (like "find the exit")
+    public void AddTemporaryTask(Task newTask)
+    {
+        if (taskDisplayUI != null)
+        {
+            temporaryTasks.Add(newTask);
+            List<Task> allTasksToDisplay = new List<Task>(activeTasks);
+            allTasksToDisplay.AddRange(temporaryTasks);
+            taskDisplayUI.SetTasks(allTasksToDisplay);
+            Debug.Log($"Added temporary task: '{newTask.taskName}'. Total displayed tasks: {allTasksToDisplay.Count}");
+        }
+        else
+        {
+            Debug.LogError("TaskDisplayUI reference is missing, cannot add temporary task to UI.");
+        }
+    }
+
+    // You might want a way to mark the "find the exit" task as completed as well.
+    // You could either have the ExitPortal script call a specific function here,
+    // or have the GameManager handle that based on the player entering the portal.
+    public void MarkTemporaryTaskAsCompleted(string taskName)
+    {
+        Task taskToRemove = temporaryTasks.FirstOrDefault(t => t.taskName == taskName);
+        if (taskToRemove != null)
+        {
+            temporaryTasks.Remove(taskToRemove);
+            if (taskDisplayUI != null)
+            {
+                List<Task> allTasksToDisplay = new List<Task>(activeTasks);
+                allTasksToDisplay.AddRange(temporaryTasks);
+                taskDisplayUI.SetTasks(allTasksToDisplay);
+                taskDisplayUI.MarkTaskCompleteUI(taskName); // Update UI to show it's done
+                Debug.Log($"Marked temporary task '{taskName}' as completed.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Temporary task '{taskName}' not found.");
+        }
+    }
 }

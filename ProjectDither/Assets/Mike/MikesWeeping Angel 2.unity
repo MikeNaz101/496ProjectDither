@@ -155,9 +155,13 @@ MonoBehaviour:
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   numberOfTasks: 5
-  taskListUI: {fileID: 0}
+  taskDisplayUI: {fileID: 0}
   roomGenerator: {fileID: 318348238}
-  playerTag: Player
+  gameManager: {fileID: 0}
+  activeTasks: []
+  totalTasksAssigned: 0
+  tasksCompletedCount: 0
+  temporaryTasks: []
 --- !u!4 &33324019
 Transform:
   m_ObjectHideFlags: 0
@@ -369,6 +373,7 @@ GameObject:
   - component: {fileID: 318348232}
   - component: {fileID: 318348237}
   - component: {fileID: 318348238}
+  - component: {fileID: 318348239}
   m_Layer: 0
   m_Name: GenerateRooms
   m_TagString: Untagged
@@ -404,15 +409,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableTasks:
-  - {fileID: 0}
+  - {fileID: 9132438170586326315, guid: cf5088b582d079949b4182c145d56392, type: 3}
   - {fileID: 2256389149657367638, guid: ca0db97621ce1b541b0ac668d97cc39f, type: 3}
   - {fileID: 7339122750033863956, guid: 07d26f5dd681fe74d85ea8f8b3e977fc, type: 3}
   - {fileID: 9132438170586326315, guid: cf5088b582d079949b4182c145d56392, type: 3}
   - {fileID: 73611115540594862, guid: 54600c0e8c199e44f9a7cb39cc7438e8, type: 3}
   numberOfTasks: 5
-  taskListUI: {fileID: 0}
+  taskDisplayUI: {fileID: 0}
   roomGenerator: {fileID: 318348238}
-  playerTag: Player
+  gameManager: {fileID: 2081627492}
+  activeTasks: []
+  totalTasksAssigned: 0
+  tasksCompletedCount: 0
+  temporaryTasks: []
 --- !u!114 &318348238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +454,23 @@ MonoBehaviour:
   dogPrefab: {fileID: 3357318140211354186, guid: 621ef0783bceb3a4ebff948328fc0661, type: 3}
   foodBowlPrefab: {fileID: 3746909873850112208, guid: 75c98a15e88473a4a8cefccfd6c2d65f, type: 3}
   playerPrefab: {fileID: 1979951793261548938, guid: c9896d980e056db49aa27219593a62cb, type: 3}
+--- !u!114 &318348239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318348230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19efd3c6647c0a34399caa1ba94951a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitPortalPrefab: {fileID: 8726805661682097263, guid: bf8b868bded570047a2dc5b7e459e955, type: 3}
+  findExitTaskText: Find the Exit
+  taskManager: {fileID: 318348237}
+  taskDisplayUI: {fileID: 0}
+  enemyHitBehaviorReference: {fileID: 2092518838388690137, guid: fa6d2068844d4084f9de8eb86182b7de, type: 3}
 --- !u!1 &331624934
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,14 +966,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081627491}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19efd3c6647c0a34399caa1ba94951a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taskListAnimator: {fileID: 0}
-  animatorHolderName: HandWithPaper
-  boolParameterName: IsTaskListVisible
+  exitPortalPrefab: {fileID: 8726805661682097263, guid: bf8b868bded570047a2dc5b7e459e955, type: 3}
+  findExitTaskText: Find the Exit
+  taskManager: {fileID: 318348237}
+  taskDisplayUI: {fileID: 0}
+  enemyHitBehaviorReference: {fileID: 2092518838388690137, guid: fa6d2068844d4084f9de8eb86182b7de, type: 3}
 --- !u!4 &2081627493
 Transform:
   m_ObjectHideFlags: 0
@@ -1077,7 +1105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3118959674472099370, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -85.73323
+      value: -179
       objectReference: {fileID: 0}
     - target: {fileID: 3941381894576526842, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1109,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983427160089299547, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -146.46646
+      value: -333
       objectReference: {fileID: 0}
     - target: {fileID: 8107034953952644199, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1125,7 +1153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107034953952644199, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55.366615
+      value: -102
       objectReference: {fileID: 0}
     - target: {fileID: 9168405168557598829, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1141,7 +1169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9168405168557598829, guid: f4704c98803772748af1c5703ef208b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -116.099846
+      value: -256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

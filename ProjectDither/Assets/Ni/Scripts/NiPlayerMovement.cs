@@ -96,9 +96,15 @@ public class NiPlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (gameManager != null)
+            // Find the TaskDisplayUI component (adjust if it's located elsewhere)
+            TaskDisplayUI taskDisplayUI = FindFirstObjectByType<TaskDisplayUI>();
+            if (taskDisplayUI != null)
             {
-                gameManager.ToggleTaskListAnimation();
+                taskDisplayUI.ToggleTaskList(); // Call the UI script's toggle function
+            }
+            else
+            {
+                Debug.LogWarning("TaskDisplayUI not found, cannot toggle task list.");
             }
         }
         /*if (inComputerCamera) // If the player interacted with the computer, handle the mini-game logic

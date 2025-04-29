@@ -1138,4 +1138,4 @@ public class RoomGenerator7 : MonoBehaviour
         return rooms;
     }
 
-} // End of RoomGenerator6 class
+} // End of RoomGenerator7 class

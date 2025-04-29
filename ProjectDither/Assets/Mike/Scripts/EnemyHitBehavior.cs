@@ -252,7 +252,7 @@ public class EnemyHitBehavior : MonoBehaviour
         return null;
     }
 
-     private Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
+    public Vector3 GetRandomPointInRoom(RoomGenerator7.Room room)
     {
         // Check if room and bounds exist
         if (room == null || room.roomBounds == null) {

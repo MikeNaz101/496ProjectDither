@@ -1,94 +1,108 @@
 using UnityEngine;
+using System.Collections.Generic;
+using TMPro; // Assuming your task list uses TextMeshPro
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Task List UI Animation")]
-    public Animator taskListAnimator; // Assign in Inspector or keep finding logic
-    public string animatorHolderName = "HandWithPaper"; // Name of the object with the Animator
-    public string boolParameterName = "IsTaskListVisible"; // Name of the boolean parameter
+    [Header("Win Condition - Exit Portal")]
+    [Tooltip("Prefab of the exit portal to spawn.")]
+    public GameObject exitPortalPrefab;
+    [Tooltip("Text to display for the 'find the exit' task.")]
+    public string findExitTaskText = "Find the Exit";
 
-    [Header("Win Condition")]
-    public GameObject winScreenUI; // Assign your Win Screen Panel/Canvas Group here in Inspector
+    [Header("Task List References")]
+    [Tooltip("Reference to the MikesTaskManager script.")]
+    public MikesTaskManager taskManager; // Assign in Inspector
+    [Tooltip("Reference to the TaskDisplayUI script in the scene.")]
+    public TaskDisplayUI taskDisplayUI; // Assign in Inspector
+    [Tooltip("Reference to an EnemyHitBehavior script in the scene to access GetRandomPointInRoom.")]
+    public EnemyHitBehavior enemyHitBehaviorReference; // Assign in Inspector
 
-    private bool isTaskListVisible = false;
     private bool gameWon = false; // Prevent win condition from triggering multiple times
+    private GameObject spawnedExitPortal;
 
     void Start()
     {
-        // Try to find the Animator at start if not assigned
-        if (taskListAnimator == null)
+        gameWon = false;
+        if (taskManager == null)
         {
-             FindTaskListAnimator();
-             if (taskListAnimator == null)
-             {
-                 Debug.LogWarning($"Animator on object '{animatorHolderName}' not found. Task list toggle may not work.");
-             }
+            Debug.LogError("GameManager needs a reference to MikesTaskManager!");
         }
-
-        // Ensure Win Screen is initially hidden
-        if (winScreenUI != null)
+        if (taskDisplayUI == null)
         {
-            winScreenUI.SetActive(false);
+            Debug.LogError("GameManager needs a reference to the TaskDisplayUI script!");
         }
-        else
+        if (enemyHitBehaviorReference == null)
         {
-            Debug.LogWarning("Win Screen UI is not assigned in GameManager. Win condition will not display UI.");
-        }
-        gameWon = false; // Reset win state on start
-    }
-
-    void FindTaskListAnimator()
-    {
-        // Find the object with the Animator
-        GameObject animatorHolder = GameObject.Find(animatorHolderName);
-        if (animatorHolder != null)
-        {
-            taskListAnimator = animatorHolder.GetComponent<Animator>();
+            Debug.LogError("GameManager needs a reference to an EnemyHitBehavior script to use GetRandomPointInRoom!");
         }
     }
 
-    public void ToggleTaskListAnimation()
-    {
-        if (taskListAnimator != null)
-        {
-            isTaskListVisible = !isTaskListVisible;
-            taskListAnimator.SetBool(boolParameterName, isTaskListVisible);
-        }
-        else
-        {
-            Debug.LogError($"Animator on object '{animatorHolderName}' not found, cannot toggle animation!");
-        }
-    }
-
-    // Called by MikesTaskManager when all tasks are completed
+    // Called by MikesTaskManager when all initial tasks are completed
     public void AllTasksCompleted()
     {
-        if (gameWon) return; // Already won, do nothing
+        if (gameWon) return;
 
-        gameWon = true; // Set flag to prevent re-triggering
-        Debug.Log("--- GAME WON ---");
+        gameWon = true;
+        Debug.Log("All initial tasks completed! Spawning exit portal.");
 
-        // --- Add Your Win Condition Logic Here ---
+        SpawnExitPortal();
+        AddNewFindExitTaskToUI(); // Call the direct UI update method
+    }
 
-        // Example 1: Activate a Win Screen UI
-        if (winScreenUI != null)
+    void SpawnExitPortal()
+    {
+        if (exitPortalPrefab == null)
         {
-            winScreenUI.SetActive(true);
-            Debug.Log("Win Screen Activated.");
+            Debug.LogError("Exit Portal Prefab is not assigned in GameManager!");
+            return;
         }
 
-        // Example 2: Stop player movement (if you have a player controller script)
-        // FindObjectOfType<PlayerMovement>()?.DisableMovement();
+        if (taskManager == null || taskManager.roomGenerator == null || taskManager.roomGenerator.GetAllRooms() == null)
+        {
+            Debug.LogError("RoomGenerator not properly referenced via TaskManager!");
+            return;
+        }
 
-        // Example 3: Load a new scene (e.g., a credits scene)
-        // UnityEngine.SceneManagement.SceneManager.LoadScene("CreditsScene");
+        List<RoomGenerator7.Room> generatedRooms = taskManager.roomGenerator.GetAllRooms();
+        if (generatedRooms.Count == 0)
+        {
+            Debug.LogError("No generated rooms found to spawn the exit portal in!");
+            return;
+        }
 
-        // Example 4: Unlock cursor
-        // Cursor.lockState = CursorLockMode.None;
-        // Cursor.visible = true;
+        RoomGenerator7.Room targetRoom = generatedRooms[Random.Range(0, generatedRooms.Count)];
 
-        // Example 5: Play a victory sound
-        // AudioSource victoryAudio = GetComponent<AudioSource>(); // Add an AudioSource component
-        // if (victoryAudio != null) victoryAudio.Play(); // Assign a victory clip
+        if (enemyHitBehaviorReference != null)
+        {
+            Vector3 spawnPosition = enemyHitBehaviorReference.GetRandomPointInRoom(targetRoom);
+            spawnedExitPortal = Instantiate(exitPortalPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log($"Spawned exit portal in Room {targetRoom.id} at {spawnPosition}");
+        }
+        else
+        {
+            Debug.LogError("EnemyHitBehavior reference is missing, cannot get random point in room for exit portal!");
+            // Fallback if no EnemyHitBehavior is referenced - spawn at room center
+            spawnedExitPortal = Instantiate(exitPortalPrefab, targetRoom.roomBounds.center, Quaternion.identity);
+            Debug.LogWarning($"EnemyHitBehavior reference missing. Spawning exit portal at Room {targetRoom.id} center.");
+        }
+    }
+
+    void AddNewFindExitTaskToUI()
+    {
+        if (taskDisplayUI != null)
+        {
+            // We don't need to go through TaskManager for UI-only updates now.
+            // Assuming TaskDisplayUI has a method to directly add a task name.
+            // Let's add such a method to TaskDisplayUI.
+
+            taskDisplayUI.AddTaskToDisplay(findExitTaskText);
+            Debug.Log($"Added 'find the exit' task to the UI.");
+        }
+        else
+        {
+            Debug.LogError("TaskDisplayUI reference is missing, cannot add 'find the exit' task to UI.");
+        }
     }
 }
