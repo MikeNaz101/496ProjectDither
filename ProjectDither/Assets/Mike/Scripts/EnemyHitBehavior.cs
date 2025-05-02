@@ -101,7 +101,20 @@ public class EnemyHitBehavior : MonoBehaviour
             audioSource.PlayOneShot(hitSound); // Play the assigned hit sound
         }
         // ----------------------
+        Debug.Log($"{gameObject.name} has been killed.");
 
+        // Tell the EnemyKillTracker that an enemy has been killed
+        if (AngelKillCounter.Instance != null)
+        {
+            AngelKillCounter.Instance.EnemyKilled();
+        }
+        else
+        {
+            Debug.LogError("EnemyKillTracker Instance is null! Make sure the EnemyKillTracker script is in the scene.");
+        }
+
+        // Perform any death effects, animations, etc.
+        //Destroy(gameObject);
         hitCount++;
 
         // Increase speed on the current enemy

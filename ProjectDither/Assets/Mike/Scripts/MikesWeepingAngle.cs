@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class MikesWeepingAngel : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class MikesWeepingAngel : MonoBehaviour
         {
             Debug.LogError("Player with tag 'Player' not found in the scene.");
             enabled = false;
+            return;
         }
 
         if (ai == null)
@@ -32,6 +34,7 @@ public class MikesWeepingAngel : MonoBehaviour
             {
                 Debug.LogError("NavMeshAgent component not found on " + gameObject.name);
                 enabled = false;
+                return;
             }
         }
 
@@ -50,9 +53,23 @@ public class MikesWeepingAngel : MonoBehaviour
         else if (playerCam == null && player == null)
         {
             enabled = false; // Script won't work without a player
+            return;
         }
 
         anim = GameObject.FindAnyObjectByType<DitherManAnim>();
+
+        // Immediately after finding the player and the NavMeshAgent,
+        // set the initial destination and check the path status.
+        ai.SetDestination(player.transform.position);
+        if (ai.pathStatus == NavMeshPathStatus.PathInvalid || ai.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            Debug.LogError($"Enemy '{gameObject.name}' has no valid path to the player on start. Resetting the scene.");
+            ResetScene();
+        }
+        else if (ai.pathStatus == NavMeshPathStatus.PathComplete)
+        {
+            Debug.Log($"Enemy '{gameObject.name}' has a valid path to the player on start.");
+        }
     }
 
     void Update()
@@ -100,5 +117,12 @@ public class MikesWeepingAngel : MonoBehaviour
         }
 
         return false; // No obstacles
+    }
+
+    void ResetScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log($"Reloading scene: {currentSceneName}");
+        SceneManager.LoadScene(currentSceneName);
     }
 }

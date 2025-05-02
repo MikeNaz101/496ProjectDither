@@ -1,87 +1,100 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections; 
+using System.Collections;
 
-[RequireComponent(typeof(AudioSource))] 
+[RequireComponent(typeof(AudioSource))]
 public class EnemyTouchOfDeath : MonoBehaviour
 {
     [Tooltip("The EXACT name of the scene file to load (e.g., LoseScene). Must be in Build Settings!")]
-    public string loseSceneName = "LoseScene"; 
+    public string loseSceneName = "LoseScene";
 
-    [Tooltip("Drag your 'Lose' sound effect audio clip here, my sweet cherry!")]
-    public AudioClip loseSoundEffect; 
+    [Tooltip("Drag your 'Lose' sound effect audio clip here!")]
+    public AudioClip loseSoundEffect;
 
-    // *** IMPORTANT: Replace 'PlayerMovement' with the ACTUAL name of YOUR player's movement script! ***
-    [Tooltip("The exact name of the script component on your Player that handles movement (e.g., PlayerMovement, CharacterControllerScript). Case-sensitive!")]
-    private string playerMovementScriptName = "NiPlayerMovement"; // <--- CHANGE THIS TO YOUR SCRIPT NAME
+    [Tooltip("The name of the player's movement script.")]
+    public string playerMovementScriptName = "NiPlayerMovement";
 
-    private AudioSource enemyAudioSource; 
-    private bool isLosing = false; 
+    [Tooltip("The speed at which the player turns to face the enemy.  A value like 0.1 will be very slow.")]
+    public float playerTurnSpeed = 0.1f; // Keep this slow
+
+    private AudioSource enemyAudioSource;
+    private bool isLosing = false;
+    private Transform enemyFaceTransform;
+    private GameObject playerObject;
+    private NiPlayerMovement playerMovementScript;
 
     void Awake()
     {
-        enemyAudioSource = GetComponent<AudioSource>(); 
+        enemyAudioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if it's the player AND if we aren't already processing a loss.
         if (!isLosing && other.CompareTag("Player"))
         {
-            Debug.Log("Player collision! Starting lose sequence."); 
-            isLosing = true; 
-            
-            // --- Disable Player Movement ---
-            // Find the component using the name you provided in the Inspector.
-            // This requires your player script to inherit from MonoBehaviour (which it almost certainly does).
-            MonoBehaviour playerScript = other.GetComponent(playerMovementScriptName) as MonoBehaviour; 
+            Debug.Log("Player collision! Starting lose sequence.");
+            isLosing = true;
+            playerObject = other.gameObject;
 
-            if (playerScript != null)
+            playerMovementScript = playerObject.GetComponent<NiPlayerMovement>();
+            if (playerMovementScript != null)
             {
-                playerScript.enabled = false; // Turn the script off! Freeze!
-                Debug.Log($"Disabled player movement script: {playerMovementScriptName}");
+                playerMovementScript.enabled = false;
+                playerMovementScript.canShoot = false;
+                Debug.Log("Disabled player movement and shooting.");
             }
             else
             {
-                // Uh oh, couldn't find the script! Maybe the name in the Inspector is wrong?
-                Debug.LogError($"Could not find player movement script component named '{playerMovementScriptName}' on the player object '{other.gameObject.name}'! Cannot disable movement. Check the script name in the Inspector!"); 
+                Debug.LogError($"Could not find player movement script '{playerMovementScriptName}' on the player.");
             }
-            // --- Movement Disabled (or warning shown) ---
 
-            // Start the coroutine to handle sound and scene switch.
-            StartCoroutine(LoseSequence()); 
+            if (transform.Find("face") != null)
+            {
+                enemyFaceTransform = transform.Find("face");
+                Debug.Log($"Found enemy face: {enemyFaceTransform.name}");
+                // Start turning AND play the sound
+                if (loseSoundEffect != null)
+                {
+                    enemyAudioSource.PlayOneShot(loseSoundEffect);
+                    Debug.Log($"Playing sound: {loseSoundEffect.name}.");
+                }
+                else
+                {
+                    Debug.LogWarning("No lose sound effect assigned.");
+                }
+                StartCoroutine(TurnAndLoseSequence());
+            }
+            else
+            {
+                Debug.LogWarning($"Enemy '{gameObject.name}' does not have a child object named 'face'. Loading lose scene immediately.");
+                SceneManager.LoadScene(loseSceneName);
+            }
         }
     }
 
-    IEnumerator LoseSequence()
+    IEnumerator TurnAndLoseSequence()
     {
-        float delay = 0f; 
-
-        // Play the sound!
-        if (loseSoundEffect != null)
+        if (playerObject == null || enemyFaceTransform == null)
         {
-            enemyAudioSource.PlayOneShot(loseSoundEffect);
-            Debug.Log($"Playing sound: {loseSoundEffect.name}. Waiting for {loseSoundEffect.length} seconds.");
-            delay = loseSoundEffect.length; 
-        }
-        else
-        {
-            Debug.LogWarning("No lose sound effect assigned. Switching scene immediately.");
+            Debug.LogError("Player or enemy face is null. Loading lose scene immediately.");
+            SceneManager.LoadScene(loseSceneName);
+            yield break;
         }
 
-        // Wait after playing sound (or immediately if no sound)
-        yield return new WaitForSeconds(delay); 
+        Quaternion targetRotation = Quaternion.LookRotation(enemyFaceTransform.position - playerObject.transform.position);
+        float rotationProgress = 0f;
 
-        // Switch Scene (Check Build Settings & scene name if this fails!)
-        Debug.Log($"Wait finished! Attempting to load scene: {loseSceneName}");
-        SceneManager.LoadScene(loseSceneName); 
+        while (rotationProgress < 1f)
+        {
+            playerObject.transform.rotation = Quaternion.Slerp(playerObject.transform.rotation, targetRotation, rotationProgress);
+            rotationProgress += Time.deltaTime * playerTurnSpeed;
+            yield return null;
+        }
+
+        playerObject.transform.rotation = targetRotation; // Ensure final rotation
+
+        // Turning is complete, load the lose scene immediately
+        Debug.Log($"Turning complete! Loading scene: {loseSceneName}");
+        SceneManager.LoadScene(loseSceneName);
     }
-
-    // --- Setup Notes ---
-    // 1. Attach to Enemy, ensure CapsuleCollider (Is Trigger), AudioSource.
-    // 2. Player needs Collider, Rigidbody, "Player" tag.
-    // 3. *** CRITICAL: *** Find the script on your Player GameObject that controls its movement. Note its EXACT name (e.g., `PlayerController`, `ThirdPersonMover`).
-    // 4. *** CRITICAL: *** On the Enemy GameObject in the Inspector, find the `Enemy Touch Of Death` script component. In the `Player Movement Script Name` field, type the EXACT name of your player's movement script you found in step 3.
-    // 5. Ensure `Lose Scene Name` is correct and the scene exists and is in Build Settings!
-    // 6. Assign `Lose Sound Effect`.
 }

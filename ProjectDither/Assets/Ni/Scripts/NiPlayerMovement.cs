@@ -22,6 +22,9 @@ public class NiPlayerMovement : MonoBehaviour
     float interactionRange = 3.0f;
     [SerializeField]
     LayerMask interactableLayer; // Layer for interactable objects
+    
+    [Header("Shooting")] // Added a header for organization
+    public bool canShoot = true; // A public variable to control shooting
 
     [Header("Hold Interaction")]
     [SerializeField]
